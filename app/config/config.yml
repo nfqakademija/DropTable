@@ -83,7 +83,8 @@ hwi_oauth:
             client_secret:       bb3b56f1cc59d2f60a3e6cb672471b8d
             options:
                 display: popup #dialog is optimized for popup window
-
+    http_client:
+        verify_peer: false
     # an optional setting to configure a query string parameter which can be used to redirect
     # the user after authentication, e.g. /connect/facebook?_destination=/my/destination will
     # redirect the user to /my/destination after facebook authenticates them.  If this is not
