@@ -8,6 +8,7 @@ hwi_oauth_login:
 
 facebook_login:
     pattern: /login/check-facebook
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
