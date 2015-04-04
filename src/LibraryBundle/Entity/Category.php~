@@ -1,0 +1,27 @@
+<?php
+namespace LibraryBundle\Entity;
+
+use Doctrine\ORM\Mapping AS ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="category")
+ */
+class Category
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=45, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Book", mappedBy="category")
+     */
+    private $book;
+}

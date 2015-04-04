@@ -1,0 +1,14 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+    library.book_controller_class: LibraryBundle\Controller\BookController
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    library.book_controller:
+        class: %library.book_controller_class%
+        arguments: ["@doctrine.orm.entity_manager", "@form.factory"]
+
