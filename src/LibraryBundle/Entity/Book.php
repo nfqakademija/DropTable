@@ -17,9 +17,19 @@ class Book
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=45, unique=true, nullable=false)
+     */
+    private $isbn;
+
+    /**
      * @ORM\Column(type="string", length=45, nullable=true)
      */
     private $title;
+
+    /**
+     * @ORM\Column(type="string", length=45, nullable=true)
+     */
+    private $slug;
 
     /**
      * @ORM\Column(type="string", length=45, nullable=true)
@@ -318,5 +328,51 @@ class Book
     public function getUserOwner()
     {
         return $this->user_owner;
+    }
+
+    /**
+     * Set isbn
+     *
+     * @param string $isbn
+     * @return Book
+     */
+    public function setIsbn($isbn)
+    {
+        $this->isbn = $isbn;
+
+        return $this;
+    }
+
+    /**
+     * Get isbn
+     *
+     * @return string
+     */
+    public function getIsbn()
+    {
+        return $this->isbn;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Book
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

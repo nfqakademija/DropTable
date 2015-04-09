@@ -29,7 +29,7 @@ class BookController
         $this->formFactory = $formFactory;
     }
     /**
-     * @Route("/books/list")
+     * @Route("/books")
      * @Template()
      */
     public function listAction()
@@ -42,7 +42,20 @@ class BookController
     }
 
     /**
-     * @Route("/books/add")
+     * @Route("/books/{category}")
+     * @Template("LibraryBundle:Book:list.html.twig")
+     */
+    public function listByCategoryAction($category)
+    {
+        $book_list = $this->em->getRepository('LibraryBundle:Book')->findByCategory($category);
+
+        return [
+            'list' => $book_list
+        ];
+    }
+
+    /**
+     * @Route("/book/add")
      * @Template()
      */
     public function addAction(Request $request)
@@ -63,7 +76,7 @@ class BookController
     }
 
     /**
-     * @Route("/books/edit/{id}")
+     * @Route("/book/edit/{id}")
      * @Template()
      */
     public function editAction(Request $request, $id)
@@ -84,7 +97,7 @@ class BookController
     }
 
     /**
-     * @Route("/books/delete/{id}")
+     * @Route("/book/delete/{id}")
      * @Template()
      */
     public function deleteAction(Request $request, $id)

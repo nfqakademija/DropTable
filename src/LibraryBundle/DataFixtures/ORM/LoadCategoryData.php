@@ -17,19 +17,19 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
     {
         $category1 = new Category();
         $category1->setName('Detektyvas');
-        $this->addReference('category1', $category1);
+        $this->addReference('Detektyvas', $category1);
 
         $category2 = new Category();
         $category2->setName('Romanas');
-        $this->addReference('category2', $category2);
+        $this->addReference('Romanas', $category2);
 
         $category3 = new Category();
         $category3->setName('Proza');
-        $this->addReference('category3', $category3);
+        $this->addReference('Proza', $category3);
 
         $category4 = new Category();
         $category4->setName('Biografija');
-        $this->addReference('category4', $category4);
+        $this->addReference('Biografija', $category4);
 
         $manager->persist($category1);
         $manager->persist($category2);
