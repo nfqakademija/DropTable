@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class DefaultController extends Controller
+class UserController extends Controller
 {
     protected $em;
 
@@ -14,8 +14,6 @@ class DefaultController extends Controller
     {
         $this->em = $this->get('request');
         // parent::__construct();
-
-
     }
     /**
      * @Route("/hello/{name}")

@@ -14,3 +14,9 @@
 /vendor/
 /bin/
 /composer.phar
+
+/app/config/config.yml
+app/check.php
+app/SymfonyRequirements.php
+composer.lock
+web/config.php
