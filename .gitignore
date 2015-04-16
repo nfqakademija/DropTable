@@ -20,3 +20,6 @@ app/check.php
 app/SymfonyRequirements.php
 composer.lock
 web/config.php
+
+# checking out pull requests
+# ...pseudo code...
