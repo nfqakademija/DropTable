@@ -1,0 +1,73 @@
+DropTable\UserBundle\Entity\User:
+    type: entity
+    table: user
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        firstName:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+            column: first_name
+        lastName:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+            column: last_name
+        username:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+        password:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+        salt:
+            type: string
+            nullable: true
+            length: 45
+            fixed: false
+            comment: ''
+        createdAt:
+            type: date
+            nullable: true
+            comment: ''
+            column: created_at
+        isDeleted:
+            type: boolean
+            nullable: true
+            comment: ''
+            column: is_deleted
+    manyToMany:
+        role:
+            targetEntity: Role
+            cascade: {  }
+            mappedBy: null
+            inversedBy: user
+            joinTable:
+                name: user_has_role
+                joinColumns:
+                    -
+                        name: user_id
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: role_id
+                        referencedColumnName: id
+            orderBy: null
+    lifecycleCallbacks: {  }

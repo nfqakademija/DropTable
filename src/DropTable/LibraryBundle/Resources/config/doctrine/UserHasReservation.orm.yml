@@ -1,0 +1,50 @@
+DropTable\LibraryBundle\Entity\UserHasReservation:
+    type: entity
+    table: user_has_reservation
+    indexes:
+        fk_user_has_reservation_user_idx:
+            columns:
+                - user_id
+        fk_user_has_reservation_book_has_owner_idx:
+            columns:
+                - book_has_owner_id
+        fk_user_has_reservation_book_idx:
+            columns:
+                - book_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+    oneToOne:
+        book:
+            targetEntity: Book
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                book_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        user:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    manyToOne:
+        bookHasOwner:
+            targetEntity: BookHasOwner
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                book_has_owner_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
