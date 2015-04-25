@@ -6,8 +6,16 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use DropTable\LibraryBundle\Entity\BookHasOwner;
 
+/**
+ * Class LoadBookHasOwnerData.
+ *
+ * @package DropTable\LibraryBundle\DataFixtures\ORM
+ */
 class LoadBookHasOwnerData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
         $owner1 = new BookHasOwner();
@@ -29,9 +37,11 @@ class LoadBookHasOwnerData extends AbstractFixture implements OrderedFixtureInte
         $manager->persist($owner2);
         $manager->persist($owner3);
         $manager->flush();
-
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getOrder()
     {
         return 4;

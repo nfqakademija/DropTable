@@ -5,15 +5,19 @@ namespace DropTable\LibraryBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * UserHasReservation
+ * UserHasReservation.
  *
- * @ORM\Table(name="user_has_reservation", indexes={@ORM\Index(name="fk_user_has_reservation_user_idx", columns={"user_id"}), @ORM\Index(name="fk_user_has_reservation_book_has_owner_idx", columns={"book_has_owner_id"}), @ORM\Index(name="fk_user_has_reservation_book_idx", columns={"book_id"})})
+ * @ORM\Table(name="user_has_reservation", indexes={
+ *     @ORM\Index(name="fk_user_has_reservation_user_idx", columns={"user_id"}),
+ *     @ORM\Index(name="fk_user_has_reservation_book_has_owner_idx", columns={"book_has_owner_id"}),
+ *     @ORM\Index(name="fk_user_has_reservation_book_idx", columns={"book_id"})
+ * })
  * @ORM\Entity
  */
 class UserHasReservation
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -26,7 +30,7 @@ class UserHasReservation
      *
      * @ORM\ManyToOne(targetEntity="DropTable\LibraryBundle\Entity\Book")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="book_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="book_id", referencedColumnName="id")
      * })
      */
     private $book;
@@ -36,7 +40,7 @@ class UserHasReservation
      *
      * @ORM\ManyToOne(targetEntity="DropTable\UserBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
     private $user;
@@ -46,17 +50,16 @@ class UserHasReservation
      *
      * @ORM\ManyToOne(targetEntity="DropTable\LibraryBundle\Entity\BookHasOwner")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="book_has_owner_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="book_has_owner_id", referencedColumnName="id")
      * })
      */
     private $bookHasOwner;
 
-
-
     /**
-     * Set id
+     * Set id.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return UserHasReservation
      */
     public function setId($id)
@@ -67,9 +70,9 @@ class UserHasReservation
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -77,9 +80,10 @@ class UserHasReservation
     }
 
     /**
-     * Set book
+     * Set book.
      *
      * @param \DropTable\LibraryBundle\Entity\Book $book
+     *
      * @return UserHasReservation
      */
     public function setBook(\DropTable\LibraryBundle\Entity\Book $book = null)
@@ -90,7 +94,7 @@ class UserHasReservation
     }
 
     /**
-     * Get book
+     * Get book.
      *
      * @return \DropTable\LibraryBundle\Entity\Book
      */
@@ -100,9 +104,10 @@ class UserHasReservation
     }
 
     /**
-     * Set user
+     * Set user.
      *
      * @param \DropTable\UserBundle\Entity\User $user
+     *
      * @return UserHasReservation
      */
     public function setUser(\DropTable\UserBundle\Entity\User $user = null)
@@ -113,7 +118,7 @@ class UserHasReservation
     }
 
     /**
-     * Get user
+     * Get user.
      *
      * @return \DropTable\UserBundle\Entity\User
      */
@@ -123,9 +128,10 @@ class UserHasReservation
     }
 
     /**
-     * Set bookHasOwner
+     * Set bookHasOwner.
      *
      * @param \DropTable\LibraryBundle\Entity\BookHasOwner $bookHasOwner
+     *
      * @return UserHasReservation
      */
     public function setBookHasOwner(\DropTable\LibraryBundle\Entity\BookHasOwner $bookHasOwner = null)
@@ -136,7 +142,7 @@ class UserHasReservation
     }
 
     /**
-     * Get bookHasOwner
+     * Get bookHasOwner.
      *
      * @return \DropTable\LibraryBundle\Entity\BookHasOwner
      */

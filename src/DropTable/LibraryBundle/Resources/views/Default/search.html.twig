@@ -1,3 +1,7 @@
-{{ dump(name) }}
+{% extends 'base.html.twig' %}
 
-{{ form(form) }}
+{% block body %}
+    {{ dump(name) }}
+
+    {{ form(form) }}
+{% endblock %}

@@ -18,7 +18,9 @@ class GoogleProvider implements BookProviderInterface
 
     public function getBook($isbn)
     {
-        $booksJson = $this->buzz->get("https://www.googleapis.com/books/v1/volumes/?q=isbn:{$isbn}")->getContent();
+        $url = "https://www.googleapis.com/books/v1/volumes/?q=isbn:{$isbn}";
+
+        $booksJson = $this->buzz->get($url)->getContent();
         $books = $this->parser->getBookEntities($booksJson);
 
         return $books;

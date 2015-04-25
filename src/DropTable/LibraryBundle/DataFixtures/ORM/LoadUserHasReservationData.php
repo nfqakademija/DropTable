@@ -6,8 +6,16 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use DropTable\LibraryBundle\Entity\UserHasReservation;
 
+/**
+ * Class LoadUserHasReservationData.
+ *
+ * @package DropTable\LibraryBundle\DataFixtures\ORM
+ */
 class LoadUserHasReservationData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
         $reservation1 = new UserHasReservation();
@@ -29,9 +37,11 @@ class LoadUserHasReservationData extends AbstractFixture implements OrderedFixtu
         $manager->persist($reservation3);
 
         $manager->flush();
-
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getOrder()
     {
         return 5;

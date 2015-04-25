@@ -6,10 +6,15 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use DropTable\LibraryBundle\Entity\Category;
 
+/**
+ * Class LoadCategoryData.
+ *
+ * @package LibraryBundle\DataFixtures\ORM
+ */
 class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {
@@ -37,7 +42,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getOrder()
     {

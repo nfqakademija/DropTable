@@ -5,15 +5,18 @@ namespace DropTable\LibraryBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * BookHasOwner
+ * BookHasOwner.
  *
- * @ORM\Table(name="book_has_owner", indexes={@ORM\Index(name="fk_book_has_owner_user_idx", columns={"user_id"}), @ORM\Index(name="fk_book_has_owner_book_idx", columns={"book_id"})})
+ * @ORM\Table(name="book_has_owner", indexes={
+ *     @ORM\Index(name="fk_book_has_owner_user_idx", columns={"user_id"}),
+ *     @ORM\Index(name="fk_book_has_owner_book_idx", columns={"book_id"})
+ * })
  * @ORM\Entity(repositoryClass="DropTable\LibraryBundle\Entity\BookHasOwnerRepository")
  */
 class BookHasOwner
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -26,7 +29,7 @@ class BookHasOwner
      *
      * @ORM\ManyToOne(targetEntity="DropTable\LibraryBundle\Entity\Book")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="book_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="book_id", referencedColumnName="id")
      * })
      */
     private $book;
@@ -36,17 +39,16 @@ class BookHasOwner
      *
      * @ORM\ManyToOne(targetEntity="DropTable\UserBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
     private $user;
 
-
-
     /**
-     * Set id
+     * Set id.
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return BookHasOwner
      */
     public function setId($id)
@@ -57,9 +59,9 @@ class BookHasOwner
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -67,9 +69,10 @@ class BookHasOwner
     }
 
     /**
-     * Set book
+     * Set book.
      *
      * @param \DropTable\LibraryBundle\Entity\Book $book
+     *
      * @return BookHasOwner
      */
     public function setBook(\DropTable\LibraryBundle\Entity\Book $book = null)
@@ -80,7 +83,7 @@ class BookHasOwner
     }
 
     /**
-     * Get book
+     * Get book.
      *
      * @return \DropTable\LibraryBundle\Entity\Book
      */
@@ -90,9 +93,10 @@ class BookHasOwner
     }
 
     /**
-     * Set user
+     * Set user.
      *
      * @param \DropTable\UserBundle\Entity\User $user
+     *
      * @return BookHasOwner
      */
     public function setUser(\DropTable\UserBundle\Entity\User $user = null)
@@ -103,7 +107,7 @@ class BookHasOwner
     }
 
     /**
-     * Get user
+     * Get user.
      *
      * @return \DropTable\UserBundle\Entity\User
      */

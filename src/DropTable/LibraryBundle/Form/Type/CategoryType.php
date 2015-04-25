@@ -6,21 +6,37 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * Class CategoryType.
+ *
+ * @package LibraryBundle\Form\Type
+ */
 class CategoryType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'DropTableLibraryBundle\Entity\Category'
-        ));
+        $resolver->setDefaults(
+            [
+                'data_class' => 'DropTableLibraryBundle\Entity\Category',
+            ]
+        );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'library_category';

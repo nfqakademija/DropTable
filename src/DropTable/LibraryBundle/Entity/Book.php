@@ -5,7 +5,7 @@ namespace DropTable\LibraryBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Book
+ * Book.
  *
  * @ORM\Table(name="book", indexes={@ORM\Index(name="fk_book_category_idx", columns={"category_id"})})
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Book
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Book
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="isbn", type="integer", nullable=false)
      */
@@ -64,7 +64,7 @@ class Book
     private $description;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="pages", type="integer", nullable=true)
      */
@@ -82,17 +82,15 @@ class Book
      *
      * @ORM\ManyToOne(targetEntity="DropTable\LibraryBundle\Entity\Category")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * })
      */
     private $category;
 
-
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -100,9 +98,10 @@ class Book
     }
 
     /**
-     * Set isbn
+     * Set isbn.
      *
-     * @param integer $isbn
+     * @param int $isbn
+     *
      * @return Book
      */
     public function setIsbn($isbn)
@@ -113,9 +112,9 @@ class Book
     }
 
     /**
-     * Get isbn
+     * Get isbn.
      *
-     * @return integer 
+     * @return int
      */
     public function getIsbn()
     {
@@ -123,9 +122,10 @@ class Book
     }
 
     /**
-     * Set title
+     * Set title.
      *
      * @param string $title
+     *
      * @return Book
      */
     public function setTitle($title)
@@ -136,9 +136,9 @@ class Book
     }
 
     /**
-     * Get title
+     * Get title.
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -146,9 +146,10 @@ class Book
     }
 
     /**
-     * Set slug
+     * Set slug.
      *
      * @param string $slug
+     *
      * @return Book
      */
     public function setSlug($slug)
@@ -159,9 +160,9 @@ class Book
     }
 
     /**
-     * Get slug
+     * Get slug.
      *
-     * @return string 
+     * @return string
      */
     public function getSlug()
     {
@@ -169,9 +170,10 @@ class Book
     }
 
     /**
-     * Set author
+     * Set author.
      *
      * @param string $author
+     *
      * @return Book
      */
     public function setAuthor($author)
@@ -182,9 +184,9 @@ class Book
     }
 
     /**
-     * Get author
+     * Get author.
      *
-     * @return string 
+     * @return string
      */
     public function getAuthor()
     {
@@ -192,9 +194,10 @@ class Book
     }
 
     /**
-     * Set publisher
+     * Set publisher.
      *
      * @param string $publisher
+     *
      * @return Book
      */
     public function setPublisher($publisher)
@@ -205,9 +208,9 @@ class Book
     }
 
     /**
-     * Get publisher
+     * Get publisher.
      *
-     * @return string 
+     * @return string
      */
     public function getPublisher()
     {
@@ -215,9 +218,10 @@ class Book
     }
 
     /**
-     * Set description
+     * Set description.
      *
      * @param string $description
+     *
      * @return Book
      */
     public function setDescription($description)
@@ -228,9 +232,9 @@ class Book
     }
 
     /**
-     * Get description
+     * Get description.
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -238,9 +242,10 @@ class Book
     }
 
     /**
-     * Set pages
+     * Set pages.
      *
-     * @param integer $pages
+     * @param int $pages
+     *
      * @return Book
      */
     public function setPages($pages)
@@ -251,9 +256,9 @@ class Book
     }
 
     /**
-     * Get pages
+     * Get pages.
      *
-     * @return integer 
+     * @return int
      */
     public function getPages()
     {
@@ -261,9 +266,10 @@ class Book
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
+     *
      * @return Book
      */
     public function setCreatedAt($createdAt)
@@ -274,9 +280,9 @@ class Book
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -284,9 +290,10 @@ class Book
     }
 
     /**
-     * Set category
+     * Set category.
      *
      * @param \DropTable\LibraryBundle\Entity\Category $category
+     *
      * @return Book
      */
     public function setCategory(\DropTable\LibraryBundle\Entity\Category $category = null)
@@ -297,7 +304,7 @@ class Book
     }
 
     /**
-     * Get category
+     * Get category.
      *
      * @return \DropTable\LibraryBundle\Entity\Category
      */
