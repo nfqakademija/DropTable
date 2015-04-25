@@ -24,9 +24,9 @@ class UserHasReservation
     /**
      * @var \DropTable\LibraryBundle\Entity\Book
      *
-     * @ORM\OneToOne(targetEntity="DropTable\LibraryBundle\Entity\Book")
+     * @ORM\ManyToOne(targetEntity="DropTable\LibraryBundle\Entity\Book")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="book_id", referencedColumnName="id", unique=true)
+     *   @ORM\JoinColumn(name="book_id", referencedColumnName="id")
      * })
      */
     private $book;
@@ -34,9 +34,9 @@ class UserHasReservation
     /**
      * @var \DropTable\UserBundle\Entity\User
      *
-     * @ORM\OneToOne(targetEntity="DropTable\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="DropTable\UserBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id", unique=true)
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
     private $user;

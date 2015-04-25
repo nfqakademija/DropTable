@@ -64,6 +64,13 @@ class LoadBookData extends AbstractFixture implements OrderedFixtureInterface
         $book5->setCreatedAt(new \DateTime());
         $book5->setCategory($this->getReference('Biografija'));
 
+        $this->addReference('book1', $book1);
+        $this->addReference('book2', $book2);
+        $this->addReference('book3', $book3);
+        $this->addReference('book4', $book4);
+        $this->addReference('book5', $book5);
+
+
         $manager->persist($book1);
         $manager->persist($book2);
         $manager->persist($book3);
