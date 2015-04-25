@@ -62,7 +62,14 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
+        auto_mapping: false
+        mappings:
+            DropTableLibraryBundle:
+                type: annotation
+                prefix: DropTable\LibraryBundle\Entity\
+            DropTableUserBundle:
+                type: annotation
+                prefix: DropTable\UserBundle\Entity\
 
 # Swiftmailer Configuration
 swiftmailer:

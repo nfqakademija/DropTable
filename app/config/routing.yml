@@ -1,12 +1,12 @@
-library:
-    resource: "@LibraryBundle/Controller/"
+drop_table_library:
+    resource: "@DropTableLibraryBundle/Controller/"
     type:     annotation
     prefix:   /
 
-user:
-    resource: "@UserBundle/Controller/"
-    type:     annotation
-    prefix:   /
+#drop_table_user:
+#    resource: "@DropTableUserBundle/Controller/"
+#    type:     annotation
+#    prefix:   /
 
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
@@ -18,8 +18,3 @@ hwi_oauth_login:
 
 facebook_login:
     pattern: /login/check-facebook
-
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
-

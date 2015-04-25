@@ -20,7 +20,8 @@
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "hwi/oauth-bundle": "0.4.*@dev",
-        "gedmo/doctrine-extensions": "2.4.0"
+        "gedmo/doctrine-extensions": "2.4.0",
+        "sensio/buzz-bundle":"dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

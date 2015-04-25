@@ -1,0 +1,23 @@
+parameters:
+    provider.google_class: DropTable\LibraryBundle\Provider\GoogleProvider
+    parser.google_class: DropTable\LibraryBundle\Parser\GoogleProviderParser
+    catalog_class: DropTable\LibraryBundle\Service\CatalogService
+    reservation_class: DropTable\LibraryBundle\Service\ReservationService
+
+services:
+    provider.google:
+        class: %provider.google_class%
+        arguments:
+            - @buzz
+            - @parser.google
+    parser.google:
+        class: %parser.google_class%
+    catalog:
+        class: %catalog_class%
+        arguments:
+            - @doctrine.orm.entity_manager
+            - @reservation
+    reservation:
+        class: %reservation_class%
+        arguments:
+            - @doctrine.orm.entity_manager
