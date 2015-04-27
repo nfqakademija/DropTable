@@ -6,6 +6,7 @@ imports:
 framework:
     #esi:             ~
     #translator:      { fallbacks: ["%locale%"] }
+    translator:     ~
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -86,8 +87,9 @@ hwi_oauth:
     resource_owners:
         facebook:
             type:                facebook
-            client_id:           552137511592276
-            client_secret:       bb3b56f1cc59d2f60a3e6cb672471b8d
+            client_id:           658242424287528
+            client_secret:      58c24107ee65000502a0f65b5252651c
+            scope:               "email"
             options:
                 display: popup #dialog is optimized for popup window
     http_client:
@@ -108,3 +110,12 @@ hwi_oauth:
 
     # here you will add one (or more) configurations for resource owners
     # and other settings you want to adjust in this bundle, just checkout the list below!
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: secured_area
+    user_class: DropTable\UserBundle\Entity\User
+
+services:
+    hwi_oauth.user.provider.entity:
+        class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider

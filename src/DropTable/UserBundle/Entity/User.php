@@ -2,24 +2,23 @@
 
 namespace DropTable\UserBundle\Entity;
 
+use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * User
  *
- * @ORM\Table(name="user")
  * @ORM\Entity
+ * @ORM\Table(name="person")
  */
-class User
+class User extends BaseUser
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
@@ -36,27 +35,6 @@ class User
     private $lastName;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=45, nullable=true)
-     */
-    private $username;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=45, nullable=true)
-     */
-    private $password;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="salt", type="string", length=45, nullable=true)
-     */
-    private $salt;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created_at", type="date", nullable=true)
@@ -64,44 +42,22 @@ class User
     private $createdAt;
 
     /**
-     * @var boolean
+     * @var string
      *
-     * @ORM\Column(name="is_deleted", type="boolean", nullable=true)
+     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
      */
-    private $isDeleted;
+    protected $facebook_id;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var string
      *
-     * @ORM\ManyToMany(targetEntity="DropTable\UserBundle\Entity\Role", inversedBy="user")
-     * @ORM\JoinTable(name="user_has_role",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="role_id", referencedColumnName="id")
-     *   }
-     * )
+     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
      */
-    private $role;
+    protected $facebook_access_token;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
-        $this->role = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
+        parent::__construct();
     }
 
     /**
@@ -120,7 +76,7 @@ class User
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -143,80 +99,11 @@ class User
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
         return $this->lastName;
-    }
-
-    /**
-     * Set username
-     *
-     * @param string $username
-     * @return User
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * Get username
-     *
-     * @return string 
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * Set password
-     *
-     * @param string $password
-     * @return User
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Get password
-     *
-     * @return string 
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * Set salt
-     *
-     * @param string $salt
-     * @return User
-     */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-
-        return $this;
-    }
-
-    /**
-     * Get salt
-     *
-     * @return string 
-     */
-    public function getSalt()
-    {
-        return $this->salt;
     }
 
     /**
@@ -235,7 +122,7 @@ class User
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -243,58 +130,49 @@ class User
     }
 
     /**
-     * Set isDeleted
+     * Set facebook_id
      *
-     * @param boolean $isDeleted
-     * @return User
+     * @param $facebook_id
+     * @return $this
      */
-    public function setIsDeleted($isDeleted)
+    public function setFacebook_id($facebook_id)
     {
-        $this->isDeleted = $isDeleted;
+        $this->facebook_id = $facebook_id;
 
         return $this;
     }
 
     /**
-     * Get isDeleted
+     * Get facebook_id
      *
-     * @return boolean 
+     * @return string
      */
-    public function getIsDeleted()
+    public function getFacebook_id()
     {
-        return $this->isDeleted;
+        return $this->facebook_id;
     }
 
     /**
-     * Add role
+     * Set facebook_access_token
      *
-     * @param \DropTable\UserBundle\Entity\Role $role
-     * @return User
+     * @param $facebook_access_token
+     * @return $this
      */
-    public function addRole(\DropTable\UserBundle\Entity\Role $role)
+    public function setfacebook_access_token($facebook_access_token)
     {
-        $this->role[] = $role;
+        $this->facebook_access_token = $facebook_access_token;
 
         return $this;
     }
 
     /**
-     * Remove role
+     * Get facebook_access_token
      *
-     * @param \DropTable\UserBundle\Entity\Role $role
+     * @return string
      */
-    public function removeRole(\DropTable\UserBundle\Entity\Role $role)
+    public function getfacebook_access_token()
     {
-        $this->role->removeElement($role);
+        return $this->facebook_access_token;
     }
 
-    /**
-     * Get role
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
 }
