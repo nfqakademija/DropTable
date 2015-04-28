@@ -5,7 +5,13 @@ use Doctrine\ORM\EntityManager;
 use DropTable\LibraryBundle\Entity\Book;
 use DropTable\LibraryBundle\Entity\BookHasOwner;
 use DropTable\LibraryBundle\Entity\UserHasReservation;
+use DropTable\LibraryBundle\Event\AssignReservationEvent;
+use DropTable\LibraryBundle\Event\RemoveBookReservationEvent;
+use DropTable\LibraryBundle\Event\ReserveBookEvent;
+use DropTable\LibraryBundle\Event\ReturnBookEvent;
 use DropTable\UserBundle\Entity\User;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class ReservationService.
@@ -20,23 +26,49 @@ class ReservationService
     protected $em;
 
     /**
-     * @param EntityManager $em
+     * @var TokenStorageInterface
      */
-    public function __construct(EntityManager $em)
-    {
+    protected $tokenStorage;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
+    /**
+     * @var CatalogService
+     */
+    protected $catalogService;
+
+    /**
+     * @param EntityManager            $em
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param TokenStorageInterface    $tokenStorage
+     * @param CatalogService           $catalogService
+     */
+    public function __construct(
+        EntityManager $em,
+        EventDispatcherInterface $eventDispatcher,
+        TokenStorageInterface $tokenStorage,
+        CatalogService $catalogService
+    ) {
         $this->em = $em;
+        $this->tokenStorage = $tokenStorage;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->catalogService = $catalogService;
     }
 
     /**
      * Function for reserving book.
      *
-     * @param User $user
      * @param Book $book
      *
      * @return UserHasReservation
      */
-    public function reserveBook(User $user, Book $book)
+    public function reserveBook(Book $book)
     {
+        $user = $this->tokenStorage->getToken()->getUser(); //TODO: after user bundle configured change type casting for user, and check if user is logged in
+
         $reservation = new UserHasReservation();
         $reservation->setUser($user);
         $reservation->setBook($book);
@@ -44,32 +76,54 @@ class ReservationService
         $this->em->persist($reservation);
         $this->em->flush();
 
+        $reserveBookEvent = new ReserveBookEvent($user, $book);
+        $this->eventDispatcher->dispatch('reservation.reserved_book', $reserveBookEvent);
+
         return $reservation;
     }
 
     /**
      * Function for returning book.
      *
-     * @param UserHasReservation $reservation
+     * @param Book $book
      */
-    public function returnBook(UserHasReservation $reservation)
+    public function returnBook(Book $book)
     {
+        $user = $this->tokenStorage->getToken()->getUser(); //TODO: after user bundle configured change type casting for user, and check if user is logged in
+
+        $bookHasReservationReopository = $this->em->getRepository('DropTableLibraryBundle:BookHasReservation');
+        $reservation = $bookHasReservationReopository->findOneBy(
+            [
+                'user' => $user,
+                'book' => $book,
+            ]
+        );
         $this->em->remove($reservation);
         $this->em->flush();
+
+        $returnBookEvent = new ReturnBookEvent($user, $reservation);
+        $this->eventDispatcher->dispatch('reservation.returned_book', $returnBookEvent);
     }
 
     /**
-     * Function for assinging book owner to reservation.
+     * Function to find and assigning book owner if available to reservation.
      *
      * @param UserHasReservation $reservation
-     * @param BookHasOwner       $owner
      */
-    public function assignReservationToOwner(UserHasReservation $reservation, BookHasOwner $owner)
+    public function assignReservationToOwner(UserHasReservation $reservation)
     {
-        $reservation->setBookHasOwner($owner);
+        $book = $reservation->getBook();
+        $owner = $this->catalogService->getAvailableOwner($book);
 
-        $this->em->persist($reservation);
-        $this->em->flush();
+        if ($owner instanceof BookHasOwner) {
+            $reservation->setBookHasOwner($owner);
+
+            $this->em->persist($reservation);
+            $this->em->flush();
+
+            $assignReservationEvent = new AssignReservationEvent($reservation);
+            $this->eventDispatcher->dispatch('reservation.assigned_book', $assignReservationEvent);
+        }
     }
 
     /**
@@ -119,5 +173,25 @@ class ReservationService
                 'book' => $book_id,
             ]
         );
+    }
+
+    /**
+     * Remove reservation by Book entity.
+     *
+     * @param Book $book
+     */
+    public function removeReservationsByBook(Book $book)
+    {
+        $userHasReservationRepository = $this->em->getRepository('DropTableLibraryService:UserHasReservation');
+        $reservations = $userHasReservationRepository->findByBook($book);
+
+        foreach ($reservations as $reservation) {
+            $this->em->remove($reservation);
+
+            $removeBookReservationEvent = new RemoveBookReservationEvent($reservation);
+            $this->eventDispatcher->dispatch('reservation.remove_reserved_book', $removeBookReservationEvent);
+        }
+
+        $this->em->flush();
     }
 }

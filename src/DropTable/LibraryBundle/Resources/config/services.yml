@@ -3,6 +3,9 @@ parameters:
     parser.google_class: DropTable\LibraryBundle\Parser\GoogleProviderParser
     catalog_class: DropTable\LibraryBundle\Service\CatalogService
     reservation_class: DropTable\LibraryBundle\Service\ReservationService
+    listener.catalog_listener_class: DropTable\LibraryBundle\EventListener\CatalogListener
+    listener.reservation_listener_class: DropTable\LibraryBundle\EventListener\ReservationListener
+    email.contact_email: info@localhost.library
 
 services:
     provider.google:
@@ -16,8 +19,34 @@ services:
         class: %catalog_class%
         arguments:
             - @doctrine.orm.entity_manager
-            - @reservation
+            - @event_dispatcher
+            - @security.token_storage
     reservation:
         class: %reservation_class%
         arguments:
             - @doctrine.orm.entity_manager
+            - @event_dispatcher
+            - @security.token_storage
+            - @catalog
+    listener.catalog:
+        class: %listener.catalog_listener_class%
+        arguments:
+            - @mailer
+            - @templating
+            - @reservation
+            - %email.contact_email%
+        tags:
+            - { name: kernel.event_listener, event: catalog.added_book, method: onAddBook }
+            - { name: kernel.event_listener, event: catalog.added_book_owner, method: onAddBookOwner }
+            - { name: kernel.event_listener, event: catalog.removed_book_owner, method: onRemoveBookOwner }
+    listener.reservation:
+        class: %listener.reservation_listener_class%
+        arguments:
+            - @mailer
+            - @templating
+            - %email.contact_email%
+        tags:
+            - { name: kernel.event_listener, event: reservation.reserved_book, method: onReserveBook }
+            - { name: kernel.event_listener, event: reservation.returned_book, method: onReturnBook }
+            - { name: kernel.event_listener, event: reservation.assigned_book, method: onAssignReservation }
+            - { name: kernel.event_listener, event: reservation.remove_reserved_book, method: onRemoveBookReservation }

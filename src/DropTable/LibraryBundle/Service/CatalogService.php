@@ -5,7 +5,12 @@ use Doctrine\ORM\EntityManager;
 use DropTable\LibraryBundle\Entity\Book;
 use DropTable\LibraryBundle\Entity\BookHasOwner;
 use DropTable\LibraryBundle\Entity\Category;
+use DropTable\LibraryBundle\Event\AddBookEvent;
+use DropTable\LibraryBundle\Event\AddBookOwnerEvent;
+use DropTable\LibraryBundle\Event\RemoveBookOwnerEvent;
 use DropTable\UserBundle\Entity\User;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class CatalogService.
@@ -25,13 +30,28 @@ class CatalogService
     protected $reservationService;
 
     /**
-     * @param EntityManager      $em
-     * @param ReservationService $reservationService
+     * @var EventDispatcherInterface
      */
-    public function __construct(EntityManager $em, ReservationService $reservationService)
-    {
+    protected $eventDispatcher;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    protected $tokenStorage;
+
+    /**
+     * @param EntityManager            $em
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param TokenStorageInterface    $tokenStorage
+     */
+    public function __construct(
+        EntityManager $em,
+        EventDispatcherInterface $eventDispatcher,
+        TokenStorageInterface $tokenStorage
+    ) {
         $this->em = $em;
-        $this->reservationService = $reservationService;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -41,16 +61,22 @@ class CatalogService
     {
         $this->em->persist($book);
         $this->em->flush();
+
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        $addBookEvent = new AddBookEvent($book, $user);
+        $this->eventDispatcher->dispatch('catalog.added_book', $addBookEvent);
     }
 
     /**
-     * @param User $user
      * @param Book $book
      *
      * @return BookHasOwner
      */
-    public function addBookOwner(User $user, Book $book)
+    public function addBookOwner(Book $book)
     {
+        $user = $this->tokenStorage->getToken()->getUser();
+
         $owner = new BookHasOwner();
         $owner->setUser($user);
         $owner->setBook($book);
@@ -58,23 +84,29 @@ class CatalogService
         $this->em->persist($owner);
         $this->em->flush();
 
+        $addBookOwnerEvent = new AddBookOwnerEvent($book, $user);
+        $this->eventDispatcher->dispatch('catalog.added_book_owner', $addBookOwnerEvent);
+
         return $owner;
     }
 
     /**
      * Function for removing owner.
      *
-     * @param BookHasOwner $owner
+     * @param Book $book
      */
-    public function removeBookOwner(BookHasOwner $owner)
+    public function removeBookOwner(Book $book)
     {
-        $reservations = $this->reservationService->getReservationsByOwner($owner);
-        foreach ($reservations as $reservation) {
-            $this->em->remove($reservation);
-        }
+        $user = $this->tokenStorage->getToken()->getUser();
+        $owner = $this->getBookOwner($user, $book);
 
-        $this->em->remove($owner);
-        $this->em->flush();
+        if ($owner instanceof BookHasOwner) {
+            $this->em->remove($owner);
+            $this->em->flush();
+
+            $removeBookOwnerEvent = new RemoveBookOwnerEvent($book);
+            $this->eventDispatcher->dispatch('catalog.removed_book_owner', $removeBookOwnerEvent);
+        }
     }
 
     /**
@@ -122,13 +154,13 @@ class CatalogService
     /**
      * @param Book $book
      *
-     * @return mixed
+     * @return BookHasOwner
      */
     public function getAvailableOwner(Book $book)
     {
-        $owners = $this->em->getRepository('DropTableLibraryBundle:BookHasOwner')->findAllAvailableOwners($book);
+        $owner = $this->em->getRepository('DropTableLibraryBundle:BookHasOwner')->findAllAvailableOwner($book);
 
-        return $owners;
+        return $owner;
     }
 
     public function listBooksByPopularity()
@@ -139,5 +171,23 @@ class CatalogService
     public function listBooksBySimilarity(Book $book)
     {
         //TODO: implement function
+    }
+
+    /**
+     * @param User $user
+     * @param Book $book
+     *
+     * @return BookHasOwner
+     */
+    private function getBookOwner(User $user, Book $book)
+    {
+        $owner = $this->em->getRepository('DropTableLibraryBundle:BookHasOwner')->findOneBy(
+            [
+                'book' => $book,
+                'user' => $user,
+            ]
+        );
+
+        return $owner;
     }
 }

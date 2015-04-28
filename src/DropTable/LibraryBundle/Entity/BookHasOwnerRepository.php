@@ -18,7 +18,7 @@ class BookHasOwnerRepository extends EntityRepository
      *
      * @return array
      */
-    public function findAllAvailableOwners(Book $book)
+    public function findAllAvailableOwner(Book $book)
     {
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('owner')
@@ -33,7 +33,7 @@ class BookHasOwnerRepository extends EntityRepository
             ->andWhere('owner.book = :book_id')
             ->setParameter('book_id', $book)
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
 
         return $qb;
     }
