@@ -2,8 +2,11 @@
 
 namespace DropTable\LibraryBundle\Form\Type;
 
+use DropTable\LibraryBundle\Validator\Constraints\ContainsAlphanumeric;
+use DropTable\LibraryBundle\Validator\Constraints\IsbnLength;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints;
 
 /**
  * Class SearchOnlineType.
@@ -18,7 +21,16 @@ class SearchOnlineType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('isbn')
+            ->add(
+                'isbn',
+                'text',
+                [
+                    'constraints' => [
+                        new IsbnLength(),
+                        new ContainsAlphanumeric(),
+                    ],
+                ]
+            )
             ->add('Save', 'submit');
     }
 
