@@ -21,12 +21,13 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "hwi/oauth-bundle": "0.4.*@dev",
         "gedmo/doctrine-extensions": "2.4.0",
-        "sensio/buzz-bundle":"dev-master"
+        "sensio/buzz-bundle":"dev-master",
+        "friendsofsymfony/user-bundle": "~2.0@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
-        "ongr/ongr-strict-standard": "~1.0",
-        "squizlabs/php_codesniffer": "~1",
+        "ongr/ongr-strict-standard": "2.*",
+        "squizlabs/php_codesniffer": "2.*",
         "doctrine/doctrine-fixtures-bundle": "2.2.*"
     },
     "scripts": {

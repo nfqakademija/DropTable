@@ -1,0 +1,13 @@
+parameters:
+    dt_user.registration.form.class: DropTable\UserBundle\Form\Type\RegistrationFormType
+    dt_user.profile.form.class:  DropTable\UserBundle\Form\Type\ProfileFormType
+
+services:
+    dt_user.registration.form.type:
+        class: %dt_user.registration.form.class%
+        tags:
+            - { name: form.type, alias: dt_user_registration }
+    dt_user.profile.form.type:
+        class: %dt_user.profile.form.class%
+        tags:
+            - { name: form.type, alias: dt_user_profile }
