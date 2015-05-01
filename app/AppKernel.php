@@ -20,7 +20,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\BuzzBundle\SensioBuzzBundle(),
             new DropTable\LibraryBundle\DropTableLibraryBundle(),
             new DropTable\UserBundle\DropTableUserBundle(),
-
+            new FOS\UserBundle\FOSUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
