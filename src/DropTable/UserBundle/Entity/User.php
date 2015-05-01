@@ -14,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 class User extends BaseUser
 {
     /**
+     * @var integer
+     *
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -41,27 +43,22 @@ class User extends BaseUser
      */
     private $createdAt;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
-     */
-    protected $facebook_id;
+//    /**
+//     * @var string
+//     *
+//     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
+//     */
+//    protected $facebook_id;
+//
+//    /**
+//     * @var string
+//     *
+//     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
+//     */
+//    protected $facebook_access_token;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
-     */
-    protected $facebook_access_token;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Set firstName
+     * Set firstName.
      *
      * @param string $firstName
      * @return User
@@ -74,7 +71,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get firstName
+     * Get firstName.
      *
      * @return string
      */
@@ -84,7 +81,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set lastName
+     * Set lastName.
      *
      * @param string $lastName
      * @return User
@@ -97,7 +94,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get lastName
+     * Get lastName.
      *
      * @return string
      */
@@ -107,7 +104,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      * @return User
@@ -120,7 +117,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -129,50 +126,61 @@ class User extends BaseUser
         return $this->createdAt;
     }
 
+//    /**
+//     * Set facebook_id.
+//     *
+//     * @param $facebook_id
+//     * @return $this
+//     */
+//    public function setFacebook_id($facebook_id)
+//    {
+//        $this->facebook_id = $facebook_id;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get facebook_id.
+//     *
+//     * @return string
+//     */
+//    public function getFacebook_id()
+//    {
+//        return $this->facebook_id;
+//    }
+//
+//    /**
+//     * Set facebook_access_token.
+//     *
+//     * @param $facebook_access_token
+//     * @return $this
+//     */
+//    public function setfacebook_access_token($facebook_access_token)
+//    {
+//        $this->facebook_access_token = $facebook_access_token;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get facebook_access_token.
+//     *
+//     * @return string
+//     */
+//    public function getfacebook_access_token()
+//    {
+//        return $this->facebook_access_token;
+//    }
+
     /**
-     * Set facebook_id
-     *
-     * @param $facebook_id
+     * @param string $email
      * @return $this
      */
-    public function setFacebook_id($facebook_id)
+    public function setEmail($email)
     {
-        $this->facebook_id = $facebook_id;
+        $this->setUsername($email);
 
-        return $this;
-    }
-
-    /**
-     * Get facebook_id
-     *
-     * @return string
-     */
-    public function getFacebook_id()
-    {
-        return $this->facebook_id;
-    }
-
-    /**
-     * Set facebook_access_token
-     *
-     * @param $facebook_access_token
-     * @return $this
-     */
-    public function setfacebook_access_token($facebook_access_token)
-    {
-        $this->facebook_access_token = $facebook_access_token;
-
-        return $this;
-    }
-
-    /**
-     * Get facebook_access_token
-     *
-     * @return string
-     */
-    public function getfacebook_access_token()
-    {
-        return $this->facebook_access_token;
+        return parent::setEmail($email);
     }
 
 }
