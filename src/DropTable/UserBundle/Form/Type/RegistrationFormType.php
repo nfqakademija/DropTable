@@ -12,6 +12,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 class RegistrationFormType extends AbstractType
 {
     /**
+     * Remove username from the form.
+     *
      * @param FormBuilderInterface $builder
      * @param array $options
      */

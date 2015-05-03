@@ -39,23 +39,33 @@ class User extends BaseUser
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="date", nullable=true)
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
-//    /**
-//     * @var string
-//     *
-//     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
-//     */
-//    protected $facebook_id;
-//
-//    /**
-//     * @var string
-//     *
-//     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
-//     */
-//    protected $facebook_access_token;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
+     */
+    protected $facebook_id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
+     */
+    protected $facebook_access_token;
+
+    /**
+     * Set createdAt to current time.
+     */
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime('now', new \DateTimeZone(('Europe/Vilnius')));
+
+        return parent::__construct();
+    }
 
     /**
      * Set firstName.
@@ -126,51 +136,51 @@ class User extends BaseUser
         return $this->createdAt;
     }
 
-//    /**
-//     * Set facebook_id.
-//     *
-//     * @param $facebook_id
-//     * @return $this
-//     */
-//    public function setFacebook_id($facebook_id)
-//    {
-//        $this->facebook_id = $facebook_id;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get facebook_id.
-//     *
-//     * @return string
-//     */
-//    public function getFacebook_id()
-//    {
-//        return $this->facebook_id;
-//    }
-//
-//    /**
-//     * Set facebook_access_token.
-//     *
-//     * @param $facebook_access_token
-//     * @return $this
-//     */
-//    public function setfacebook_access_token($facebook_access_token)
-//    {
-//        $this->facebook_access_token = $facebook_access_token;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get facebook_access_token.
-//     *
-//     * @return string
-//     */
-//    public function getfacebook_access_token()
-//    {
-//        return $this->facebook_access_token;
-//    }
+    /**
+     * Set facebook_id.
+     *
+     * @param $facebook_id
+     * @return $this
+     */
+    public function setFacebookId($facebook_id)
+    {
+        $this->facebook_id = $facebook_id;
+
+        return $this;
+    }
+
+    /**
+     * Get facebook_id.
+     *
+     * @return string
+     */
+    public function getFacebookId()
+    {
+        return $this->facebook_id;
+    }
+
+    /**
+     * Set facebook_access_token.
+     *
+     * @param $facebook_access_token
+     * @return $this
+     */
+    public function setFacebookAccessToken($facebook_access_token)
+    {
+        $this->facebook_access_token = $facebook_access_token;
+
+        return $this;
+    }
+
+    /**
+     * Get facebook_access_token.
+     *
+     * @return string
+     */
+    public function getFacebookAccessToken()
+    {
+        return $this->facebook_access_token;
+    }
 
     /**
      * @param string $email
@@ -182,5 +192,4 @@ class User extends BaseUser
 
         return parent::setEmail($email);
     }
-
 }

@@ -1,6 +1,7 @@
 parameters:
     dt_user.registration.form.class: DropTable\UserBundle\Form\Type\RegistrationFormType
-    dt_user.profile.form.class:  DropTable\UserBundle\Form\Type\ProfileFormType
+    dt_user.profile.form.class: DropTable\UserBundle\Form\Type\ProfileFormType
+    dt_user_provider_class: DropTable\UserBundle\Security\Core\User\FOSUBUserProvider
 
 services:
     dt_user.registration.form.type:
@@ -11,3 +12,9 @@ services:
         class: %dt_user.profile.form.class%
         tags:
             - { name: form.type, alias: dt_user_profile }
+    dt_user_provider:
+        class: %dt_user_provider_class%
+        arguments: [@fos_user.user_manager,{facebook: facebook_id}]
+    hwi_oauth.user.provider.entity:
+        class: DropTable\UserBundle\Security\Core\User\FOSUBUserProvider
+        arguments: [@fos_user.user_manager,{facebook: facebook_id}]
