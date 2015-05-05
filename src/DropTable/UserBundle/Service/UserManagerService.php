@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
  * Class UserService
  * @package DropTable\UserBundle\Service
  */
-class UserService
+class UserManagerService
 {
     /**
      * @var EntityManager

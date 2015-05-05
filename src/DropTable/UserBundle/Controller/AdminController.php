@@ -17,9 +17,9 @@ class AdminController extends Controller
      */
     public function listAction()
     {
-        $user = $this->container->get('user');
+        $user_manager = $this->container->get('user_manager');
 
-        $users = $user->listUsers();
+        $users = $user_manager->listUsers();
 
         return [
             'users' => $users,
