@@ -1,0 +1,3 @@
+admin:
+    path: /admin/all-users
+    defaults: { _controller: DropTableUserBundle:Admin:list }

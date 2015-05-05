@@ -1,0 +1,61 @@
+{% extends "DropTableUserBundle:Default:fos_layout.html.twig" %}
+
+{% block fos_user_content %}
+    <table>
+        <tr>
+            <td>
+                Email
+            </td>
+            <td>
+                First name
+            </td>
+            <td>
+                Last name
+            </td>
+            <td>
+                Enabled
+            </td>
+            <td>
+                Locked
+            </td>
+            <td>
+                Roles
+            </td>
+            <td>
+                Created at
+            </td>
+            <td>
+                Last login
+            </td>
+        </tr>
+    {% for user in users %}
+        <tr>
+            <td>
+                {{ user.emailCanonical }}
+            </td>
+            <td>
+                {{ user.firstName }}
+            </td>
+            <td>
+                {{ user.lastName }}
+            </td>
+            <td>
+                {{ user.enabled }}
+            </td>
+            <td>
+                {{ user.locked }}
+            </td>
+            <td>
+                {{ user.roles[0] }}
+            </td>
+            <td>
+                {{ user.createdAt.date }}
+            </td>
+            <td>
+                {{ user.lastLogin.date }}
+            </td>
+        </tr>
+        {{ dump(user) }}
+    {% endfor %}
+    </table>
+{% endblock fos_user_content %}

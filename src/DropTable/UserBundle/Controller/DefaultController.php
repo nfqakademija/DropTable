@@ -1,6 +1,6 @@
 <?php
 
-namespace UserBundle\Controller;
+namespace DropTable\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -14,9 +14,8 @@ class DefaultController extends Controller
     {
         $this->em = $this->get('request');
         // parent::__construct();
-
-
     }
+
     /**
      * @Route("/hello/{name}")
      * @Template()

@@ -83,7 +83,7 @@ class Role
      * @param \DropTable\UserBundle\Entity\User $user
      * @return Role
      */
-    public function addUser(\DropTable\UserBundle\Entity\User $user)
+    public function addUser(User $user)
     {
         $this->user[] = $user;
 
@@ -95,7 +95,7 @@ class Role
      *
      * @param \DropTable\UserBundle\Entity\User $user
      */
-    public function removeUser(\DropTable\UserBundle\Entity\User $user)
+    public function removeUser(User $user)
     {
         $this->user->removeElement($user);
     }

@@ -1,9 +1,7 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 <div class="fos_user_user_show">
-    {# TODO: Needs review. Should be user.first_name? How to do it? #}
-    <p>{{ 'profile.show.first_name'|trans }}: {{ user.getFirstName }}</p>
-    {# TODO: Needs review. Should be user.last_name? How to do it? #}
-    <p>{{ 'profile.show.last_name'|trans }}: {{ user.getLastName }}</p>
+    <p>{{ 'profile.show.first_name'|trans }}: {{ user.firstName }}</p>
+    <p>{{ 'profile.show.last_name'|trans }}: {{ user.lastName }}</p>
     <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
 </div>

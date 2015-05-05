@@ -2,6 +2,7 @@ parameters:
     dt_user.registration.form.class: DropTable\UserBundle\Form\Type\RegistrationFormType
     dt_user.profile.form.class: DropTable\UserBundle\Form\Type\ProfileFormType
     dt_user_provider_class: DropTable\UserBundle\Security\Core\User\FOSUBUserProvider
+    user_class: DropTable\UserBundle\Service\UserService
 
 services:
     dt_user.registration.form.type:
@@ -18,3 +19,8 @@ services:
     hwi_oauth.user.provider.entity:
         class: DropTable\UserBundle\Security\Core\User\FOSUBUserProvider
         arguments: [@fos_user.user_manager,{facebook: facebook_id}]
+
+    user:
+        class: %user_class%
+        arguments:
+            - @doctrine.orm.entity_manager

@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity
  * @ORM\Table(name="person")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User extends BaseUser
 {
@@ -56,16 +57,6 @@ class User extends BaseUser
      * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
      */
     protected $facebook_access_token;
-
-    /**
-     * Set createdAt to current time.
-     */
-    public function __construct()
-    {
-        $this->createdAt = new \DateTime('now', new \DateTimeZone(('Europe/Vilnius')));
-
-        return parent::__construct();
-    }
 
     /**
      * Set firstName.
@@ -116,14 +107,11 @@ class User extends BaseUser
     /**
      * Set createdAt.
      *
-     * @param \DateTime $createdAt
-     * @return User
+     * @ORM\PrePersist
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt()
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        $this->createdAt = new \DateTime('now', new \DateTimeZone(('Europe/Vilnius')));
     }
 
     /**

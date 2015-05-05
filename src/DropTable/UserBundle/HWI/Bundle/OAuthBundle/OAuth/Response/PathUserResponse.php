@@ -1,6 +1,8 @@
 <?php
 
 /*
+ * Is not used at this point.
+ *
  * This file is part of the HWIOAuthBundle package.
  *
  * (c) Hardware.Info <opensource@hardware.info>
@@ -23,13 +25,13 @@ class PathUserResponse extends AbstractUserResponse
     /**
      * @var array
      */
-    protected $paths = array(
-        'identifier'     => null,
-        'nickname'       => null,
-        'realname'       => null,
-        'email'          => null,
+    protected $paths = [
+        'identifier' => null,
+        'nickname' => null,
+        'realname' => null,
+        'email' => null,
         'profilepicture' => null,
-    );
+    ];
 
     /**
      * {@inheritdoc}
@@ -104,7 +106,7 @@ class PathUserResponse extends AbstractUserResponse
     /**
      * Extracts a value from the response for a given path.
      *
-     * @param string $path Name of the path to get the value for
+     * @param string $path Name of the path to get the value for.
      *
      * @return null|string
      */
@@ -125,14 +127,14 @@ class PathUserResponse extends AbstractUserResponse
                 return $this->getValue(current($steps), $response);
             }
 
-            $value = array();
+            $value = [];
             foreach ($steps as $step) {
                 $value[] = $this->getValue($step, $response);
             }
 
             $value = trim(implode(' ', $value));
 
-            return $value ?: null;
+            return $value ? : null;
         }
 
         return $this->getValue($steps, $response);
