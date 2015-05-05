@@ -4,6 +4,7 @@ namespace DropTable\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class AdminController
@@ -17,12 +18,40 @@ class AdminController extends Controller
      */
     public function listAction()
     {
-        $user_manager = $this->container->get('user_manager');
+        $userManager = $this->container->get('user_manager');
 
-        $users = $user_manager->listUsers();
+        $users = $userManager->listUsers();
 
         return [
             'users' => $users,
         ];
+    }
+
+    /**
+     * Disable a user if is enabled and the other way round.
+     * @param int $userId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function toggleEnabledAction($userId)
+    {
+        $userManager = $this->container->get('user_manager');
+
+        $userManager->toggleEnabled($userId);
+
+        return $this->redirectToRoute('admin_list_users');
+    }
+
+    /**
+     * Unlock a user if is locked and the other way round.
+     * @param int $userId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function toggleLockedAction($userId)
+    {
+        $userManager = $this->container->get('user_manager');
+
+        $userManager->toggleLocked($userId);
+
+        return $this->redirectToRoute('admin_list_users');
     }
 }

@@ -34,61 +34,45 @@ class UserManagerService
 
     /**
      * Find user by id.
-     * @param $id
+     * @param $userId
      * @return null|object
      */
-    public function getUserById($id)
+    public function getUserById($userId)
     {
-        return $this->em->getRepository('DropTableUserBundle:User')->find($id);
+        return $this->em->getRepository('DropTableUserBundle:User')->find($userId);
     }
 
     /**
-     * Disable a user.
-     * @param $id
+     * Disable a user if is enabled and the other way round.
+     * @param int $userId
      */
-    public function disableUser($id)
+    public function toggleEnabled($userId)
     {
-        $user = $this->getUserById($id);
-        $user->setEnabled(0);
+        $user = $this->getUserById($userId);
+
+        if ($user->isEnabled()) {
+            $user->setEnabled(0);
+        } else {
+            $user->setEnabled(1);
+        }
 
         $this->em->persist($user);
         $this->em->flush();
     }
 
     /**
-     * Enable a user.
-     * @param $id
+     * Unlock a user if is locked and the other way round.
+     * @param int $userId
      */
-    public function enableUser($id)
+    public function toggleLocked($userId)
     {
-        $user = $this->getUserById($id);
-        $user->setEnabled(1);
+        $user = $this->getUserById($userId);
 
-        $this->em->persist($user);
-        $this->em->flush();
-    }
-
-    /**
-     * Lock a user.
-     * @param $id
-     */
-    public function lockUser($id)
-    {
-        $user = $this->getUserById($id);
-        $user->setLocked(1);
-
-        $this->em->persist($user);
-        $this->em->flush();
-    }
-
-    /**
-     * Unlock a user.
-     * @param $id
-     */
-    public function unlockUser($id)
-    {
-        $user = $this->getUserById($id);
-        $user->setLocked(0);
+        if ($user->isLocked()) {
+            $user->setLocked(0);
+        } else {
+            $user->setLocked(1);
+        }
 
         $this->em->persist($user);
         $this->em->flush();

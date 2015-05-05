@@ -40,19 +40,23 @@
                 {{ user.lastName }}
             </td>
             <td>
-                {{ user.enabled }}
+                <a href='{{ path("admin_toggle_enabled", {'userId': user.id}) }}'>
+                    {{ user.enabled|default('0') }}
+                </a>
             </td>
             <td>
-                {{ user.locked }}
+                <a href='{{ path("admin_toggle_locked", {'userId': user.id}) }}'>
+                    {{ user.locked|default('0') }}
+                </a>
             </td>
             <td>
                 {{ user.roles[0] }}
             </td>
             <td>
-                {{ user.createdAt.date }}
+                {{ user.createdAt.date|date('Y m d H:i:s') }}
             </td>
             <td>
-                {{ user.lastLogin.date }}
+                {{ user.lastLogin.date|date('Y m d H:i:s') }}
             </td>
         </tr>
         {{ dump(user) }}

@@ -1,3 +1,11 @@
-admin:
+admin_list_users:
     path: /admin/all-users
     defaults: { _controller: DropTableUserBundle:Admin:list }
+
+admin_toggle_enabled:
+    path: /admin/enable/{userId}
+    defaults: { _controller: DropTableUserBundle:Admin:toggleEnabled }
+
+admin_toggle_locked:
+    path: /admin/lock/{userId}
+    defaults: { _controller: DropTableUserBundle:Admin:toggleLocked }
