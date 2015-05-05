@@ -18,6 +18,12 @@ class GoogleProviderParser implements BookProviderParserInterface
         $books = [];
         $googleData = json_decode($json, true);
 
+        if ($googleData['totalItems'] <= 0) {
+            $books[] = new Book();
+
+            return $books;
+        }
+
         foreach ($googleData['items'] as $googleBook) {
             $book = new Book();
             $book->setTitle($googleBook['volumeInfo']['title']);
@@ -25,6 +31,7 @@ class GoogleProviderParser implements BookProviderParserInterface
             $book->setPublisher($googleBook['volumeInfo']['publisher']);
             $book->setAuthor(implode($googleBook['volumeInfo']['authors']));
             $book->setDescription($googleBook['volumeInfo']['description']);
+
             //TODO: need implementation for dealing with multiple isbn numbers.
             $book->setIsbn($googleBook['volumeInfo']['industryIdentifiers'][1]['identifier']);
 
