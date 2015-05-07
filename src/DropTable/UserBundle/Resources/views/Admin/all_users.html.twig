@@ -1,7 +1,7 @@
-{% extends "DropTableUserBundle:Default:fos_layout.html.twig" %}
+{% extends "@DropTableUser/Default/admin_layout.html.twig" %}
 
-{% block fos_user_content %}
-    <table>
+{% block content %}
+    <table class="table table-condensed">
         <tr>
             <td>
                 Email
@@ -61,7 +61,6 @@
                 {{ user.lastLogin.date|default(0)|date('Y m d H:i:s') }}
             </td>
         </tr>
-        {{ dump(user) }}
     {% endfor %}
     </table>
-{% endblock fos_user_content %}
+{% endblock content %}

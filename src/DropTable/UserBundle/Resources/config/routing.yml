@@ -13,3 +13,6 @@ admin_toggle_locked:
 admin_switch_role:
     path: /admin/switchrole/{userId}
     defaults: { _controller: DropTableUserBundle:Admin:switchRole }
+
+home:
+    path: /
