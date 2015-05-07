@@ -54,4 +54,18 @@ class AdminController extends Controller
 
         return $this->redirectToRoute('admin_list_users');
     }
+
+    /**
+     * Promote user to admin if is not admin and otherwise.
+     * @param int $userId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function switchRoleAction($userId)
+    {
+        $userManager = $this->container->get('user_manager');
+
+        $userManager->switchRole($userId);
+
+        return $this->redirectToRoute('admin_list_users');
+    }
 }

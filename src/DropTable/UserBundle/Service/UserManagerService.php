@@ -34,7 +34,7 @@ class UserManagerService
 
     /**
      * Find user by id.
-     * @param $userId
+     * @param int $userId
      * @return null|object
      */
     public function getUserById($userId)
@@ -79,26 +79,18 @@ class UserManagerService
     }
 
     /**
-     * Promote user to admin.
-     * @param $id
+     * Promote user to admin if is not admin and otherwise.
+     * @param int $id
      */
-    public function promoteToAdmin($id)
+    public function switchRole($id)
     {
         $user = $this->getUserById($id);
-        $user->addRole('ROLE_ADMIN');
 
-        $this->em->persist($user);
-        $this->em->flush();
-    }
-
-    /**
-     * Remove admin rights from a user.
-     * @param $id
-     */
-    public function demoteToUser($id)
-    {
-        $user = $this->getUserById($id);
-        $user->removeRole('ROLE_ADMIN');
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            $user->removeRole('ROLE_ADMIN');
+        } else {
+            $user->addRole('ROLE_ADMIN');
+        }
 
         $this->em->persist($user);
         $this->em->flush();

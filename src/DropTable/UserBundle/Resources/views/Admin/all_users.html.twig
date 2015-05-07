@@ -50,13 +50,15 @@
                 </a>
             </td>
             <td>
-                {{ user.roles[0] }}
+                <a href='{{ path("admin_switch_role", {'userId': user.id}) }}'>
+                    {{ user.roles[0] }}
+                </a>
             </td>
             <td>
                 {{ user.createdAt.date|date('Y m d H:i:s') }}
             </td>
             <td>
-                {{ user.lastLogin.date|date('Y m d H:i:s') }}
+                {{ user.lastLogin.date|default(0)|date('Y m d H:i:s') }}
             </td>
         </tr>
         {{ dump(user) }}

@@ -105,6 +105,17 @@ class User extends BaseUser
     }
 
     /**
+     * @param string $email
+     * @return $this
+     */
+    public function setEmail($email)
+    {
+        $this->setUsername($email);
+
+        return parent::setEmail($email);
+    }
+
+    /**
      * Set createdAt.
      *
      * @ORM\PrePersist
@@ -168,16 +179,5 @@ class User extends BaseUser
     public function getFacebookAccessToken()
     {
         return $this->facebook_access_token;
-    }
-
-    /**
-     * @param string $email
-     * @return $this
-     */
-    public function setEmail($email)
-    {
-        $this->setUsername($email);
-
-        return parent::setEmail($email);
     }
 }

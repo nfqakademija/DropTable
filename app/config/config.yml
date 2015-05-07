@@ -137,6 +137,9 @@ fos_user:
     profile:
         form:
             type: dt_user_profile
+    change_password:
+        form:
+            type: dt_user_change_password
 
 #services:
 #    hwi_oauth.user.provider.entity:

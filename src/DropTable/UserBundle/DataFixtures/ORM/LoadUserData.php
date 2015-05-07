@@ -45,7 +45,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user = $manager->createUser();
 
         $user->setUsername('Admin');
-        $user->setEmail('admin@dorptable.lt');
+        $user->setEmail('admin@droptable.lt');
         $user->setFirstname('Admin');
         $user->setLastname('Admin');
         $user->setRoles(['ROLE_ADMIN']);
