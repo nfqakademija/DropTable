@@ -1,4 +1,5 @@
 <?php
+
 namespace DropTable\LibraryBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -21,8 +22,8 @@ class LoadBookData extends AbstractFixture implements OrderedFixtureInterface
         $book1 = new Book();
         $book1->setIsbn(1234567890123);
         $book1->setTitle('Moteris narve');
-        $book1->setAuthor('Jussi Adler-Olsen');
-        $book1->setPublisher('Obuolys');
+        $book1->addAuthor($this->getReference('Author1'));
+        $book1->addPublisher($this->getReference('Publisher1'));
         $book1->setDescription(
             'Iš pradžių ji drasko sienas, kol susikruvina pirštus. Aklina tamsa, nė vieno daikto.
             Iš kambario nėra vilties pasprukti. Nėra pagal ką skaičiuoti laiką, dienas, savaites, metus.
@@ -30,13 +31,13 @@ class LoadBookData extends AbstractFixture implements OrderedFixtureInterface
         );
         $book1->setPages('464');
         $book1->setCreatedAt(new \DateTime());
-        $book1->setCategory($this->getReference('Detektyvas'));
+        $book1->AddCategory($this->getReference('Detektyvas'));
 
         $book2 = new Book();
         $book2->setIsbn(1234567890124);
         $book2->setTitle('Kačių stalas');
-        $book2->setAuthor('Michael Ondaatje');
-        $book2->setPublisher('Tyto Alba');
+        $book2->addAuthor($this->getReference('Author2'));
+        $book2->addPublisher($this->getReference('Publisher4'));
         $book2->setDescription(
             'Ar ne todėl, taip nieko galutinai ir nesupratę, likome sėdėti prie „kačių stalo“, vis žvilgčiodami
             ir dairydamiesi atgal, net dabar, mūsų amžiuje, ieškodami tų, su kuriais keliavome ir kurie sukūrė
@@ -44,13 +45,13 @@ class LoadBookData extends AbstractFixture implements OrderedFixtureInterface
         );
         $book2->setPages('264');
         $book2->setCreatedAt(new \DateTime());
-        $book2->setCategory($this->getReference('Romanas'));
+        $book2->addCategory($this->getReference('Romanas'));
 
         $book3 = new Book();
         $book3->setIsbn(1234567890125);
         $book3->setTitle('Namas prie jūros');
-        $book3->setAuthor('Santa Montefiore');
-        $book3->setPublisher('Alma littera');
+        $book3->addAuthor($this->getReference('Author3'));
+        $book3->addPublisher($this->getReference('Publisher2'));
         $book3->setDescription(
             '1966-ieji, Italija. Toskanoje gyvenanti iš skurdžios šeimos kilusi mergaičiukė Floriana nuo vaikystės
             mėgdavo slapčia apžiūrinėti prie jūros stūksančią nuostabaus grožio vilą ir svajodavo,
@@ -60,13 +61,14 @@ class LoadBookData extends AbstractFixture implements OrderedFixtureInterface
         );
         $book3->setPages('440');
         $book3->setCreatedAt(new \DateTime());
-        $book3->setCategory($this->getReference('Romanas'));
+        $book3->addCategory($this->getReference('Romanas'));
 
         $book4 = new Book();
         $book4->setIsbn(1234567890126);
         $book4->setTitle('Mėnulio vaivorykštė');
-        $book4->setAuthor('Tomas Šinkariukas');
-        $book4->setPublisher('Kitos knygos');
+        $book4->addAuthor($this->getReference('Author4'));
+        $book4->addPublisher($this->getReference('Publisher3'));
+        $book4->addPublisher($this->getReference('Publisher4'));
         $book4->setDescription(
             'Kaune gyvenantis dramaturgas ir prozininkas Tomas Šinkariukas (g. 1971) – turbūt pati paslaptingiausia
             figūra šiuolaikinėje lietuvių literatūroje. Jis neduoda interviu, nesifotografuoja, nedalyvauja
@@ -75,13 +77,14 @@ class LoadBookData extends AbstractFixture implements OrderedFixtureInterface
         );
         $book4->setPages('288');
         $book4->setCreatedAt(new \DateTime());
-        $book4->setCategory($this->getReference('Proza'));
+        $book4->addCategory($this->getReference('Proza'));
 
         $book5 = new Book();
         $book5->setIsbn(1234567890127);
         $book5->setTitle('Anarchizmas ir kitos esė');
-        $book5->setAuthor('Emma Goldman');
-        $book5->setPublisher('Kitos knygos');
+        $book5->addAuthor($this->getReference('Author4'));
+        $book5->addAuthor($this->getReference('Author5'));
+        $book5->addPublisher($this->getReference('Publisher3'));
         $book5->setDescription(
             '1869 metais Kaune, Vilijampolėje, gimė pavojingiausia Amerikos moteris. Taip amerikiečių saugumo
             tarnybos vadino Jungtinėse Valstijose anarchizmo ikona tapusią Emmą Goldman (1869–1940). „Anarchizmas
@@ -93,7 +96,7 @@ class LoadBookData extends AbstractFixture implements OrderedFixtureInterface
         );
         $book5->setPages('192');
         $book5->setCreatedAt(new \DateTime());
-        $book5->setCategory($this->getReference('Biografija'));
+        $book5->addCategory($this->getReference('Biografija'));
 
         $this->addReference('book1', $book1);
         $this->addReference('book2', $book2);

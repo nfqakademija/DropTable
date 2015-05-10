@@ -5,12 +5,12 @@ namespace DropTable\LibraryBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Category.
+ * Author.
  *
- * @ORM\Table(name="category", uniqueConstraints={@ORM\UniqueConstraint(name="name_UNIQUE", columns={"name"})})
+ * @ORM\Table(name="author", uniqueConstraints={@ORM\UniqueConstraint(name="author_name_UNIQUE", columns={"name"})})
  * @ORM\Entity
  */
-class Category
+class Author
 {
     /**
      * @var int
@@ -31,14 +31,22 @@ class Category
     /**
      * @var string
      *
-     * @ORM\ManyToMany(targetEntity="Book", mappedBy="categories")
+     * @ORM\ManyToMany(targetEntity="Book", mappedBy="authors")
      */
     private $books;
 
     /**
-     * Get id.
+     * {@inheritdoc}
+     */
+    public function __construct()
+    {
+        $this->books = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
      *
-     * @return int
+     * @return integer 
      */
     public function getId()
     {
@@ -46,11 +54,10 @@ class Category
     }
 
     /**
-     * Set name.
+     * Set name
      *
      * @param string $name
-     *
-     * @return Category
+     * @return Author
      */
     public function setName($name)
     {
@@ -60,27 +67,20 @@ class Category
     }
 
     /**
-     * Get name.
+     * Get name
      *
-     * @return string
+     * @return string 
      */
     public function getName()
     {
         return $this->name;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->books = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
      * Add books
      *
      * @param \DropTable\LibraryBundle\Entity\Book $books
-     * @return Category
+     * @return Author
      */
     public function addBook(\DropTable\LibraryBundle\Entity\Book $books)
     {
