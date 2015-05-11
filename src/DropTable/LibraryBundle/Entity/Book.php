@@ -66,6 +66,20 @@ class Book
     private $description;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="thumbnail_small", type="text", nullable=true)
+     */
+    private $thumbnail_small;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="thumbnail", type="text", nullable=true)
+     */
+    private $thumbnail;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="pages", type="integer", nullable=true)
@@ -86,8 +100,9 @@ class Book
      * @ORM\JoinTable(name="book_has_category")
      **/
     private $categories;
+
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -196,6 +211,52 @@ class Book
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set thumbnail_small
+     *
+     * @param string $thumbnailSmall
+     * @return Book
+     */
+    public function setThumbnailSmall($thumbnailSmall)
+    {
+        $this->thumbnail_small = $thumbnailSmall;
+
+        return $this;
+    }
+
+    /**
+     * Get thumbnail_small
+     *
+     * @return string 
+     */
+    public function getThumbnailSmall()
+    {
+        return $this->thumbnail_small;
+    }
+
+    /**
+     * Set thumbnail
+     *
+     * @param string $thumbnail
+     * @return Book
+     */
+    public function setThumbnail($thumbnail)
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    /**
+     * Get thumbnail
+     *
+     * @return string 
+     */
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
     }
 
     /**
