@@ -20,7 +20,14 @@ class BookType extends AbstractType
         $builder
             ->add('isbn')
             ->add('title')
-            ->add('author')
+            ->add(
+                'author',
+                'entity',
+                [
+                    'class' => 'DropTableLibraryBundle:Author',
+                    'property' => 'name',
+                ]
+            )
             ->add(
                 'category',
                 'entity',
@@ -29,7 +36,14 @@ class BookType extends AbstractType
                     'property' => 'name',
                 ]
             )
-            ->add('publisher')
+            ->add(
+                'publisher',
+                'entity',
+                [
+                    'class' => 'DropTableLibraryBundle:Publisher',
+                    'property' => 'name',
+                ]
+            )
             ->add('description', 'textarea')
             ->add('pages')
             ->add('created_at', 'date')
