@@ -42,16 +42,13 @@ class ResettingController extends Controller
      * Handle exceptions by rendering required template with given parameters.
      * @param string $template
      * @param array  $parameters
-     * @param array  $values
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handleException($template, array $parameters, array $values)
+    public function handleException($template, array $parameters)
     {
-        $parametersForTwig = array_combine($parameters, $values);
-
         return $this->render(
             $template,
-            $parametersForTwig
+            $parameters
         );
     }
 
@@ -68,7 +65,7 @@ class ResettingController extends Controller
         $user = $this->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
 
         if (null === $user) {
-            return $this->handleException('@FOSUser/Resetting/request.html.twig', ['invalid_username'], [$username]);
+            return $this->handleException('@FOSUser/Resetting/request.html.twig', ['invalid_username' => $username]);
         }
 
         if (null === $user->getConfirmationToken()) {
@@ -127,7 +124,7 @@ class ResettingController extends Controller
 
         // Break if a user with such confirmation token does not exist.
         if (null === $user) {
-            return $this->handleException('@DropTableUser/Resetting/request.html.twig', ['invalid_token'], [$token]);
+            return $this->handleException('@DropTableUser/Resetting/request.html.twig', ['invalid_token' => $token]);
         }
 
         $event = new GetResponseUserEvent($user, $request);
