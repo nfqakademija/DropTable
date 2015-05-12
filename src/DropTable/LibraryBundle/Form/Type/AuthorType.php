@@ -1,6 +1,6 @@
 <?php
 
-namespace LibraryBundle\Form\Type;
+namespace DropTable\LibraryBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
