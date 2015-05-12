@@ -13,7 +13,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class FOSUBUserProvider extends BaseClass
 {
     /**
-     * @param UserInterface $user
+     * Connect a user with social network providers.
+     * @param UserInterface         $user
      * @param UserResponseInterface $response
      */
     public function connect(UserInterface $user, UserResponseInterface $response)
@@ -43,6 +44,30 @@ class FOSUBUserProvider extends BaseClass
     }
 
     /**
+     * Create new user when registering with Facebook or other provider.
+     * @param UserResponseInterface $response
+     * @param string                $username
+     * @param string                $email
+     */
+    public function createNewUser(UserResponseInterface $response, $username, $email)
+    {
+        $service = $response->getResourceOwner()->getName();
+        $setter = 'set'.ucfirst($service);
+        $setter_id = $setter.'Id';
+        $setter_token = $setter.'AccessToken';
+        // Create new user here.
+        $user = $this->userManager->createUser();
+        $user->$setter_id($username);
+        $user->$setter_token($response->getAccessToken());
+        // TODO: Set to "normal" values. First name, last name, facebook id needed.
+        $user->setUsername($username);
+        $user->setEmail($email);
+        $user->setPassword('');
+        $user->setEnabled(true);
+        $this->userManager->updateUser($user);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
@@ -52,20 +77,7 @@ class FOSUBUserProvider extends BaseClass
         $user = $this->userManager->findUserBy([$this->getProperty($response) => $username]);
         // When the user is registering.
         if (null === $user) {
-            $service = $response->getResourceOwner()->getName();
-            $setter = 'set'.ucfirst($service);
-            $setter_id = $setter.'Id';
-            $setter_token = $setter.'AccessToken';
-            // Create new user here.
-            $user = $this->userManager->createUser();
-            $user->$setter_id($username);
-            $user->$setter_token($response->getAccessToken());
-            // TODO: Set to "normal" values. First name, last name, facebook id needed.
-            $user->setUsername($username);
-            $user->setEmail($email);
-            $user->setPassword('');
-            $user->setEnabled(true);
-            $this->userManager->updateUser($user);
+            $this->createNewUser($response, $username, $email);
 
             return $user;
         }

@@ -16,6 +16,7 @@ use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Model\UserInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -30,7 +31,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class ResettingController extends Controller
 {
     /**
-     * Request reset user password: show form
+     * Request reset user password: show form.
      */
     public function requestAction()
     {
@@ -38,7 +39,26 @@ class ResettingController extends Controller
     }
 
     /**
-     * Request reset user password: submit form and send email
+     * Handle exceptions by rendering required template with given parameters.
+     * @param string $template
+     * @param array  $parameters
+     * @param array  $values
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function handleException($template, array $parameters, array $values)
+    {
+        $parametersForTwig = array_combine($parameters, $values);
+
+        return $this->render(
+            $template,
+            $parametersForTwig
+        );
+    }
+
+    /**
+     * Request reset user password: submit form and send email.
+     * @param Request $request
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function sendEmailAction(Request $request)
     {
@@ -48,13 +68,7 @@ class ResettingController extends Controller
         $user = $this->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
 
         if (null === $user) {
-            return $this->render('FOSUserBundle:Resetting:request.html.twig', array(
-                'invalid_username' => $username
-            ));
-        }
-
-        if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
-            return $this->render('FOSUserBundle:Resetting:passwordAlreadyRequested.html.twig');
+            return $this->handleException('@FOSUser/Resetting/request.html.twig', ['invalid_username'], [$username]);
         }
 
         if (null === $user->getConfirmationToken()) {
@@ -64,33 +78,41 @@ class ResettingController extends Controller
         }
 
         $this->get('fos_user.mailer')->sendResettingEmailMessage($user);
-//        $user->setPasswordRequestedAt(new \DateTime());
         $this->get('fos_user.user_manager')->updateUser($user);
 
-        return new RedirectResponse($this->generateUrl('fos_user_resetting_check_email',
-            array('email' => $this->getObfuscatedEmail($user))
-        ));
+        return new RedirectResponse(
+            $this->generateUrl(
+                'fos_user_resetting_check_email',
+                ['email' => $this->getObfuscatedEmail($user)]
+            )
+        );
     }
 
     /**
-     * Tell the user to check his email provider
+     * Tell the user to check his email provider.
+     * @param Request $request
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function checkEmailAction(Request $request)
     {
         $email = $request->query->get('email');
 
         if (empty($email)) {
-            // the user does not come from the sendEmail action
+            // The user does not come from the sendEmail action.
             return new RedirectResponse($this->generateUrl('fos_user_resetting_request'));
         }
 
-        return $this->render('FOSUserBundle:Resetting:checkEmail.html.twig', array(
-            'email' => $email,
-        ));
+        return $this->render(
+            'FOSUserBundle:Resetting:checkEmail.html.twig',
+            ['email' => $email]
+        );
     }
 
     /**
-     * Reset user password
+     * Reset user password.
+     * @param Request $request
+     * @param string  $token
+     * @return null|RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function resetAction(Request $request, $token)
     {
@@ -103,8 +125,9 @@ class ResettingController extends Controller
 
         $user = $userManager->findUserByConfirmationToken($token);
 
+        // Break if a user with such confirmation token does not exist.
         if (null === $user) {
-            throw new NotFoundHttpException(sprintf('The user with "confirmation token" does not exist for value "%s"', $token));
+            return $this->handleException('@DropTableUser/Resetting/request.html.twig', ['invalid_token'], [$token]);
         }
 
         $event = new GetResponseUserEvent($user, $request);
@@ -125,20 +148,27 @@ class ResettingController extends Controller
 
             $userManager->updateUser($user);
 
+            // If everything is OK, redirect to profile page.
             if (null === $response = $event->getResponse()) {
                 $url = $this->generateUrl('fos_user_profile_show');
                 $response = new RedirectResponse($url);
             }
 
-            $dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+            $dispatcher->dispatch(
+                FOSUserEvents::RESETTING_RESET_COMPLETED,
+                new FilterUserResponseEvent($user, $request, $response)
+            );
 
             return $response;
         }
 
-        return $this->render('FOSUserBundle:Resetting:reset.html.twig', array(
-            'token' => $token,
-            'form' => $form->createView(),
-        ));
+        return $this->render(
+            'FOSUserBundle:Resetting:reset.html.twig',
+            [
+                'token' => $token,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**

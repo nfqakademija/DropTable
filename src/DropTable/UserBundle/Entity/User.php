@@ -122,7 +122,7 @@ class User extends BaseUser
      */
     public function setCreatedAt()
     {
-        $this->createdAt = new \DateTime('now', new \DateTimeZone(('Europe/Vilnius')));
+        $this->createdAt = new \DateTime('now');
     }
 
     /**
@@ -138,7 +138,7 @@ class User extends BaseUser
     /**
      * Set facebook_id.
      *
-     * @param $facebook_id
+     * @param int $facebook_id
      * @return $this
      */
     public function setFacebookId($facebook_id)
@@ -161,7 +161,7 @@ class User extends BaseUser
     /**
      * Set facebook_access_token.
      *
-     * @param $facebook_access_token
+     * @param string $facebook_access_token
      * @return $this
      */
     public function setFacebookAccessToken($facebook_access_token)

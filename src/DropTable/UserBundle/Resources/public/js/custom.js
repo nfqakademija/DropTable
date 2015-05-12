@@ -23,12 +23,12 @@ function fb_login() {
         if (response.status === 'connected') {
             // connected
             alert('Already connected, redirect to login page to create token.');
-            document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
+            document.location = "connect/facebook";
         } else {
             // not_authorized
             FB.login(function(response) {
                 if (response.authResponse) {
-                    document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
+                    document.location = "connect/facebook";
                 } else {
                     alert('Cancelled.');
                 }
