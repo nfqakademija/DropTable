@@ -29,7 +29,7 @@ class AuthorType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'DropTableLibraryBundle\Entity\Author',
+                'data_class' => 'DropTable\LibraryBundle\Entity\Author',
             ]
         );
     }

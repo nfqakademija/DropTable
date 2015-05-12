@@ -4,6 +4,7 @@ namespace DropTable\LibraryBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Class BookType.
@@ -21,33 +22,46 @@ class BookType extends AbstractType
             ->add('isbn')
             ->add('title')
             ->add(
-                'author',
-                'entity',
+                'categories',
+                'collection',
                 [
-                    'class' => 'DropTableLibraryBundle:Author',
-                    'property' => 'name',
+                    'type' => new CategoryType(),
+                    'allow_add' => true,
                 ]
             )
             ->add(
-                'category',
-                'entity',
+                'authors',
+                'collection',
                 [
-                    'class' => 'DropTableLibraryBundle:Category',
-                    'property' => 'name',
+                    'type' => new AuthorType(),
+                    'allow_add' => true,
                 ]
             )
             ->add(
-                'publisher',
-                'entity',
+                'publishers',
+                'collection',
                 [
-                    'class' => 'DropTableLibraryBundle:Publisher',
-                    'property' => 'name',
+                    'type' => new PublisherType(),
+                    'allow_add' => true,
                 ]
             )
+//            ->add('thumbnail', 'file', ['image_path' => 'thumbnail'])
             ->add('description', 'textarea')
             ->add('pages')
             ->add('created_at', 'date')
             ->add('Save', 'submit');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'data_class' => 'DropTable\LibraryBundle\Entity\Book',
+            ]
+        );
     }
 
     /**

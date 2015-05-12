@@ -29,7 +29,7 @@ class CategoryType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'DropTableLibraryBundle\Entity\Category',
+                'data_class' => 'DropTable\LibraryBundle\Entity\Category',
             ]
         );
     }
