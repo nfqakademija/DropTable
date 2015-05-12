@@ -29,7 +29,7 @@ class PublisherType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'DropTableLibraryBundle\Entity\Publisher',
+                'data_class' => 'DropTable\LibraryBundle\Entity\Publisher',
             ]
         );
     }
