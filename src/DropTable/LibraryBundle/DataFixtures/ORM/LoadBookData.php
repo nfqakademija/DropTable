@@ -23,7 +23,7 @@ class LoadBookData extends AbstractFixture implements OrderedFixtureInterface
         $book1->setIsbn(1234567890123);
         $book1->setTitle('Moteris narve');
         $book1->addAuthor($this->getReference('Author1'));
-        $book1->addPublisher($this->getReference('Publisher1'));
+        $book1->setPublisher($this->getReference('Publisher1'));
         $book1->setDescription(
             'Iš pradžių ji drasko sienas, kol susikruvina pirštus. Aklina tamsa, nė vieno daikto.
             Iš kambario nėra vilties pasprukti. Nėra pagal ką skaičiuoti laiką, dienas, savaites, metus.
@@ -37,7 +37,7 @@ class LoadBookData extends AbstractFixture implements OrderedFixtureInterface
         $book2->setIsbn(1234567890124);
         $book2->setTitle('Kačių stalas');
         $book2->addAuthor($this->getReference('Author2'));
-        $book2->addPublisher($this->getReference('Publisher4'));
+        $book2->setPublisher($this->getReference('Publisher4'));
         $book2->setDescription(
             'Ar ne todėl, taip nieko galutinai ir nesupratę, likome sėdėti prie „kačių stalo“, vis žvilgčiodami
             ir dairydamiesi atgal, net dabar, mūsų amžiuje, ieškodami tų, su kuriais keliavome ir kurie sukūrė
@@ -51,7 +51,7 @@ class LoadBookData extends AbstractFixture implements OrderedFixtureInterface
         $book3->setIsbn(1234567890125);
         $book3->setTitle('Namas prie jūros');
         $book3->addAuthor($this->getReference('Author3'));
-        $book3->addPublisher($this->getReference('Publisher2'));
+        $book3->setPublisher($this->getReference('Publisher2'));
         $book3->setDescription(
             '1966-ieji, Italija. Toskanoje gyvenanti iš skurdžios šeimos kilusi mergaičiukė Floriana nuo vaikystės
             mėgdavo slapčia apžiūrinėti prie jūros stūksančią nuostabaus grožio vilą ir svajodavo,
@@ -67,8 +67,7 @@ class LoadBookData extends AbstractFixture implements OrderedFixtureInterface
         $book4->setIsbn(1234567890126);
         $book4->setTitle('Mėnulio vaivorykštė');
         $book4->addAuthor($this->getReference('Author4'));
-        $book4->addPublisher($this->getReference('Publisher3'));
-        $book4->addPublisher($this->getReference('Publisher4'));
+        $book4->setPublisher($this->getReference('Publisher3'));
         $book4->setDescription(
             'Kaune gyvenantis dramaturgas ir prozininkas Tomas Šinkariukas (g. 1971) – turbūt pati paslaptingiausia
             figūra šiuolaikinėje lietuvių literatūroje. Jis neduoda interviu, nesifotografuoja, nedalyvauja
@@ -84,7 +83,7 @@ class LoadBookData extends AbstractFixture implements OrderedFixtureInterface
         $book5->setTitle('Anarchizmas ir kitos esė');
         $book5->addAuthor($this->getReference('Author4'));
         $book5->addAuthor($this->getReference('Author5'));
-        $book5->addPublisher($this->getReference('Publisher3'));
+        $book5->setPublisher($this->getReference('Publisher3'));
         $book5->setDescription(
             '1869 metais Kaune, Vilijampolėje, gimė pavojingiausia Amerikos moteris. Taip amerikiečių saugumo
             tarnybos vadino Jungtinėse Valstijose anarchizmo ikona tapusią Emmą Goldman (1869–1940). „Anarchizmas

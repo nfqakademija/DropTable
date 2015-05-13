@@ -24,7 +24,7 @@ class Book
     /**
      * @var int
      *
-     * @ORM\Column(name="isbn", type="integer", nullable=false)
+     * @ORM\Column(name="isbn", type="string", nullable=false)
      */
     private $isbn;
 
@@ -53,10 +53,12 @@ class Book
     /**
      * @var \DropTable\LibraryBundle\Entity\Publisher
      *
-     * @ORM\ManyToMany(targetEntity="Publisher", inversedBy="books")
-     * @ORM\JoinTable(name="book_has_publisher")
+     * @ORM\ManyToOne(targetEntity="Publisher")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="publisher_id", referencedColumnName="id")
+     * })
      **/
-    private $publishers;
+    private $publisher;
 
     /**
      * @var string
@@ -107,7 +109,6 @@ class Book
     public function __construct()
     {
         $this->authors = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->publishers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -339,36 +340,26 @@ class Book
     }
 
     /**
-     * Add publishers
+     * Set publisher
      *
-     * @param \DropTable\LibraryBundle\Entity\Publisher $publishers
+     * @param \DropTable\LibraryBundle\Entity\Publisher $publisher
      * @return Book
      */
-    public function addPublisher(\DropTable\LibraryBundle\Entity\Publisher $publishers)
+    public function setPublisher(\DropTable\LibraryBundle\Entity\Publisher $publisher = null)
     {
-        $this->publishers[] = $publishers;
+        $this->publisher = $publisher;
 
         return $this;
     }
 
     /**
-     * Remove publishers
+     * Get publisher
      *
-     * @param \DropTable\LibraryBundle\Entity\Publisher $publishers
+     * @return \DropTable\LibraryBundle\Entity\Publisher 
      */
-    public function removePublisher(\DropTable\LibraryBundle\Entity\Publisher $publishers)
+    public function getPublisher()
     {
-        $this->publishers->removeElement($publishers);
-    }
-
-    /**
-     * Get publishers
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getPublishers()
-    {
-        return $this->publishers;
+        return $this->publisher;
     }
 
     /**
