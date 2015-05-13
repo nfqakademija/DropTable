@@ -2,10 +2,11 @@
 
 namespace DropTable\LibraryBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Author.
+ * Publisher
  *
  * @ORM\Table(
  *     name="publisher",
@@ -30,21 +31,6 @@ class Publisher
      * @ORM\Column(name="name", type="string", length=45, nullable=false)
      */
     private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\ManyToMany(targetEntity="Book", mappedBy="publishers")
-     */
-    private $books;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct()
-    {
-        $this->books = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Get id
@@ -77,38 +63,5 @@ class Publisher
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Add books
-     *
-     * @param \DropTable\LibraryBundle\Entity\Book $books
-     * @return Publisher
-     */
-    public function addBook(\DropTable\LibraryBundle\Entity\Book $books)
-    {
-        $this->books[] = $books;
-
-        return $this;
-    }
-
-    /**
-     * Remove books
-     *
-     * @param \DropTable\LibraryBundle\Entity\Book $books
-     */
-    public function removeBook(\DropTable\LibraryBundle\Entity\Book $books)
-    {
-        $this->books->removeElement($books);
-    }
-
-    /**
-     * Get books
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getBooks()
-    {
-        return $this->books;
     }
 }

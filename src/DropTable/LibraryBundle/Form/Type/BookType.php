@@ -38,14 +38,14 @@ class BookType extends AbstractType
                 ]
             )
             ->add(
-                'publishers',
-                'collection',
+                'publisher',
+                'entity',
                 [
-                    'type' => new PublisherType(),
-                    'allow_add' => true,
+                    'class' => 'DropTableLibraryBundle:Publisher',
+                    'property' => 'name',
                 ]
             )
-//            ->add('thumbnail', 'file', ['image_path' => 'thumbnail'])
+            ->add('thumbnail', new ImageType(), ['image_path' => 'thumbnail_small'])
             ->add('description', 'textarea')
             ->add('pages')
             ->add('created_at', 'date')
