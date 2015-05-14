@@ -1,7 +1,5 @@
 drop_table_library:
-    resource: "@DropTableLibraryBundle/Controller/"
-    type:     annotation
-    prefix:   /
+    resource: "@DropTableLibraryBundle/Resources/config/routing.yml"
 
 drop_table_user:
     resource: "@DropTableUserBundle/Resources/config/routing.yml"

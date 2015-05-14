@@ -1,0 +1,19 @@
+catalog.list:
+    path: /books/list
+    defaults: { _controller: DropTableLibraryBundle:Catalog:list }
+
+catalog.list_by_category:
+    path: /books/list/{category}
+    defaults: { _controller: DropTableLibraryBundle:Catalog:listByCategory }
+
+catalog.add_book:
+    path: /books/add
+    defaults: { _controller: DropTableLibraryBundle:Catalog:add }
+
+catalog.edit_book:
+    path: /books/edit/{id}
+    defaults: { _controller: DropTableLibraryBundle:Catalog:edit }
+
+catalog.delete_book:
+    path: /books/delete/{id}
+    defaults: { _controller: DropTableLibraryBundle:Catalog:delete }

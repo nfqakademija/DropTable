@@ -12,13 +12,13 @@ use Doctrine\ORM\EntityRepository;
 class BookHasOwnerRepository extends EntityRepository
 {
     /**
-     * Function findAllAvailableOwners.
+     * Function findAvailableOwners.
      *
      * @param Book $book
      *
      * @return array
      */
-    public function findAllAvailableOwner(Book $book)
+    public function findAvailableOwner(Book $book)
     {
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('owner')

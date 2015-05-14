@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
 {{ dump(name) }}
+{% form_theme form 'DropTableLibraryBundle:Form:fields.html.twig' %}
 
 {{ form(form) }}
 {% endblock %}
