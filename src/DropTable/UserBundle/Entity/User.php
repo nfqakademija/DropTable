@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity
  * @ORM\Table(name="person")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User extends BaseUser
 {
@@ -39,23 +40,23 @@ class User extends BaseUser
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="date", nullable=true)
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
-//    /**
-//     * @var string
-//     *
-//     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
-//     */
-//    protected $facebook_id;
-//
-//    /**
-//     * @var string
-//     *
-//     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
-//     */
-//    protected $facebook_access_token;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
+     */
+    protected $facebook_id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="facebook_access_token", type="string", length=255, nullable=true)
+     */
+    protected $facebook_access_token;
 
     /**
      * Set firstName.
@@ -104,16 +105,24 @@ class User extends BaseUser
     }
 
     /**
+     * @param string $email
+     * @return $this
+     */
+    public function setEmail($email)
+    {
+        $this->setUsername($email);
+
+        return parent::setEmail($email);
+    }
+
+    /**
      * Set createdAt.
      *
-     * @param \DateTime $createdAt
-     * @return User
+     * @ORM\PrePersist
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt()
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        $this->createdAt = new \DateTime('now');
     }
 
     /**
@@ -126,61 +135,49 @@ class User extends BaseUser
         return $this->createdAt;
     }
 
-//    /**
-//     * Set facebook_id.
-//     *
-//     * @param $facebook_id
-//     * @return $this
-//     */
-//    public function setFacebook_id($facebook_id)
-//    {
-//        $this->facebook_id = $facebook_id;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get facebook_id.
-//     *
-//     * @return string
-//     */
-//    public function getFacebook_id()
-//    {
-//        return $this->facebook_id;
-//    }
-//
-//    /**
-//     * Set facebook_access_token.
-//     *
-//     * @param $facebook_access_token
-//     * @return $this
-//     */
-//    public function setfacebook_access_token($facebook_access_token)
-//    {
-//        $this->facebook_access_token = $facebook_access_token;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get facebook_access_token.
-//     *
-//     * @return string
-//     */
-//    public function getfacebook_access_token()
-//    {
-//        return $this->facebook_access_token;
-//    }
-
     /**
-     * @param string $email
+     * Set facebook_id.
+     *
+     * @param int $facebook_id
      * @return $this
      */
-    public function setEmail($email)
+    public function setFacebookId($facebook_id)
     {
-        $this->setUsername($email);
+        $this->facebook_id = $facebook_id;
 
-        return parent::setEmail($email);
+        return $this;
     }
 
+    /**
+     * Get facebook_id.
+     *
+     * @return string
+     */
+    public function getFacebookId()
+    {
+        return $this->facebook_id;
+    }
+
+    /**
+     * Set facebook_access_token.
+     *
+     * @param string $facebook_access_token
+     * @return $this
+     */
+    public function setFacebookAccessToken($facebook_access_token)
+    {
+        $this->facebook_access_token = $facebook_access_token;
+
+        return $this;
+    }
+
+    /**
+     * Get facebook_access_token.
+     *
+     * @return string
+     */
+    public function getFacebookAccessToken()
+    {
+        return $this->facebook_access_token;
+    }
 }

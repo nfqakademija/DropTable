@@ -35,7 +35,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ]
+    bundles:        [ DropTableUserBundle, DropTableLibraryBundle ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -78,20 +78,33 @@ swiftmailer:
     host:      "%mailer_host%"
     username:  "%mailer_user%"
     password:  "%mailer_password%"
-    spool:
-        type: file
-        path: %kernel.cache_dir%/swiftmailer/spool
+#    spool:
+#        type: file
+#        path: %kernel.cache_dir%/swiftmailer/spool
 
 hwi_oauth:
+    connect:
+        account_connector: dt_user_provider
     # name of the firewall in which this bundle is active, this setting MUST be set
     firewall_name: secured_area
-
+    fosub:
+        username_iterations: 30
+        properties:
+            # these properties will be used/redefined later in the custom FOSUBUserProvider service.
+            facebook: facebook_id
+            # google: google_id
     resource_owners:
         facebook:
             type:                facebook
             client_id:           %facebook_client_id%
             client_secret:       %facebook_client_secret%
+            infos_url:           https://graph.facebook.com/me?fields=email,id,link,name,first_name,last_name,verified,picture.type(square)
             scope:               "email"
+            paths:
+                email:           email
+                first_name:      first_name
+                last_name:       last_name
+                profilepicture:  picture.data.url
             options:
                 display: popup #dialog is optimized for popup window
     http_client:
@@ -124,7 +137,10 @@ fos_user:
     profile:
         form:
             type: dt_user_profile
+    change_password:
+        form:
+            type: dt_user_change_password
 
-services:
-    hwi_oauth.user.provider.entity:
-        class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider
+#services:
+#    hwi_oauth.user.provider.entity:
+#        class: DropTable\UserBundle\Security\Core\User\FOSUBUserProvider

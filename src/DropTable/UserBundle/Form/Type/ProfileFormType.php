@@ -21,6 +21,8 @@ class ProfileFormType extends AbstractType
     {
         $builder
             ->remove('username')
+            ->remove('email')
+            ->remove('current_password')
             ->add('firstName', null, ['label' => 'form.first_name', 'translation_domain' => 'FOSUserBundle'])
             ->add('lastName', null, ['label' => 'form.last_name', 'translation_domain' => 'FOSUserBundle']);
     }

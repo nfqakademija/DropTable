@@ -1,6 +1,9 @@
 parameters:
     dt_user.registration.form.class: DropTable\UserBundle\Form\Type\RegistrationFormType
-    dt_user.profile.form.class:  DropTable\UserBundle\Form\Type\ProfileFormType
+    dt_user.profile.form.class: DropTable\UserBundle\Form\Type\ProfileFormType
+    dt_user.change_password.form.class: DropTable\UserBundle\Form\Type\ChangePasswordFormType
+    dt_user_provider_class: DropTable\UserBundle\Security\Core\User\FOSUBUserProvider
+    user_manager_class: DropTable\UserBundle\Service\UserManagerService
 
 services:
     dt_user.registration.form.type:
@@ -11,3 +14,18 @@ services:
         class: %dt_user.profile.form.class%
         tags:
             - { name: form.type, alias: dt_user_profile }
+    dt_user.change_password.form.type:
+        class: %dt_user.change_password.form.class%
+        arguments:
+        tags:
+            - { name: form.type, alias: dt_user_change_password }
+    dt_user_provider:
+        class: %dt_user_provider_class%
+        arguments: [@fos_user.user_manager,{facebook: facebook_id}]
+    hwi_oauth.user.provider.entity:
+        class: DropTable\UserBundle\Security\Core\User\FOSUBUserProvider
+        arguments: [@fos_user.user_manager,{facebook: facebook_id}]
+    user_manager:
+        class: %user_manager_class%
+        arguments:
+            - @doctrine.orm.entity_manager

@@ -1,0 +1,66 @@
+{% extends "@DropTableUser/Default/admin_layout.html.twig" %}
+
+{% block content %}
+    <table class="table table-condensed">
+        <tr>
+            <td>
+                Email
+            </td>
+            <td>
+                First name
+            </td>
+            <td>
+                Last name
+            </td>
+            <td>
+                Enabled
+            </td>
+            <td>
+                Locked
+            </td>
+            <td>
+                Roles
+            </td>
+            <td>
+                Created at
+            </td>
+            <td>
+                Last login
+            </td>
+        </tr>
+    {% for user in users %}
+        <tr>
+            <td>
+                {{ user.emailCanonical }}
+            </td>
+            <td>
+                {{ user.firstName }}
+            </td>
+            <td>
+                {{ user.lastName }}
+            </td>
+            <td>
+                <a href='{{ path("admin_toggle_enabled", {'userId': user.id}) }}'>
+                    {{ user.enabled|default('0') }}
+                </a>
+            </td>
+            <td>
+                <a href='{{ path("admin_toggle_locked", {'userId': user.id}) }}'>
+                    {{ user.locked|default('0') }}
+                </a>
+            </td>
+            <td>
+                <a href='{{ path("admin_switch_role", {'userId': user.id}) }}'>
+                    {{ user.roles[0] }}
+                </a>
+            </td>
+            <td>
+                {{ user.createdAt.date|date('Y m d H:i:s') }}
+            </td>
+            <td>
+                {{ user.lastLogin.date|default(0)|date('Y m d H:i:s') }}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock content %}
