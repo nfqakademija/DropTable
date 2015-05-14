@@ -65,6 +65,7 @@ resetting:
         invalid_username: The username or email address "%username%" does not exist.
         username: "Username or email address:"
         submit: Reset password
+        email: "Email:"
     reset:
         invalid_token: The user with confirmation token of value "%token%" does not exist.
         submit: Change password

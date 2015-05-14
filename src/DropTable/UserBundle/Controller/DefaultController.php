@@ -3,27 +3,20 @@
 namespace DropTable\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class DefaultController
+ * @package DropTable\UserBundle\Controller
+ */
 class DefaultController extends Controller
 {
-    protected $em;
-
-    public function __construct()
-    {
-//        $this->em = $this->get('request');
-        // parent::__construct();
-    }
-
     /**
-     * @Route("/hello/{name}")
+     * Return my books, reserved/taken books.
      * @Template()
      */
-    public function indexAction($name)
+    public function indexAction()
     {
-        $this->em = $this->getDoctrine()->getManager();
-        return array('name' => $name);
+        return ['a' => 'b'];
     }
 }

@@ -35,7 +35,7 @@ class ResettingController extends Controller
      */
     public function requestAction()
     {
-        return $this->render('FOSUserBundle:Resetting:request.html.twig');
+        return $this->render('@DropTableUser/Resetting/request.html.twig');
     }
 
     /**
@@ -65,7 +65,10 @@ class ResettingController extends Controller
         $user = $this->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
 
         if (null === $user) {
-            return $this->handleException('@FOSUser/Resetting/request.html.twig', ['invalid_username' => $username]);
+            return $this->handleException(
+                '@DropTableUser/Resetting/request.html.twig',
+                ['invalid_email' => $username]
+            );
         }
 
         if (null === $user->getConfirmationToken()) {
@@ -100,7 +103,7 @@ class ResettingController extends Controller
         }
 
         return $this->render(
-            'FOSUserBundle:Resetting:checkEmail.html.twig',
+            '@DropTableUser/Resetting/checkEmail.html.twig',
             ['email' => $email]
         );
     }
@@ -160,7 +163,7 @@ class ResettingController extends Controller
         }
 
         return $this->render(
-            'FOSUserBundle:Resetting:reset.html.twig',
+            '@DropTableUser/Resetting/reset.html.twig',
             [
                 'token' => $token,
                 'form' => $form->createView(),

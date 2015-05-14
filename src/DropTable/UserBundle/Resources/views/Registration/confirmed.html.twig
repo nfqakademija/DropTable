@@ -1,0 +1,17 @@
+{% extends "@DropTableUser/Default/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block content %}
+    {% if app.request.hasPreviousSession %}
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="flash-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+    <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+    Let's <a href="{# TODO: add search page url. #}">find some books</a>!
+{% endblock content %}

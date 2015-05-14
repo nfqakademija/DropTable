@@ -18,7 +18,14 @@
                     <li><a href="{{ path("admin_list_users") }}">All users</a></li>
                 {% endif %}
             </ul>
-            <form class="navbar-form navbar-right" role="search" action="search.html.twig">
+            <form class="navbar-form navbar-right" role="search" action="{# TODO: Add path. #}">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {#Logged in as {{ app.user.emailCanonical }}#}
+                {% else %}
+                    <a href="{{ path('fos_user_security_login') }}">Login</a>
+                    or
+                    <a href="{{ path('fos_user_registration_register') }}">register</a>
+                {% endif %}
                 <div class="form-group">
                     <input class="form-control" type="text" placeholder="Search by title, authors..."/>
                 </div>
