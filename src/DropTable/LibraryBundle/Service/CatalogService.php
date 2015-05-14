@@ -122,13 +122,20 @@ class CatalogService
     /**
      * Function for listing books by category.
      *
-     * @param Category $category
+     * @param int $id
      *
      * @return array
      */
-    public function listBooksByCategory(Category $category)
+    public function listBooksByCategory($id)
     {
-        return $this->em->getRepository('DropTableLibraryBundle:Book')->findByCategory($category);
+        $repository = $this->em->getRepository('DropTableLibraryBundle:Book');
+        $arepository = $this->em->getRepository('DropTableLibraryBundle:Category');
+
+        $category = $arepository->find(1);
+
+        $t = $repository->findBy(['categories' => $category]);
+
+        return $repository->findAll();
     }
 
     /**
@@ -158,7 +165,7 @@ class CatalogService
      */
     public function getAvailableOwner(Book $book)
     {
-        $owner = $this->em->getRepository('DropTableLibraryBundle:BookHasOwner')->findAllAvailableOwner($book);
+        $owner = $this->em->getRepository('DropTableLibraryBundle:BookHasOwner')->findAvailableOwner($book);
 
         return $owner;
     }

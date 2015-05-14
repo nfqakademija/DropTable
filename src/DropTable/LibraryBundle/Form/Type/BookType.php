@@ -45,7 +45,7 @@ class BookType extends AbstractType
                     'property' => 'name',
                 ]
             )
-            ->add('thumbnail', new ImageType(), ['image_path' => 'thumbnail_small'])
+            ->add('thumbnail_small', new ImageType(), ['image_path' => 'thumbnail_small'])
             ->add('description', 'textarea')
             ->add('pages')
             ->add('created_at', 'date')
