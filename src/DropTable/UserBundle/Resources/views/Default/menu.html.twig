@@ -22,9 +22,10 @@
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     {#Logged in as {{ app.user.emailCanonical }}#}
                 {% else %}
-                    <a href="{{ path('fos_user_security_login') }}">Login</a>
+                    <div id="fb-root" style="display: inline-block"></div>
+                    <a href="{{ path('fos_user_security_login') }}" class="popup" id="login-button">Login</a>
                     or
-                    <a href="{{ path('fos_user_registration_register') }}">register</a>
+                    <a href="{{ path('fos_user_registration_register') }}" id="register-button">register</a>
                 {% endif %}
                 <div class="form-group">
                     <input class="form-control" type="text" placeholder="Search by title, authors..."/>

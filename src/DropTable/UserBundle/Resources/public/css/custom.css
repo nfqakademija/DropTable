@@ -1,3 +1,4 @@
 .verticalMiddle {
-    margin-top: 18%;
+    position: absolute;
+    top: 30%;
 }
