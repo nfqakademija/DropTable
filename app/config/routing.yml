@@ -1,12 +1,9 @@
 drop_table_library:
     resource: "@DropTableLibraryBundle/Resources/config/routing.yml"
-<<<<<<< HEAD
 
 drop_table_user:
     resource: "@DropTableUserBundle/Resources/config/routing.yml"
     prefix:   /
-=======
->>>>>>> e3d04a9deb16279073cda73bbbd58283314eda75
 
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
