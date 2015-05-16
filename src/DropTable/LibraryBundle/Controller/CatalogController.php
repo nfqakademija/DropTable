@@ -104,7 +104,7 @@ class CatalogController extends Controller
     }
 
     /**
-     * Action for deleteing book.
+     * Action for deleting book.
      *
      * @param string $slug
      * @return array

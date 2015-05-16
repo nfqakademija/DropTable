@@ -160,7 +160,8 @@ class CatalogService
      */
     public function getBookById($slug)
     {
-        return $this->em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
+        // TODO: repair.
+        return $this->em->getRepository('DropTableLibraryBundle:Book')->find($slug);
     }
 
     /**
