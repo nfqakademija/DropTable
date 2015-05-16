@@ -121,6 +121,24 @@ class CatalogService
     }
 
     /**
+     * Get defined count of newest books.
+     *
+     * @param int $count
+     * @return mixed
+     */
+    public function getNewestBooks($count)
+    {
+        return $this->em
+            ->getRepository('DropTableLibraryBundle:Book')
+            ->createQueryBuilder('b')
+            ->where('b.id > 0')
+            ->orderBy('b.createdAt', 'DESC')
+            ->setMaxResults($count)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
      * Function for listing books by category.
      *
      * @param string $slug
