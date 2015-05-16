@@ -18,19 +18,21 @@
                     <li><a href="{{ path("admin_list_users") }}">All users</a></li>
                 {% endif %}
             </ul>
-            <form class="navbar-form navbar-right" role="search" action="{# TODO: Add path. #}">
+            <form class="navbar-form navbar-right fr" role="search" action="{# TODO: Add path. #}">
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Search by title, authors..."/>
+                </div>
+            </form>
+            <div class="fr logged-in">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    {#Logged in as {{ app.user.emailCanonical }}#}
+                    Logged in as {{ app.user.emailCanonical }}
                 {% else %}
                     <div id="fb-root" style="display: inline-block"></div>
                     <a href="{{ path('fos_user_security_login') }}" class="popup" id="login-button">Login</a>
                     or
                     <a href="{{ path('fos_user_registration_register') }}" id="register-button">register</a>
                 {% endif %}
-                <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Search by title, authors..."/>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </nav>

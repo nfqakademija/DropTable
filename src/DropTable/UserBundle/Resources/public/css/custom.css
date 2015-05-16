@@ -2,3 +2,12 @@
     position: absolute;
     top: 30%;
 }
+
+.fr {
+    float: right;
+}
+
+.logged-in {
+    color: #777;
+    line-height: 50px;
+}
