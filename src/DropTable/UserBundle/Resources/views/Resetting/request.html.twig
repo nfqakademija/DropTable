@@ -1,5 +1,12 @@
-{% extends "FOSUserBundle::layout.html.twig" %}
+{% extends "@DropTableUser/Default/base.html.twig" %}
 
-{% block fos_user_content %}
-{% include "FOSUserBundle:Resetting:request_content.html.twig" %}
-{% endblock fos_user_content %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-md-offset-4 text-right verticalMiddle">
+                {% include "@DropTableUser/Resetting/request_content.html.twig" %}
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}

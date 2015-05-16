@@ -22,3 +22,7 @@ parameters:
     # Facebook API
     facebook_client_id:
     facebook_client_secret:
+
+    # Gmail API
+    gmail_client_id:
+    gmail_client_secret:

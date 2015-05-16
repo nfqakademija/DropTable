@@ -23,6 +23,9 @@ hwi_oauth_connect:
 facebook_login:
     pattern: /login/check-facebook
 
+google_login:
+    pattern: /login/check-google
+
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 

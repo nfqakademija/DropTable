@@ -1,7 +1,17 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 <div class="fos_user_user_show">
+    <p><a href="{{ path('fos_user_profile_edit') }}">Edit profile</a></p>
     <p>{{ 'profile.show.first_name'|trans }}: {{ user.firstName }}</p>
     <p>{{ 'profile.show.last_name'|trans }}: {{ user.lastName }}</p>
     <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+    <p>
+        Connect your account to
+        <a href="#" onclick="fb_login('{{ path('home') }}');">Facebook</a>
+        or
+        <a href="{{ hwi_oauth_login_url('google') }}">Google</a>
+    </p>
+    <p>
+        <a href="{{ path('fos_user_change_password') }}">Change password.</a>
+    </p>
 </div>

@@ -16,3 +16,4 @@ admin_switch_role:
 
 home:
     path: /
+    defaults: { _controller: DropTableUserBundle:Default:index }

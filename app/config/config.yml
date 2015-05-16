@@ -107,6 +107,11 @@ hwi_oauth:
                 profilepicture:  picture.data.url
             options:
                 display: popup #dialog is optimized for popup window
+        google:
+            type:                google
+            client_id:           %gmail_client_id%
+            client_secret:       %gmail_client_secret%
+            scope:               "email profile"
     http_client:
         verify_peer: false
     # an optional setting to configure a query string parameter which can be used to redirect

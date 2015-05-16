@@ -95,4 +95,20 @@ class UserManagerService
         $this->em->persist($user);
         $this->em->flush();
     }
+
+    /**
+     * Check if user's password is set.
+     * @param int $id
+     * @return bool
+     */
+    public function passwordIsSet($id)
+    {
+        $user = $this->getUserById($id);
+
+        if ($user->getPassword()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

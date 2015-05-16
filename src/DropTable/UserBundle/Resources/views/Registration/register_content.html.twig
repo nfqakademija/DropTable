@@ -6,3 +6,8 @@
         <input type="submit" value="{{ 'registration.submit'|trans }}" />
     </div>
 </form>
+<div>
+    Or register with <a href="#" onclick="fb_login();" class="btn btn-primary btn-sm">Facebook</a>
+    or
+    <a href="{{ hwi_oauth_login_url('google') }}" class="btn btn-danger btn-sm">Google</a>
+</div>
