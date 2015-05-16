@@ -180,4 +180,14 @@ class User extends BaseUser
     {
         return $this->facebook_access_token;
     }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

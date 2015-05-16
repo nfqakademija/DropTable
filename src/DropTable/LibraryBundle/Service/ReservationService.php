@@ -10,7 +10,10 @@ use DropTable\LibraryBundle\Event\RemoveBookReservationEvent;
 use DropTable\LibraryBundle\Event\ReserveBookEvent;
 use DropTable\LibraryBundle\Event\ReturnBookEvent;
 use DropTable\UserBundle\Entity\User;
+use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -69,40 +72,53 @@ class ReservationService
     {
         $user = $this->tokenStorage->getToken()->getUser();
 
-        $reservation = new UserHasReservation();
-        $reservation->setUser($user);
-        $reservation->setBook($book);
+        if ($user instanceof User) {
+            $reservation = new UserHasReservation();
+            $reservation->setUser($user);
+            $reservation->setBook($book);
 
-        $this->em->persist($reservation);
-        $this->em->flush();
+            $this->em->persist($reservation);
+            $this->em->flush();
 
-        $reserveBookEvent = new ReserveBookEvent($user, $book);
-        $this->eventDispatcher->dispatch('reservation.reserved_book', $reserveBookEvent);
+            $reserveBookEvent = new ReserveBookEvent($user, $book);
+            $this->eventDispatcher->dispatch('reservation.reserved_book', $reserveBookEvent);
 
-        return $reservation;
+            return $reservation;
+        }
     }
 
     /**
      * Function for returning book.
      *
      * @param Book $book
+     * @return bool
      */
-    public function returnBook(Book $book) //TODO: perdaryti kad butu pagal rezervacijos entity, nes jei n knygu grazins pirma pasitaikiusia
+    public function returnBook(Book $book)
     {
         $user = $this->tokenStorage->getToken()->getUser();
 
-        $bookHasReservationRepository = $this->em->getRepository('DropTableLibraryBundle:UserHasReservation');
-        $reservation = $bookHasReservationRepository->findOneBy(
-            [
-                'user' => $user,
-                'book' => $book,
-            ]
-        );
-        $this->em->remove($reservation);
-        $this->em->flush();
+        if ($user instanceof User) {
+            $bookHasReservationRepository = $this->em->getRepository('DropTableLibraryBundle:UserHasReservation');
 
-        $returnBookEvent = new ReturnBookEvent($user, $reservation);
-        $this->eventDispatcher->dispatch('reservation.returned_book', $returnBookEvent);
+            /** @var UserHasReservation $reservation */
+            $reservation = $bookHasReservationRepository->findOneBy(
+                [
+                    'user' => $user,
+                    'book' => $book,
+                ]
+            );
+            if ($reservation instanceof UserHasReservation) {
+                $this->em->remove($reservation);
+                $this->em->flush();
+
+                $returnBookEvent = new ReturnBookEvent($user, $reservation);
+                $this->eventDispatcher->dispatch('reservation.returned_book', $returnBookEvent);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -127,13 +143,17 @@ class ReservationService
     }
 
     /**
-     * @param User $user
-     *
      * @return array|null
      */
-    public function getReservationsByUser(User $user)
+    public function getReservationsByUser()
     {
-        return $this->em->getRepository('DropTableLibraryBundle:UserHasReservation')->findByUser($user);
+        $reservations = null;
+        $user         = $this->tokenStorage->getToken()->getUser();
+        if ($user instanceof User) {
+            $reservations = $this->em->getRepository('DropTableLibraryBundle:UserHasReservation')->findByUser($user);
+        }
+
+        return $reservations;
     }
 
     /**

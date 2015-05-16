@@ -34,16 +34,16 @@ class CatalogController extends Controller
     /**
      * Action for listing all books.
      *
-     * @param string $category
+     * @param string $slug
      * @return array
      *
-     * @Template("DropTableLibraryBundle:Book:list.html.twig")
+     * @Template("DropTableLibraryBundle:Catalog:list.html.twig")
      */
-    public function listByCategoryAction($category)
+    public function listByCategoryAction($slug)
     {
         $catalog = $this->container->get('catalog');
 
-        $book_list = $catalog->listBooksByCategory($category);
+        $book_list = $catalog->listBooksByCategory($slug);
 
         return [
             'list' => $book_list,
@@ -80,16 +80,16 @@ class CatalogController extends Controller
      * Action to edit book.
      *
      * @param Request $request
-     * @param int     $id
+     * @param string  $slug
      * @return array
      *
      * @Template()
      */
-    public function editAction(Request $request, $id)
+    public function editAction(Request $request, $slug)
     {
         $em = $this->get('doctrine.orm.entity_manager');
 
-        $book = $em->getRepository('DropTableLibraryBundle:Book')->find($id);
+        $book = $em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
         $book_form = $this->createForm(new BookType(), $book);
 
         $book_form->handleRequest($request);
@@ -106,19 +106,75 @@ class CatalogController extends Controller
     /**
      * Action for deleteing book.
      *
-     * @param int $id
+     * @param string $slug
      * @return array
      *
      * @Template()
      */
-    public function deleteAction($id)
+    public function deleteAction($slug)
     {
         $em = $this->get('doctrine.orm.entity_manager');
 
-        $book = $em->getRepository('DropTableLibraryBundle:Book')->find($id);
+        $book = $em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
         $em->remove($book);
         $em->flush();
 
         return new JsonResponse(['status' => 'success']);
+    }
+
+    /**
+     * Get book by slug.
+     *
+     * @param string $slug
+     * @return array
+     *
+     * @Template()
+     */
+    public function bookAction($slug)
+    {
+        $em = $this->get('catalog');
+
+        $book = $em->getBookById($slug);
+
+        return [
+            'book' => $book,
+        ];
+    }
+
+    /**
+     * Get Owners by book.
+     *
+     * @param string $slug
+     * @return array
+     *
+     * @Template()
+     */
+    public function ownersAction($slug)
+    {
+        $em = $this->get('catalog');
+
+        $owners = $em->getOwnersByBook($slug);
+
+        return [
+            'owners' => $owners,
+        ];
+    }
+
+    /**
+     * Get my books.
+     *
+     * @return array
+     *
+     * @Template()
+     */
+    public function myBooksAction()
+    {
+        $em = $this->get('catalog');
+
+        $owners = $em->getMyBooks();
+
+        return [
+            'owners' => $owners,
+        ];
     }
 }
