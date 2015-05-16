@@ -4,6 +4,7 @@ namespace DropTable\LibraryBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Class BookType.
@@ -20,20 +21,47 @@ class BookType extends AbstractType
         $builder
             ->add('isbn')
             ->add('title')
-            ->add('author')
             ->add(
-                'category',
+                'categories',
+                'collection',
+                [
+                    'type' => new CategoryType(),
+                    'allow_add' => true,
+                ]
+            )
+            ->add(
+                'authors',
+                'collection',
+                [
+                    'type' => new AuthorType(),
+                    'allow_add' => true,
+                ]
+            )
+            ->add(
+                'publisher',
                 'entity',
                 [
-                    'class' => 'DropTableLibraryBundle:Category',
+                    'class' => 'DropTableLibraryBundle:Publisher',
                     'property' => 'name',
                 ]
             )
-            ->add('publisher')
+            ->add('thumbnail_small', new ImageType(), ['image_path' => 'thumbnail_small'])
             ->add('description', 'textarea')
             ->add('pages')
             ->add('created_at', 'date')
             ->add('Save', 'submit');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'data_class' => 'DropTable\LibraryBundle\Entity\Book',
+            ]
+        );
     }
 
     /**

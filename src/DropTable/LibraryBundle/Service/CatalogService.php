@@ -1,10 +1,11 @@
 <?php
+
 namespace DropTable\LibraryBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use DropTable\LibraryBundle\Entity\Book;
 use DropTable\LibraryBundle\Entity\BookHasOwner;
-use DropTable\LibraryBundle\Entity\Category;
+use DropTable\LibraryBundle\Entity\BookRepository;
 use DropTable\LibraryBundle\Event\AddBookEvent;
 use DropTable\LibraryBundle\Event\AddBookOwnerEvent;
 use DropTable\LibraryBundle\Event\RemoveBookOwnerEvent;
@@ -122,43 +123,63 @@ class CatalogService
     /**
      * Function for listing books by category.
      *
-     * @param Category $category
+     * @param string $slug
      *
      * @return array
      */
-    public function listBooksByCategory(Category $category)
+    public function listBooksByCategory($slug)
     {
-        return $this->em->getRepository('DropTableLibraryBundle:Book')->findByCategory($category);
+        /** @var BookRepository $repository */
+        $repository = $this->em->getRepository('DropTableLibraryBundle:Book');
+        $books = $repository->findBooksByCategory($slug);
+
+        return $books;
     }
 
     /**
-     * @param int $id
-     *
+     * @param string $slug
      * @return null|object
      */
-    public function getBookById($id)
+    public function getBookById($slug)
     {
-        return $this->em->getRepository('DropTableLibraryBundle:Book')->find($id);
+        return $this->em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
     }
 
     /**
-     * @param int $id
-     *
+     * @param string $slug
      * @return null|object
      */
-    public function getOwnerById($id)
+    public function getOwnersByBook($slug)
     {
-        return $this->em->getRepository('DropTableLibraryBundle:BookHasOwner')->find($id);
+        $repository = $this->em->getRepository('DropTableLibraryBundle:Book');
+        $book = $repository->findOneBySlug($slug);
+
+        return $this->em->getRepository('DropTableLibraryBundle:BookHasOwner')->findByBook($book);
+    }
+
+    /**
+     * @return BookHasOwner|null
+     */
+    public function getMyBooks()
+    {
+        /** @var BookHasOwner $owners */
+        $owners = null;
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        if ($user instanceof User) {
+            $owners = $this->em->getRepository('DropTableLibraryBundle:BookHasOwner')->findByUser($user);
+        }
+
+        return $owners;
     }
 
     /**
      * @param Book $book
-     *
      * @return BookHasOwner
      */
     public function getAvailableOwner(Book $book)
     {
-        $owner = $this->em->getRepository('DropTableLibraryBundle:BookHasOwner')->findAllAvailableOwner($book);
+        $owner = $this->em->getRepository('DropTableLibraryBundle:BookHasOwner')->findAvailableOwner($book);
 
         return $owner;
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace DropTable\LibraryBundle\Service;
 
 use Doctrine\ORM\EntityManager;
@@ -67,42 +68,55 @@ class ReservationService
      */
     public function reserveBook(Book $book)
     {
-        $user = $this->tokenStorage->getToken()->getUser(); //TODO: after user bundle configured change type casting for user, and check if user is logged in
+        $user = $this->tokenStorage->getToken()->getUser();
 
-        $reservation = new UserHasReservation();
-        $reservation->setUser($user);
-        $reservation->setBook($book);
+        if ($user instanceof User) {
+            $reservation = new UserHasReservation();
+            $reservation->setUser($user);
+            $reservation->setBook($book);
 
-        $this->em->persist($reservation);
-        $this->em->flush();
+            $this->em->persist($reservation);
+            $this->em->flush();
 
-        $reserveBookEvent = new ReserveBookEvent($user, $book);
-        $this->eventDispatcher->dispatch('reservation.reserved_book', $reserveBookEvent);
+            $reserveBookEvent = new ReserveBookEvent($user, $book);
+            $this->eventDispatcher->dispatch('reservation.reserved_book', $reserveBookEvent);
 
-        return $reservation;
+            return $reservation;
+        }
     }
 
     /**
      * Function for returning book.
      *
      * @param Book $book
+     * @return bool
      */
     public function returnBook(Book $book)
     {
-        $user = $this->tokenStorage->getToken()->getUser(); //TODO: after user bundle configured change type casting for user, and check if user is logged in
+        $user = $this->tokenStorage->getToken()->getUser();
 
-        $bookHasReservationReopository = $this->em->getRepository('DropTableLibraryBundle:BookHasReservation');
-        $reservation = $bookHasReservationReopository->findOneBy(
-            [
-                'user' => $user,
-                'book' => $book,
-            ]
-        );
-        $this->em->remove($reservation);
-        $this->em->flush();
+        if ($user instanceof User) {
+            $bookHasReservationRepository = $this->em->getRepository('DropTableLibraryBundle:UserHasReservation');
 
-        $returnBookEvent = new ReturnBookEvent($user, $reservation);
-        $this->eventDispatcher->dispatch('reservation.returned_book', $returnBookEvent);
+            /** @var UserHasReservation $reservation */
+            $reservation = $bookHasReservationRepository->findOneBy(
+                [
+                    'user' => $user,
+                    'book' => $book,
+                ]
+            );
+            if ($reservation instanceof UserHasReservation) {
+                $this->em->remove($reservation);
+                $this->em->flush();
+
+                $returnBookEvent = new ReturnBookEvent($user, $reservation);
+                $this->eventDispatcher->dispatch('reservation.returned_book', $returnBookEvent);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -127,13 +141,17 @@ class ReservationService
     }
 
     /**
-     * @param User $user
-     *
      * @return array|null
      */
-    public function getReservationsByUser(User $user)
+    public function getReservationsByUser()
     {
-        return $this->em->getRepository('DropTableLibraryBundle:UserHasReservation')->findByUser($user);
+        $reservations = null;
+        $user         = $this->tokenStorage->getToken()->getUser();
+        if ($user instanceof User) {
+            $reservations = $this->em->getRepository('DropTableLibraryBundle:UserHasReservation')->findByUser($user);
+        }
+
+        return $reservations;
     }
 
     /**
@@ -162,7 +180,7 @@ class ReservationService
      *
      * @return null|object
      */
-    public function getReservation(User $user, Book $book)
+    public function getReservation(User $user, Book $book) // TODO: nelabai reikalingas?
     {
         $user_id = $user->getId();
         $book_id = $book->getId();
@@ -180,7 +198,7 @@ class ReservationService
      *
      * @param Book $book
      */
-    public function removeReservationsByBook(Book $book)
+    public function removeReservationsByBook(Book $book) //TODO: constraintai reikia sutaisyt
     {
         $userHasReservationRepository = $this->em->getRepository('DropTableLibraryService:UserHasReservation');
         $reservations = $userHasReservationRepository->findByBook($book);

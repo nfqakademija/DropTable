@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Book.
  *
- * @ORM\Table(name="book", indexes={@ORM\Index(name="fk_book_category_idx", columns={"category_id"})})
+ * @ORM\Table(name="book")
  * @ORM\Entity
  */
 class Book
@@ -24,7 +24,7 @@ class Book
     /**
      * @var int
      *
-     * @ORM\Column(name="isbn", type="integer", nullable=false)
+     * @ORM\Column(name="isbn", type="string", nullable=false)
      */
     private $isbn;
 
@@ -43,17 +43,21 @@ class Book
     private $slug;
 
     /**
-     * @var string
+     * @var \DropTable\LibraryBundle\Entity\Author
      *
-     * @ORM\Column(name="author", type="string", length=45, nullable=true)
-     */
-    private $author;
+     * @ORM\ManyToMany(targetEntity="Author", inversedBy="books")
+     * @ORM\JoinTable(name="book_has_author")
+     **/
+    private $authors;
 
     /**
-     * @var string
+     * @var \DropTable\LibraryBundle\Entity\Publisher
      *
-     * @ORM\Column(name="publisher", type="string", length=45, nullable=true)
-     */
+     * @ORM\ManyToOne(targetEntity="Publisher")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="publisher_id", referencedColumnName="id")
+     * })
+     **/
     private $publisher;
 
     /**
@@ -62,6 +66,20 @@ class Book
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="thumbnail_small", type="text", nullable=true)
+     */
+    private $thumbnail_small;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="thumbnail", type="text", nullable=true)
+     */
+    private $thumbnail;
 
     /**
      * @var int
@@ -80,17 +98,24 @@ class Book
     /**
      * @var \DropTable\LibraryBundle\Entity\Category
      *
-     * @ORM\ManyToOne(targetEntity="DropTable\LibraryBundle\Entity\Category")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="category_id", referencedColumnName="id")
-     * })
-     */
-    private $category;
+     * @ORM\ManyToMany(targetEntity="Category", inversedBy="books")
+     * @ORM\JoinTable(name="book_has_category")
+     **/
+    private $categories;
 
     /**
-     * Get id.
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->authors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
      *
-     * @return int
+     * @return integer 
      */
     public function getId()
     {
@@ -98,10 +123,9 @@ class Book
     }
 
     /**
-     * Set isbn.
+     * Set isbn
      *
-     * @param int $isbn
-     *
+     * @param integer $isbn
      * @return Book
      */
     public function setIsbn($isbn)
@@ -112,9 +136,9 @@ class Book
     }
 
     /**
-     * Get isbn.
+     * Get isbn
      *
-     * @return int
+     * @return integer 
      */
     public function getIsbn()
     {
@@ -122,10 +146,9 @@ class Book
     }
 
     /**
-     * Set title.
+     * Set title
      *
      * @param string $title
-     *
      * @return Book
      */
     public function setTitle($title)
@@ -136,9 +159,9 @@ class Book
     }
 
     /**
-     * Get title.
+     * Get title
      *
-     * @return string
+     * @return string 
      */
     public function getTitle()
     {
@@ -146,10 +169,9 @@ class Book
     }
 
     /**
-     * Set slug.
+     * Set slug
      *
      * @param string $slug
-     *
      * @return Book
      */
     public function setSlug($slug)
@@ -160,9 +182,9 @@ class Book
     }
 
     /**
-     * Get slug.
+     * Get slug
      *
-     * @return string
+     * @return string 
      */
     public function getSlug()
     {
@@ -170,58 +192,9 @@ class Book
     }
 
     /**
-     * Set author.
-     *
-     * @param string $author
-     *
-     * @return Book
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get author.
-     *
-     * @return string
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    /**
-     * Set publisher.
-     *
-     * @param string $publisher
-     *
-     * @return Book
-     */
-    public function setPublisher($publisher)
-    {
-        $this->publisher = $publisher;
-
-        return $this;
-    }
-
-    /**
-     * Get publisher.
-     *
-     * @return string
-     */
-    public function getPublisher()
-    {
-        return $this->publisher;
-    }
-
-    /**
-     * Set description.
+     * Set description
      *
      * @param string $description
-     *
      * @return Book
      */
     public function setDescription($description)
@@ -232,9 +205,9 @@ class Book
     }
 
     /**
-     * Get description.
+     * Get description
      *
-     * @return string
+     * @return string 
      */
     public function getDescription()
     {
@@ -242,10 +215,55 @@ class Book
     }
 
     /**
-     * Set pages.
+     * Set thumbnail_small
      *
-     * @param int $pages
+     * @param string $thumbnailSmall
+     * @return Book
+     */
+    public function setThumbnailSmall($thumbnailSmall)
+    {
+        $this->thumbnail_small = $thumbnailSmall;
+
+        return $this;
+    }
+
+    /**
+     * Get thumbnail_small
      *
+     * @return string 
+     */
+    public function getThumbnailSmall()
+    {
+        return $this->thumbnail_small;
+    }
+
+    /**
+     * Set thumbnail
+     *
+     * @param string $thumbnail
+     * @return Book
+     */
+    public function setThumbnail($thumbnail)
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    /**
+     * Get thumbnail
+     *
+     * @return string 
+     */
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
+    }
+
+    /**
+     * Set pages
+     *
+     * @param integer $pages
      * @return Book
      */
     public function setPages($pages)
@@ -256,9 +274,9 @@ class Book
     }
 
     /**
-     * Get pages.
+     * Get pages
      *
-     * @return int
+     * @return integer 
      */
     public function getPages()
     {
@@ -266,10 +284,9 @@ class Book
     }
 
     /**
-     * Set createdAt.
+     * Set createdAt
      *
      * @param \DateTime $createdAt
-     *
      * @return Book
      */
     public function setCreatedAt($createdAt)
@@ -280,9 +297,9 @@ class Book
     }
 
     /**
-     * Get createdAt.
+     * Get createdAt
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getCreatedAt()
     {
@@ -290,26 +307,91 @@ class Book
     }
 
     /**
-     * Set category.
+     * Add authors
      *
-     * @param \DropTable\LibraryBundle\Entity\Category $category
-     *
+     * @param \DropTable\LibraryBundle\Entity\Author $authors
      * @return Book
      */
-    public function setCategory(\DropTable\LibraryBundle\Entity\Category $category = null)
+    public function addAuthor(\DropTable\LibraryBundle\Entity\Author $authors)
     {
-        $this->category = $category;
+        $this->authors[] = $authors;
 
         return $this;
     }
 
     /**
-     * Get category.
+     * Remove authors
      *
-     * @return \DropTable\LibraryBundle\Entity\Category
+     * @param \DropTable\LibraryBundle\Entity\Author $authors
      */
-    public function getCategory()
+    public function removeAuthor(\DropTable\LibraryBundle\Entity\Author $authors)
     {
-        return $this->category;
+        $this->authors->removeElement($authors);
+    }
+
+    /**
+     * Get authors
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAuthors()
+    {
+        return $this->authors;
+    }
+
+    /**
+     * Set publisher
+     *
+     * @param \DropTable\LibraryBundle\Entity\Publisher $publisher
+     * @return Book
+     */
+    public function setPublisher(\DropTable\LibraryBundle\Entity\Publisher $publisher = null)
+    {
+        $this->publisher = $publisher;
+
+        return $this;
+    }
+
+    /**
+     * Get publisher
+     *
+     * @return \DropTable\LibraryBundle\Entity\Publisher 
+     */
+    public function getPublisher()
+    {
+        return $this->publisher;
+    }
+
+    /**
+     * Add categories
+     *
+     * @param \DropTable\LibraryBundle\Entity\Category $categories
+     * @return Book
+     */
+    public function addCategory(\DropTable\LibraryBundle\Entity\Category $categories)
+    {
+        $this->categories[] = $categories;
+
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \DropTable\LibraryBundle\Entity\Category $categories
+     */
+    public function removeCategory(\DropTable\LibraryBundle\Entity\Category $categories)
+    {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }

@@ -7,11 +7,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Class CategoryType.
+ * Class AuthorType.
  *
  * @package LibraryBundle\Form\Type
  */
-class CategoryType extends AbstractType
+class AuthorType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -29,7 +29,7 @@ class CategoryType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'DropTable\LibraryBundle\Entity\Category',
+                'data_class' => 'DropTable\LibraryBundle\Entity\Author',
             ]
         );
     }
@@ -39,6 +39,6 @@ class CategoryType extends AbstractType
      */
     public function getName()
     {
-        return 'library_category';
+        return 'library_author';
     }
 }

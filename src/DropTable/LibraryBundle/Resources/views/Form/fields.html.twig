@@ -1,0 +1,21 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{%- block library_image_widget -%}
+    <img src="{{ asset(image_url) }}"/>
+    {{ block('form_widget_simple') }}
+{%- endblock -%}
+
+{%- block collection_widget -%}
+    {% if prototype is defined %}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+    {% endif %}
+    {{- block('form_widget') -}}
+{%- endblock collection_widget -%}
+
+{%- block form_widget -%}
+    {% if compound %}
+        {{- block('form_widget_compound') -}}
+    {% else %}
+        {{- block('form_widget_simple') -}}
+    {% endif %}
+{%- endblock form_widget -%}
