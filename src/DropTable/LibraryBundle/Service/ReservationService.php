@@ -1,4 +1,5 @@
 <?php
+
 namespace DropTable\LibraryBundle\Service;
 
 use Doctrine\ORM\EntityManager;
@@ -10,10 +11,7 @@ use DropTable\LibraryBundle\Event\RemoveBookReservationEvent;
 use DropTable\LibraryBundle\Event\ReserveBookEvent;
 use DropTable\LibraryBundle\Event\ReturnBookEvent;
 use DropTable\UserBundle\Entity\User;
-use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**

@@ -19,14 +19,6 @@ catalog.delete_book:
     path: /books/delete/{slug}
     defaults: { _controller: DropTableLibraryBundle:Catalog:delete }
 
-catalog.test:
-    path: /test
-    defaults: { _controller: DropTableLibraryBundle:Default:index }
-
-catalog.search:
-    path: /search
-    defaults: { _controller: DropTableLibraryBundle:Default:search }
-
 catalog.book:
     path: /book/{slug}
     defaults: { _controller: DropTableLibraryBundle:Catalog:book }
