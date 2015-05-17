@@ -32,10 +32,12 @@ class ReservationController extends Controller
         $reservation = $reservationService->reserveBook($book);
 
         if ($reservation instanceof UserHasReservation) {
-            return new JsonResponse(['status' => 'success']);
+            $this->addFlash('reservation-result', 'Book reservation successful!');
+        } else {
+            $this->addFlash('reservation-result', 'Something went wrong, try again.');
         }
 
-        return new JsonResponse(['status' => 'error']);
+        return $this->redirectToRoute('catalog.book', ['slug' => $slug ]);
     }
 
     /**

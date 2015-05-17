@@ -35,7 +35,10 @@
             {{ book.description }}
         </div>
         <div class="reserve-book">
-
+            <a href="{{ path('reservation.reserve', { 'slug': book.slug }) }}">Reserve book</a>
+            {% for flashMessage in app.session.flashbag.get('reservation-result') %}
+                {{ flashMessage }}
+            {% endfor %}
         </div>
     </div>
     <div class="col-md-3">
