@@ -35,7 +35,10 @@
             {{ book.description }}
         </div>
         <div class="reserve-book">
-            <a href="{{ path('reservation.reserve', { 'slug': book.slug }) }}">Reserve book</a>
+            <a href="{{ path('reservation.reserve', { 'slug': book.slug }) }}"
+               class="btn btn-default {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}disabled{% endif %}">
+                Reserve book
+            </a>
             {% for flashMessage in app.session.flashbag.get('reservation-result') %}
                 {{ flashMessage }}
             {% endfor %}
