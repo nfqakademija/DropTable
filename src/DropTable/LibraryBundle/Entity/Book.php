@@ -2,6 +2,7 @@
 
 namespace DropTable\LibraryBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,7 +38,7 @@ class Book
 
     /**
      * @var string
-     *
+     * @Gedmo\Slug(fields={"title"}, updatable=false)
      * @ORM\Column(name="slug", type="string", length=45, nullable=true)
      */
     private $slug;
