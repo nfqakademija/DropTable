@@ -1,0 +1,7 @@
+{% extends '@DropTableLibrary/Default/layout.html.twig' %}
+
+{% block content %}
+    {% for category in categories %}
+        {{ category.name }}
+    {% endfor %}
+{% endblock %}

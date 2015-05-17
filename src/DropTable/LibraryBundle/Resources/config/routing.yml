@@ -3,6 +3,10 @@ home:
     path: /
     defaults: { _controller: DropTableLibraryBundle:Default:index }
 
+browse:
+    path: /browse
+    defaults: { _controller: DropTableLibraryBundle:Catalog:listCategories }
+
 catalog.list:
     path: /books/list
     defaults: { _controller: DropTableLibraryBundle:Catalog:list }

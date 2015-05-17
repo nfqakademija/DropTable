@@ -147,7 +147,6 @@ class CatalogService
      * Function for listing books by category.
      *
      * @param string $slug
-     *
      * @return array
      */
     public function listBooksByCategory($slug)
@@ -157,6 +156,19 @@ class CatalogService
         $books = $repository->findBooksByCategory($slug);
 
         return $books;
+    }
+
+    /**
+     * List all categories.
+     *
+     * @return array
+     */
+    public function listCategories()
+    {
+        $repository = $this->em->getRepository('DropTableLibraryBundle:Category');
+        $categories = $repository->findAll();
+
+        return $categories;
     }
 
     /**
