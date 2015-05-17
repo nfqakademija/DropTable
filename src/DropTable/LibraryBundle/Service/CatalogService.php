@@ -26,11 +26,6 @@ class CatalogService
     protected $em;
 
     /**
-     * @var ReservationService
-     */
-    protected $reservationService;
-
-    /**
      * @var EventDispatcherInterface
      */
     protected $eventDispatcher;
@@ -100,6 +95,7 @@ class CatalogService
      * Function for removing owner.
      *
      * @param Book $book
+     * @return bool
      */
     public function removeBookOwner(Book $book)
     {
@@ -108,11 +104,15 @@ class CatalogService
 
         if ($owner instanceof BookHasOwner) {
             $this->em->remove($owner);
-            $this->em->flush();
+            $this->em->flush($owner);
 
             $removeBookOwnerEvent = new RemoveBookOwnerEvent($book);
             $this->eventDispatcher->dispatch('catalog.removed_book_owner', $removeBookOwnerEvent);
+
+            return true;
         }
+
+        return false;
     }
 
     /**
@@ -175,7 +175,7 @@ class CatalogService
      * @param string $slug
      * @return null|object
      */
-    public function getBookById($slug)
+    public function getBookBySlug($slug)
     {
         return $this->em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
     }

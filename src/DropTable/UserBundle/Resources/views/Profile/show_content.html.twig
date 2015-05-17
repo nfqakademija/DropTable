@@ -1,17 +1,37 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<div class="fos_user_user_show">
-    <p><a href="{{ path('fos_user_profile_edit') }}">Edit profile</a></p>
-    <p>{{ 'profile.show.first_name'|trans }}: {{ user.firstName }}</p>
-    <p>{{ 'profile.show.last_name'|trans }}: {{ user.lastName }}</p>
-    <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
-    <p>
-        Connect your account to
-        <a href="#" onclick="fb_login('{{ path('home') }}');">Facebook</a>
-        or
-        <a href="{{ hwi_oauth_login_url('google') }}">Google</a>
-    </p>
-    <p>
-        <a href="{{ path('fos_user_change_password') }}">Change password.</a>
-    </p>
+<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#myBooks" aria-controls="myBooks" role="tab" data-toggle="tab">My books</a></li>
+        <li role="presentation"><a href="#myReservations" aria-controls="myReservations" role="tab" data-toggle="tab">My reservations</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+    </ul>
+    <div id="profileTabContent" class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="myBooks" aria-labelledby="myBooks-tab">
+            {{ render(controller(
+            'DropTableLibraryBundle:Catalog:myBooks'
+            )) }}
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="myReservations" aria-labelledby="myReservations-tab">
+            {{ render(controller(
+            'DropTableLibraryBundle:Reservation:myReservations'
+            )) }}
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
+            <p><a href="{{ path('fos_user_profile_edit') }}">Edit profile</a></p>
+            <p>{{ 'profile.show.first_name'|trans }}: {{ user.firstName }}</p>
+            <p>{{ 'profile.show.last_name'|trans }}: {{ user.lastName }}</p>
+            <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+            <p>
+                Connect your account to
+                <a href="#" onclick="fb_login('{{ path('home') }}');">Facebook</a>
+                or
+                <a href="{{ hwi_oauth_login_url('google') }}">Google</a>
+            </p>
+            <p>
+                <a href="{{ path('fos_user_change_password') }}">Change password.</a>
+            </p>
+        </div>
+    </div>
 </div>

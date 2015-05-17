@@ -4,6 +4,7 @@ namespace DropTable\LibraryBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use DropTable\LibraryBundle\Constant\Status;
 use DropTable\LibraryBundle\Entity\UserHasReservation;
 
 /**
@@ -22,15 +23,18 @@ class LoadUserHasReservationData extends AbstractFixture implements OrderedFixtu
         $reservation1->setUser($this->getReference('user1'));
         $reservation1->setBook($this->getReference('book1'));
         $reservation1->setBookHasOwner($this->getReference('owner1'));
+        $reservation1->setStatus(Status::GIVEN);
 
         $reservation2 = new UserHasReservation();
         $reservation2->setUser($this->getReference('user2'));
         $reservation2->setBook($this->getReference('book1'));
+        $reservation2->setStatus(Status::WAITING);
 
         $reservation3 = new UserHasReservation();
         $reservation3->setUser($this->getReference('user1'));
         $reservation3->setBook($this->getReference('book2'));
         $reservation3->setBookHasOwner($this->getReference('owner2'));
+        $reservation3->setStatus(Status::GIVEN);
 
         $manager->persist($reservation1);
         $manager->persist($reservation2);

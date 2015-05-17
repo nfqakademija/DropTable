@@ -1,7 +1,7 @@
 <?php
+
 namespace DropTable\LibraryBundle\Event;
 
-use DropTable\LibraryBundle\Entity\Book;
 use DropTable\LibraryBundle\Entity\UserHasReservation;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\Event;
 class AssignReservationEvent extends Event
 {
     /**
-     * @var Book
+     * @var UserHasReservation
      */
     protected $reservation;
 
