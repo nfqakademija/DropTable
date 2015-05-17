@@ -1,1 +1,5 @@
-{{ dump(reservations) }}
+{% for reservation in reservations %}
+    {{ reservation.user.firstName }} {{ reservation.user.lastName }}
+    ({{ reservation.user.emailCanonical }})
+    <br/>
+{% endfor %}
