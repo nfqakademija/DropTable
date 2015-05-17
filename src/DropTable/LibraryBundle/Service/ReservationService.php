@@ -70,18 +70,22 @@ class ReservationService
     {
         $user = $this->tokenStorage->getToken()->getUser();
 
-        if ($user instanceof User) {
-            $reservation = new UserHasReservation();
-            $reservation->setUser($user);
-            $reservation->setBook($book);
+        if ($this->userHasReserved($user, $book)) {
+            return false;
+        } else {
+            if ($user instanceof User) {
+                $reservation = new UserHasReservation();
+                $reservation->setUser($user);
+                $reservation->setBook($book);
 
-            $this->em->persist($reservation);
-            $this->em->flush();
+                $this->em->persist($reservation);
+                $this->em->flush();
 
-            $reserveBookEvent = new ReserveBookEvent($user, $book);
-            $this->eventDispatcher->dispatch('reservation.reserved_book', $reserveBookEvent);
+                $reserveBookEvent = new ReserveBookEvent($user, $book);
+                $this->eventDispatcher->dispatch('reservation.reserved_book', $reserveBookEvent);
 
-            return $reservation;
+                return $reservation;
+            }
         }
     }
 
@@ -175,12 +179,13 @@ class ReservationService
     }
 
     /**
+     * Find if user has reserved book.
      * @param User $user
      * @param Book $book
      *
      * @return null|object
      */
-    public function getReservation(User $user, Book $book) // TODO: nelabai reikalingas?
+    public function userHasReserved(User $user, Book $book)
     {
         $user_id = $user->getId();
         $book_id = $book->getId();

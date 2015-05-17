@@ -34,7 +34,7 @@ class ReservationController extends Controller
         if ($reservation instanceof UserHasReservation) {
             $this->addFlash('reservation-result', 'Book reservation successful!');
         } else {
-            $this->addFlash('reservation-result', 'Something went wrong, try again.');
+            $this->addFlash('reservation-result', 'Looks like you have reserved this book already.');
         }
 
         return $this->redirectToRoute('catalog.book', ['slug' => $slug ]);
