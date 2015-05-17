@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://localhost/DropTable/web/app_dev.php/">DropTable</a>
+            <a class="navbar-brand" href="{{ path('home') }}">DropTable</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -26,6 +26,8 @@
             <div class="fr logged-in">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     Logged in as {{ app.user.emailCanonical }}
+                    |
+                    <a href="{{ path('logout') }}">Logout</a>
                 {% else %}
                     <div id="fb-root" style="display: inline-block"></div>
                     <a href="{{ path('fos_user_security_login') }}" class="popup" id="login-button">Login</a>
