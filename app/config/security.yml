@@ -41,7 +41,7 @@ security:
                 provider: fos_userbundle
                 csrf_provider: form.csrf_provider
             logout:
-                target: /login
+                target: /
             anonymous: ~
 
         # disables authentication for assets and the profiler, adapt it according to your needs
