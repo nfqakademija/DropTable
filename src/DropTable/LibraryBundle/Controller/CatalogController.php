@@ -69,9 +69,9 @@ class CatalogController extends Controller
 
         $book_form->handleRequest($request);
         if ($book_form->isValid()) {
-            $id = $catalog->addBook($book);
+            $slug = $catalog->addBook($book);
 
-            return $this->redirectToRoute('catalog.book', ['slug' => $id]);
+            return $this->redirectToRoute('catalog.book', ['slug' => $slug]);
         }
 
         return [

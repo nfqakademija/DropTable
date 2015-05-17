@@ -5,7 +5,7 @@
 <div class="row">
     {% for book in books %}
     <div class="col-md-3">
-        <a href="{{ path('catalog.book', { 'slug': book.id }) }}">
+        <a href="{{ path('catalog.book', { 'slug': book.slug }) }}">
             <div class="book">
                     <img src="{{ book.thumbnailSmall|default('http://placehold.it/100x100') }}" alt=""/>
                 <h4>

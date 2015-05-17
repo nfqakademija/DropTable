@@ -71,7 +71,7 @@ class CatalogService
         $addBookEvent = new AddBookEvent($book, $user);
         $this->eventDispatcher->dispatch('catalog.added_book', $addBookEvent);
 
-        return $book->getId();
+        return $book->getSlug();
     }
 
     /**
