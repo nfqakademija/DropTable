@@ -20,9 +20,9 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     # Facebook API
-    facebook_client_id: 000000000
-    facebook_client_secret: 000000000
+    facebook_client_id: 658242424287520
+    facebook_client_secret: 58c24107ee65000502a0f65b5252651d
 
     # Gmail API
-    gmail_client_id: 000000000
-    gmail_client_secret: 000000000
+    gmail_client_id: 406732781976-fhabo662v8d778aats47tmhndt5bag7d.apps.googleusercontent.com
+    gmail_client_secret: ykeZynquv2bWmV38IRLselUD
