@@ -1,7 +1,5 @@
-{% extends 'base.html.twig' %}
-{% block body %}
-{{ dump(name) }}
-{% form_theme form 'DropTableLibraryBundle:Form:fields.html.twig' %}
+{% extends '@DropTableLibrary/Default/layout.html.twig' %}
 
-{{ form(form) }}
+{% block content %}
+    {% include '@DropTableLibrary/Default/newest_books.html.twig' %}
 {% endblock %}

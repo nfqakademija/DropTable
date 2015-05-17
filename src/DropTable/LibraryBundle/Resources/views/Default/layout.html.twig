@@ -1,0 +1,10 @@
+{% extends '@DropTableLibrary/Default/base.html.twig' %}
+
+{% block body %}
+    {{ include('@DropTableLibrary/Default/menu.html.twig') }}
+    <div class="container">
+        <div class="row">
+            {% block content %}{% endblock content %}
+        </div>
+    </div>
+{% endblock body %}

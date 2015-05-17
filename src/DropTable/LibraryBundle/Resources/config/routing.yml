@@ -1,4 +1,8 @@
 #Catalog routes
+home:
+    path: /
+    defaults: { _controller: DropTableLibraryBundle:Default:index }
+
 catalog.list:
     path: /books/list
     defaults: { _controller: DropTableLibraryBundle:Catalog:list }
@@ -31,7 +35,7 @@ catalog.my_books:
     path: /profile/books/{slug}
     defaults: { _controller: DropTableLibraryBundle:Catalog:myBooks }
 
-#Resercation routes
+#Reservation routes
 reservation.reserve:
     path: /reserve/{slug}
     defaults: { _controller: DropTableLibraryBundle:Reservation:reserve }

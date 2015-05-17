@@ -103,13 +103,43 @@ class LoadBookData extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('book4', $book4);
         $this->addReference('book5', $book5);
 
-
         $manager->persist($book1);
         $manager->persist($book2);
         $manager->persist($book3);
         $manager->persist($book4);
         $manager->persist($book5);
         $manager->flush();
+
+        $batchSize = 20;
+        for ($i = 0; $i <= 20; $i++) {
+            $book = new Book();
+            $m = rand(0, 9);
+
+            $book->setIsbn(1234567890127);
+            $book->setTitle('Anarchizmas ir kitos esė' . $m);
+            $book->addAuthor($this->getReference('Author4'));
+            $book->addAuthor($this->getReference('Author5'));
+            $book->setPublisher($this->getReference('Publisher3'));
+            $book->setDescription(
+                '1869 metais Kaune, Vilijampolėje, gimė pavojingiausia Amerikos moteris. Taip amerikiečių saugumo
+            tarnybos vadino Jungtinėse Valstijose anarchizmo ikona tapusią Emmą Goldman (1869–1940). „Anarchizmas
+            ir kitos esė“ yra pirmoji jos knyga ir iki šiol laikoma socialinės kritikos klasika. Prieš šimtmetį
+            parašyti tekstai stulbina plačiu akiračiu ir užkrečia idealizmu. Goldman ateities vizijoje individui
+            nebereikės valdžios, kalėjimai nežlugdys žmonių, moterys nebebus antrarūšės, menas sieks radikalumo,
+            alternatyvus švietimas taps vertybe, o meilei nebereikės santuokos. Ši knyga paneigia daugybę su anarchizmu
+            siejamų prietarų ir atiduoda duoklę legendinei litvakų kilmės asmenybei.'
+            );
+            $book->setPages('192' . $m);
+            $book->setCreatedAt(new \DateTime());
+            $book->addCategory($this->getReference('Biografija'));
+
+            $manager->persist($book);
+
+            if (($i % $batchSize) === 0) {
+                $manager->flush();
+                $manager->clear();
+            }
+        }
     }
 
     /**

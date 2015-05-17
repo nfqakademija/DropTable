@@ -13,10 +13,10 @@ class DefaultController extends Controller
 {
     /**
      * Return my books, reserved/taken books.
-     * @Template()
+     * @Template("DropTableLibraryBundle:Default:layout.html.twig")
      */
     public function indexAction()
     {
-        return ['a' => 'b'];
+        return ['a' => 'a'];
     }
 }

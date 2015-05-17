@@ -57,6 +57,7 @@ class CatalogService
 
     /**
      * @param Book $book
+     * @return int
      */
     public function addBook(Book $book)
     {
@@ -65,8 +66,12 @@ class CatalogService
 
         $user = $this->tokenStorage->getToken()->getUser();
 
+        $this->addBookOwner($book);
+
         $addBookEvent = new AddBookEvent($book, $user);
         $this->eventDispatcher->dispatch('catalog.added_book', $addBookEvent);
+
+        return $book->getId();
     }
 
     /**
@@ -118,6 +123,24 @@ class CatalogService
     public function listBooks()
     {
         return $this->em->getRepository('DropTableLibraryBundle:Book')->findAll();
+    }
+
+    /**
+     * Get defined count of newest books.
+     *
+     * @param int $count
+     * @return mixed
+     */
+    public function getNewestBooks($count)
+    {
+        return $this->em
+            ->getRepository('DropTableLibraryBundle:Book')
+            ->createQueryBuilder('b')
+            ->where('b.id > 0')
+            ->orderBy('b.createdAt', 'DESC')
+            ->setMaxResults($count)
+            ->getQuery()
+            ->getResult();
     }
 
     /**

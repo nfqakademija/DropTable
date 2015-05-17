@@ -85,7 +85,7 @@ class ReservationController extends Controller
      * @param string $slug
      * @return array
      *
-     * @Template()
+     * @Template("DropTableLibraryBundle:Reservation:reservations.html.twig")
      */
     public function reservationsAction($slug)
     {
