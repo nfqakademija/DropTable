@@ -27,7 +27,7 @@ class ReservationController extends Controller
     {
         $em = $this->get('doctrine.orm.entity_manager');
         $reservationService = $this->container->get('reservation');
-        $book = $em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
+        $book = $em->getRepository('DropTableLibraryBundle:Book')->find($slug);
 
         $reservation = $reservationService->reserveBook($book);
 
@@ -48,7 +48,7 @@ class ReservationController extends Controller
     {
         $em = $this->get('doctrine.orm.entity_manager');
         $reservationService = $this->container->get('reservation');
-        $book = $em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
+        $book = $em->getRepository('DropTableLibraryBundle:Book')->find($slug);
 
 
 
@@ -92,7 +92,7 @@ class ReservationController extends Controller
         $em = $this->get('doctrine.orm.entity_manager');
         $reservationService = $this->container->get('reservation');
 
-        $book = $em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
+        $book = $em->getRepository('DropTableLibraryBundle:Book')->find($slug);
         $reservations = $reservationService->getReservationsByBook($book);
 
         return [
