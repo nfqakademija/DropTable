@@ -165,7 +165,7 @@ class CatalogService
      */
     public function getBookById($slug)
     {
-        return $this->em->getRepository('DropTableLibraryBundle:Book')->find($slug);
+        return $this->em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
     }
 
     /**
@@ -175,7 +175,7 @@ class CatalogService
     public function getOwnersByBook($slug)
     {
         $repository = $this->em->getRepository('DropTableLibraryBundle:Book');
-        $book = $repository->find($slug);
+        $book = $repository->findOneBySlug($slug);
 
         return $this->em->getRepository('DropTableLibraryBundle:BookHasOwner')->findByBook($book);
     }
