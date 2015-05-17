@@ -1,1 +1,4 @@
-{{ dump(owners) }}
+{% for owner in owners %}
+    {{ owner.user.firstName }} {{ owner.user.lastName }}
+    ({{ owner.user.emailCanonical }})
+{% endfor %}

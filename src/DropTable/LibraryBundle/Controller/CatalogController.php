@@ -147,7 +147,7 @@ class CatalogController extends Controller
      * @param string $slug
      * @return array
      *
-     * @Template()
+     * @Template("DropTableLibraryBundle:Catalog:owners.html.twig")
      */
     public function ownersAction($slug)
     {
