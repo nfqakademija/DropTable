@@ -3,7 +3,6 @@
 /library.sublime-workspace
 /library.sublime-project
 /web/bundles/
-/app/bootstrap.php.cache
 /app/cache/*
 /app/config/parameters.yml
 /app/logs/*
