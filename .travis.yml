@@ -1,7 +1,9 @@
 language: php
 
-script:
+before_script:
     - cp app/config/parameters.yml.dist app/config/parameters.yml
+
+script:
     - composer install
     - php app/console doctrine:schema:drop --force
     - php app/console doctrine:schema:create
