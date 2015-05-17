@@ -16,6 +16,22 @@ use DropTable\LibraryBundle\Form\Type\BookType;
 class CatalogController extends Controller
 {
     /**
+     * List all categories.
+     *
+     * @return array
+     * @Template("DropTableLibraryBundle:Catalog:browse.html.twig")
+     */
+    public function listCategoriesAction()
+    {
+        $catalog = $this->container->get('catalog');
+        $categories = $catalog->listCategories();
+
+        return [
+            'categories' => $categories,
+        ];
+    }
+
+    /**
      * Action for listing all books.
      *
      * @Template()
