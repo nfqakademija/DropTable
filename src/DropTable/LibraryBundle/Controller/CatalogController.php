@@ -56,7 +56,7 @@ class CatalogController extends Controller
      * @param Request $request
      * @return array
      *
-     * @Template()
+     * @Template("DropTableLibraryBundle:Catalog:add.html.twig")
      */
     public function addAction(Request $request)
     {
@@ -64,11 +64,14 @@ class CatalogController extends Controller
         $catalog = $this->container->get('catalog');
 
         $book = new Book();
+
         $book_form = $this->createForm(new BookType(), $book);
 
         $book_form->handleRequest($request);
         if ($book_form->isValid()) {
-            $catalog->addBook($book);
+            $id = $catalog->addBook($book);
+
+            return $this->redirectToRoute('catalog.book', ['slug' => $id]);
         }
 
         return [

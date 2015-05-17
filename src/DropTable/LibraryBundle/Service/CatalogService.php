@@ -57,6 +57,7 @@ class CatalogService
 
     /**
      * @param Book $book
+     * @return int
      */
     public function addBook(Book $book)
     {
@@ -65,8 +66,12 @@ class CatalogService
 
         $user = $this->tokenStorage->getToken()->getUser();
 
+        $this->addBookOwner($book);
+
         $addBookEvent = new AddBookEvent($book, $user);
         $this->eventDispatcher->dispatch('catalog.added_book', $addBookEvent);
+
+        return $book->getId();
     }
 
     /**

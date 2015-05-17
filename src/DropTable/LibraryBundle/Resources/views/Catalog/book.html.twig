@@ -23,6 +23,14 @@
         <div class="authors">
             [Autoriai]
         </div>
+        <div class="pages">
+            {{ book.pages }}
+            {% if (book.pages % 10) == 1 %}
+                page
+            {% else %}
+                pages
+            {% endif %}
+        </div>
         <div class="description">
             {{ book.description }}
         </div>
