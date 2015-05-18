@@ -29,10 +29,10 @@
         </td>
         <td class="col-xs-2">{{ owner.Book.isbn }}</td>
         <td class="col-xs-1">
-            <button type="button" id="btn-action-edit" class="btn btn-xs" aria-label="Left Align" onclick="editBook('{{ owner.Book.slug }}')">
+            <button type="button" id="btn-action-edit" class="btn btn-xs btn-warning" aria-label="Left Align" onclick="editBook('{{ owner.Book.slug }}')">
                 Edit
             </button>
-            <button type="button" id="btn-action-remove" class="btn btn-xs" aria-label="Left Align" onclick="removeBookOwnership('{{ owner.Book.slug }}')">
+            <button type="button" id="btn-action-remove" class="btn btn-xs btn-danger" aria-label="Left Align" onclick="removeBookOwnership('{{ owner.Book.slug }}')">
                 Remove
             </button>
         </td>
@@ -52,6 +52,7 @@
         <th>Title</th>
         <th>ISBN</th>
         <th>Reserved by</th>
+        <th>Status</th>
         <th>Action</th>
     </tr>
     </thead>
@@ -65,13 +66,20 @@
             <td class="col-xs-2">
                 <a href="mailto:{{ reservation.User.email }}">{{ reservation.User.firstName }} {{ reservation.User.firstName }}</a>
             </td>
+            <td class="col-xs-2">
+                {% if reservation.status == 1 %}
+                    Waiting
+                {% elseif reservation.status == 2 %}
+                    Given
+                {% endif %}
+            </td>
             <td class="col-xs-1">
                 {% if reservation.status == 1 %}
-                    <button type="button" id="btn-action-given" class="btn btn-xs" aria-label="Left Align" onclick="giveBook('{{ reservation.Book.slug }}')">
+                    <button type="button" id="btn-action-given" class="btn btn-xs btn-success" aria-label="Left Align" onclick="giveBook('{{ reservation.Book.slug }}')">
                         Given
                     </button>
                 {% elseif reservation.status == 2 %}
-                    <button type="button" id="btn-action-returned" class="btn btn-xs" aria-label="Left Align" onclick="returnBook('{{ reservation.Book.slug }}')">
+                    <button type="button" id="btn-action-returned" class="btn btn-xs btn-success" aria-label="Left Align" onclick="returnBook('{{ reservation.Book.slug }}')">
                         Returned
                     </button>
                 {% endif %}
