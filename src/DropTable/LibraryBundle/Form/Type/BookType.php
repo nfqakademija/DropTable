@@ -2,8 +2,11 @@
 
 namespace DropTable\LibraryBundle\Form\Type;
 
+use DropTable\LibraryBundle\Service\CatalogService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -13,6 +16,19 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class BookType extends AbstractType
 {
+    /**
+     * @var CatalogService
+     */
+    private $catalog;
+
+    /**
+     * @param CatalogService $catalog
+     */
+    public function __construct(CatalogService $catalog)
+    {
+        $this->catalog = $catalog;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -50,7 +66,45 @@ class BookType extends AbstractType
             ->add('description', 'textarea')
             ->add('pages')
             ->add('created_at', 'date')
-            ->add('Save', 'submit');
+            ->add('Save', 'submit')
+            ->addEventListener(
+                FormEvents::PRE_SUBMIT,
+                [$this, 'addMissingCategories']
+            );
+    }
+
+    /**
+     * @param FormEvent $event
+     */
+    public function addMissingCategories(FormEvent $event)
+    {
+        // Get book.
+        $book = $event->getData();
+
+        // Get submitted categories.
+        $subCatNames = $book['categories'];
+
+        // Get all existing categories.
+        $existCat = $this->catalog->listCategories();
+
+        // Put existing categories' names into array.
+        $existCatNames = [];
+        foreach ($existCat as $category) {
+            $existCatNames[] = $category->getName();
+        }
+
+        // Put existing categories' ids into array.
+        $existCatIds = [];
+        foreach ($existCat as $category) {
+            $existCatIds[] = $category->getId();
+        }
+
+        // Iterate over submitted categories and check if they exist in db already.
+        foreach ($subCatNames as $category) {
+            if (!in_array($category, $existCatNames) && !in_array($category, $existCatIds)) {
+                $this->catalog->createCategory($category);
+            }
+        }
     }
 
     /**

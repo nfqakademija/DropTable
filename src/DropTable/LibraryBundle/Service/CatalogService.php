@@ -172,6 +172,20 @@ class CatalogService
     }
 
     /**
+     * Create new category and return id.
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function createCategory($name)
+    {
+        $category = new Category();
+        $category->setName($name);
+        $this->em->persist($category);
+        $this->em->flush();
+    }
+
+    /**
      * Create new category via AJAX call.
      *
      * @param string $name
