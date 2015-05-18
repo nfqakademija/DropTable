@@ -187,22 +187,6 @@ class CatalogService
     }
 
     /**
-     * Create new category via AJAX call.
-     *
-     * @param string $name
-     * @return $this
-     */
-    public function createCategoryViaAjax($name)
-    {
-        $category = new Category();
-        $category->setName($name);
-        $this->em->persist($category);
-        $this->em->flush();
-
-        return $category->getId();
-    }
-
-    /**
      * @param string $slug
      * @return null|object
      */
