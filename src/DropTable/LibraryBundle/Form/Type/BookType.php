@@ -27,6 +27,7 @@ class BookType extends AbstractType
                 [
                     'type' => new CategoryType(),
                     'allow_add' => true,
+                    'allow_delete' => true,
                 ]
             )
             ->add(

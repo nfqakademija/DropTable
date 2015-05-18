@@ -5,6 +5,7 @@
     {{ form(form) }}
     <script>
         jQuery(document).ready(function() {
+            addRemoveTags();
             addLink('div#library_book_categories', 'Category');
             addLink('div#library_book_authors', 'Author');
         });
@@ -61,6 +62,11 @@
 
                 return false;
             });
+        }
+
+        function addRemoveTags() {
+            var $target = $('#library_book_categories').find('> div');
+            $target.append('<a href="#" class="remove-tag">x</a>');
         }
 
     </script>
