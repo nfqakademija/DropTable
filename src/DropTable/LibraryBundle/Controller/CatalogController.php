@@ -125,23 +125,6 @@ class CatalogController extends Controller
     }
 
     /**
-     * Create new category via AJAX call.
-     *
-     * @param string $name
-     * @return Response
-     */
-    public function createCategoryViaAjaxAction($name)
-    {
-        $catalog = $this->container->get('catalog');
-        $existingCategories = $catalog->listCategories();
-        dump($existingCategories);
-
-        dump($catalog->createCategoryViaAjax($name));
-
-        return new Response('');
-    }
-
-    /**
      * Action for deleting book.
      *
      * @param string $slug
