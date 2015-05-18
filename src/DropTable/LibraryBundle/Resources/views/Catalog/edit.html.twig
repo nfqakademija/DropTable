@@ -1,8 +1,6 @@
 {% extends '@DropTableLibrary/Default/layout.html.twig' %}
 {% form_theme form 'DropTableLibraryBundle:Form:fields.html.twig' %}
 {% block content %}
-    {% form_theme form 'DropTableLibraryBundle:Form:fields.html.twig' %}
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     {{ form(form) }}
     <script>
         jQuery(document).ready(function() {
@@ -87,4 +85,3 @@
 
     </script>
 {% endblock %}
-
