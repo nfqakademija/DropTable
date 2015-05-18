@@ -108,12 +108,10 @@ class CatalogController extends Controller
     public function editAction(Request $request, $slug)
     {
         $em = $this->get('doctrine.orm.entity_manager');
+        $catalog = $this->container->get('catalog');
 
         $book = $em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
-        $book_form = $this->createForm(new BookType(), $book);
-
-        $a = $this->getRequest()->request;
-        dump($a);
+        $book_form = $this->createForm(new BookType($catalog), $book);
 
         $book_form->handleRequest($request);
         if ($book_form->isValid()) {
