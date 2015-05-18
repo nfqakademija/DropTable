@@ -183,6 +183,8 @@ class CatalogService
         $category->setName($name);
         $this->em->persist($category);
         $this->em->flush();
+
+        return $category->getId();
     }
 
     /**

@@ -123,6 +123,9 @@ class CatalogController extends Controller
         $book = $em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
         $book_form = $this->createForm(new BookType($catalog), $book);
 
+        $a = $this->getRequest()->request;
+        dump($a);
+
         $book_form->handleRequest($request);
         if ($book_form->isValid()) {
             $em->persist($book);
@@ -132,6 +135,23 @@ class CatalogController extends Controller
         return [
             'form' => $book_form->createView(),
         ];
+    }
+
+    /**
+     * Create new category via AJAX call.
+     *
+     * @param string $name
+     * @return Response
+     */
+    public function createCategoryViaAjaxAction($name)
+    {
+        $catalog = $this->container->get('catalog');
+        $existingCategories = $catalog->listCategories();
+        dump($existingCategories);
+
+        dump($catalog->createCategoryViaAjax($name));
+
+        return new Response('');
     }
 
     /**
