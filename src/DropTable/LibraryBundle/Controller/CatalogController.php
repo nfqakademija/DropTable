@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use DropTable\LibraryBundle\Entity\Book;
 use DropTable\LibraryBundle\Form\Type\BookType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Catalog CatalogController
@@ -112,7 +113,7 @@ class CatalogController extends Controller
      * @param string  $slug
      * @return array
      *
-     * @Template()
+     * @Template("DropTableLibraryBundle:Catalog:edit.html.twig")
      */
     public function editAction(Request $request, $slug)
     {
@@ -120,6 +121,9 @@ class CatalogController extends Controller
 
         $book = $em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
         $book_form = $this->createForm(new BookType(), $book);
+
+        $a = $this->getRequest()->request;
+        dump($a);
 
         $book_form->handleRequest($request);
         if ($book_form->isValid()) {
@@ -130,6 +134,23 @@ class CatalogController extends Controller
         return [
             'form' => $book_form->createView(),
         ];
+    }
+
+    /**
+     * Create new category via AJAX call.
+     *
+     * @param string $name
+     * @return Response
+     */
+    public function createCategoryViaAjaxAction($name)
+    {
+        $catalog = $this->container->get('catalog');
+        $existingCategories = $catalog->listCategories();
+        dump($existingCategories);
+
+        dump($catalog->createCategoryViaAjax($name));
+
+        return new Response('');
     }
 
     /**

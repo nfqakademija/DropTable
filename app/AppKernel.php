@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new DropTable\UserBundle\DropTableUserBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new Pinano\Select2Bundle\PinanoSelect2Bundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
