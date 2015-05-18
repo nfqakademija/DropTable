@@ -3,6 +3,7 @@
 namespace DropTable\LibraryBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use DropTable\LibraryBundle\Constant\Status;
 
 /**
  * UserHasReservation.
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(name="fk_user_has_reservation_book_has_owner_idx", columns={"book_has_owner_id"}),
  *     @ORM\Index(name="fk_user_has_reservation_book_idx", columns={"book_id"})
  * })
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="DropTable\LibraryBundle\Entity\UserHasReservationRepository")
  */
 class UserHasReservation
 {
@@ -54,6 +55,13 @@ class UserHasReservation
      * })
      */
     private $bookHasOwner;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="status", type="integer")
+     **/
+    private $status;
 
     /**
      * Set id.
@@ -149,5 +157,28 @@ class UserHasReservation
     public function getBookHasOwner()
     {
         return $this->bookHasOwner;
+    }
+
+    /**
+     * Set status
+     *
+     * @param int $status
+     * @return UserHasReservation
+     */
+    public function setStatus($status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

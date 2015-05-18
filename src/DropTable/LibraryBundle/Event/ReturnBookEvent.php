@@ -1,4 +1,5 @@
 <?php
+
 namespace DropTable\LibraryBundle\Event;
 
 use DropTable\LibraryBundle\Entity\Book;
@@ -14,7 +15,7 @@ use Symfony\Component\EventDispatcher\Event;
 class ReturnBookEvent extends Event
 {
     /**
-     * @var Book
+     * @var UserHasReservation
      */
     protected $reservation;
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace DropTable\LibraryBundle\Event;
 
 use DropTable\LibraryBundle\Entity\Book;
@@ -29,7 +30,7 @@ class AddBookEvent extends Event
     public function __construct(Book $book, User $loggedInUser)
     {
         $this->book = $book;
-        $this->user = $loggedInUser;
+        $this->loggedInUser = $loggedInUser;
     }
 
     /**

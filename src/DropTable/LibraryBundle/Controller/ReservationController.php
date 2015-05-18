@@ -101,4 +101,25 @@ class ReservationController extends Controller
             'reservations' => $reservations,
         ];
     }
+
+    /**
+     * Change status of the reservation to given.
+     *
+     * @param string $slug
+     * @return JsonResponse
+     */
+    public function giveBookAction($slug)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $reservationService = $this->container->get('reservation');
+
+        $book = $em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
+        $result = $reservationService->giveBook($book);
+
+        if ($result) {
+            return new JsonResponse(['status' => 'success']);
+        } else {
+            return new JsonResponse(['status' => 'error']);
+        }
+    }
 }

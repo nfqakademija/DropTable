@@ -1,4 +1,5 @@
 <?php
+
 namespace DropTable\LibraryBundle\EventListener;
 
 use DropTable\LibraryBundle\Event\AssignReservationEvent;
@@ -52,7 +53,7 @@ class ReservationListener
         $user = $event->getUser();
 
         $title = $book->getTitle();
-        $email = $user->getUsername(); //TODO: after user bundle implementation check if user object is still valid
+        $email = $user->getUsername();
 
         $message = $this->mailer->createMessage()
             ->setSubject("Library - Book \"$title\" added to queue")
@@ -79,7 +80,7 @@ class ReservationListener
         $user = $event->getUser();
 
         $title = $reservation->getBook()->getTitle();
-        $email = $user->getUsername(); //TODO: after user bundle implementation check if user object is still valid
+        $email = $user->getUsername();
 
         $message = $this->mailer->createMessage()
             ->setSubject("Library - Book \"$title\" has been returned")
@@ -109,8 +110,8 @@ class ReservationListener
         $book = $reservation->getBook();
 
         $bookTitle = $book->getTitle();
-        $userEmail = $user->getUsername(); //TODO: after user bundle implementation check if user object is still valid
-        $ownerEmail = $owner->getUser()->getUsername(); //TODO: after user bundle implementation check if user object is still valid
+        $userEmail = $user->getUsername();
+        $ownerEmail = $owner->getUser()->getUsername();
 
         $messageToUser = $this->mailer->createMessage()
             ->setSubject("Library - Book \"$bookTitle\" is available")
@@ -146,7 +147,7 @@ class ReservationListener
     {
         $reservation = $event->getReservation();
 
-        $userEmail = $reservation->getUser()->getUsername(); //TODO: after user bundle implementation check if user object is still valid
+        $userEmail = $reservation->getUser()->getUsername();
         $bookTitle = $reservation->getBook()->getTitle();
 
         $message = $this->mailer->createMessage()

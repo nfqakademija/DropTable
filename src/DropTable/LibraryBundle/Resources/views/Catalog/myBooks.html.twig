@@ -1,1 +1,93 @@
-{{ dump(owners) }}
+<h2>My books</h2>
+{% if owners|length > 0 %}
+<p>These books you listed for sharing:</p>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Authors</th>
+        <th>Categories</th>
+        <th>ISBN</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for owner in owners %}
+    <tr>
+        <td class="col-xs-2">
+            <a href="{{ path('catalog.book', {'slug': owner.Book.slug}) }}">{{ owner.Book.title }}</a>
+        </td>
+        <td class="col-xs-2">
+            {% for author in owner.Book.authors %}
+                {{ author.name }}
+            {% endfor %}
+        </td>
+        <td class="col-xs-2">
+            {% for category in owner.Book.categories %}
+                {{ category.name }}
+            {% endfor %}
+        </td>
+        <td class="col-xs-2">{{ owner.Book.isbn }}</td>
+        <td class="col-xs-1">
+            <button type="button" id="btn-action-edit" class="btn btn-xs btn-warning" aria-label="Left Align" onclick="editBook('{{ owner.Book.slug }}')">
+                Edit
+            </button>
+            <button type="button" id="btn-action-remove" class="btn btn-xs btn-danger" aria-label="Left Align" onclick="removeBookOwnership('{{ owner.Book.slug }}')">
+                Remove
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <h5>You are not sharing any books at this moment</h5>
+{% endif %}
+<h2>Book reservations</h2>
+{% if reservations|length > 0 %}
+<p>These books wanted by other people:</p>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>ISBN</th>
+        <th>Reserved by</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for reservation in reservations %}
+        <tr>
+            <td class="col-xs-2">
+                <a href="{{ path('catalog.book', {'slug': reservation.Book.slug}) }}">{{ reservation.Book.title }}</a>
+            </td>
+            <td class="col-xs-2">{{ reservation.Book.isbn }}</td>
+            <td class="col-xs-2">
+                <a href="mailto:{{ reservation.User.email }}">{{ reservation.User.firstName }} {{ reservation.User.firstName }}</a>
+            </td>
+            <td class="col-xs-2">
+                {% if reservation.status == 1 %}
+                    Waiting
+                {% elseif reservation.status == 2 %}
+                    Given
+                {% endif %}
+            </td>
+            <td class="col-xs-1">
+                {% if reservation.status == 1 %}
+                    <button type="button" id="btn-action-given" class="btn btn-xs btn-success" aria-label="Left Align" onclick="giveBook('{{ reservation.Book.slug }}')">
+                        Given
+                    </button>
+                {% elseif reservation.status == 2 %}
+                    <button type="button" id="btn-action-returned" class="btn btn-xs btn-success" aria-label="Left Align" onclick="returnBook('{{ reservation.Book.slug }}')">
+                        Returned
+                    </button>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <h5>There are no reservations for your books</h5>
+{% endif %}

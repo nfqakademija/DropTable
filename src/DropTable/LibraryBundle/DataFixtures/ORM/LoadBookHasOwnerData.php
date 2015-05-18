@@ -1,4 +1,5 @@
 <?php
+
 namespace DropTable\LibraryBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;

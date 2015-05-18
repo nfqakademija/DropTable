@@ -132,13 +132,15 @@ class CatalogController extends Controller
      */
     public function deleteAction($slug)
     {
-        $em = $this->get('doctrine.orm.entity_manager');
+        $catalog = $this->container->get('catalog');
+        $reservation = $this->container->get('reservation');
 
-        $book = $em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
-        $em->remove($book);
-        $em->flush();
+        $book = $catalog->getBookBySlug($slug);
 
-        return new JsonResponse(['status' => 'success']);
+        $reservation->removeReservationsByBook($book);
+        $catalog->removeBookOwner($book);
+
+        return new JsonResponse();
     }
 
     /**
@@ -153,7 +155,7 @@ class CatalogController extends Controller
     {
         $em = $this->get('catalog');
 
-        $book = $em->getBookById($slug);
+        $book = $em->getBookBySlug($slug);
 
         return [
             'book' => $book,
@@ -188,12 +190,15 @@ class CatalogController extends Controller
      */
     public function myBooksAction()
     {
-        $em = $this->get('catalog');
+        $catalogService = $this->get('catalog');
+        $reservationService = $this->get('reservation');
 
-        $owners = $em->getMyBooks();
+        $owners = $catalogService->getMyBooks();
+        $reservations = $reservationService->getMyBooksReservations($owners);
 
         return [
             'owners' => $owners,
+            'reservations' => $reservations,
         ];
     }
 }

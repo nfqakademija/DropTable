@@ -3,6 +3,7 @@
 namespace DropTable\LibraryBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use DropTable\LibraryBundle\Constant\Status;
 use DropTable\LibraryBundle\Entity\Book;
 use DropTable\LibraryBundle\Entity\BookHasOwner;
 use DropTable\LibraryBundle\Entity\UserHasReservation;
@@ -124,6 +125,41 @@ class ReservationService
     }
 
     /**
+     * Change status of the book reservation.
+     *
+     * @param Book $book
+     * @return bool
+     */
+    public function giveBook(Book $book)
+    {
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        if ($user instanceof User) {
+            $bookHasReservationRepository = $this->em->getRepository('DropTableLibraryBundle:UserHasReservation');
+
+            /** @var UserHasReservation $reservation */
+            $reservation = $bookHasReservationRepository->findOneBy(
+                [
+                    'user' => $user,
+                    'book' => $book,
+                ]
+            );
+            if ($reservation instanceof UserHasReservation) {
+                $reservation->setStatus(Status::GIVEN);
+
+                $this->em->persist($reservation);
+                $this->em->flush($reservation);
+
+//TODO: need events?
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Function to find and assigning book owner if available to reservation.
      *
      * @param UserHasReservation $reservation
@@ -150,7 +186,7 @@ class ReservationService
     public function getReservationsByUser()
     {
         $reservations = null;
-        $user         = $this->tokenStorage->getToken()->getUser();
+        $user = $this->tokenStorage->getToken()->getUser();
         if ($user instanceof User) {
             $reservations = $this->em->getRepository('DropTableLibraryBundle:UserHasReservation')->findByUser($user);
         }
@@ -199,13 +235,22 @@ class ReservationService
     }
 
     /**
+     * @param array $owners
+     * @return mixed
+     */
+    public function getMyBooksReservations($owners)
+    {
+        return $this->em->getRepository('DropTableLibraryBundle:UserHasReservation')->findMyBooksReservations($owners);
+    }
+
+    /**
      * Remove reservation by Book entity.
      *
      * @param Book $book
      */
-    public function removeReservationsByBook(Book $book) //TODO: constraintai reikia sutaisyt
+    public function removeReservationsByBook(Book $book)
     {
-        $userHasReservationRepository = $this->em->getRepository('DropTableLibraryService:UserHasReservation');
+        $userHasReservationRepository = $this->em->getRepository('DropTableLibraryBundle:UserHasReservation');
         $reservations = $userHasReservationRepository->findByBook($book);
 
         foreach ($reservations as $reservation) {
