@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use DropTable\LibraryBundle\Entity\Book;
 use DropTable\LibraryBundle\Entity\BookHasOwner;
 use DropTable\LibraryBundle\Entity\BookRepository;
+use DropTable\LibraryBundle\Entity\Category;
 use DropTable\LibraryBundle\Event\AddBookEvent;
 use DropTable\LibraryBundle\Event\AddBookOwnerEvent;
 use DropTable\LibraryBundle\Event\RemoveBookOwnerEvent;
@@ -169,6 +170,22 @@ class CatalogService
         $categories = $repository->findAll();
 
         return $categories;
+    }
+
+    /**
+     * Create new category via AJAX call.
+     *
+     * @param string $name
+     * @return $this
+     */
+    public function createCategoryViaAjax($name)
+    {
+        $category = new Category();
+        $category->setName($name);
+        $this->em->persist($category);
+        $this->em->flush();
+
+        return $category->getId();
     }
 
     /**

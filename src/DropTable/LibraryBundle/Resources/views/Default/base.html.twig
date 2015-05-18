@@ -13,7 +13,8 @@
 
         {# For PHPStorm hinting #}
         {% stylesheets '@DropTableUserBundle/Resources/public/css/bootstrap.min.css'
-        '@DropTableUserBundle/Resources/public/css/custom.css' %}
+        '@DropTableUserBundle/Resources/public/css/custom.css'
+        '@PinanoSelect2Bundle/Resources/public/css/select2.min.css' %}
                 <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
 
@@ -28,9 +29,10 @@
         {% block body %}{% endblock body %}
         <!-- Latest compiled and minified JavaScript -->
         {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>#}
-        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         {% javascripts '@DropTableUserBundle/Resources/public/js/bootstrap.min.js'
-        '@DropTableUserBundle/Resources/public/js/custom.js' %}
+        '@DropTableUserBundle/Resources/public/js/custom.js'
+        '@PinanoSelect2Bundle/Resources/public/js/select2.js' %}
             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
     </body>

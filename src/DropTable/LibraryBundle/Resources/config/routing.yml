@@ -55,3 +55,8 @@ reservation.my_reservations:
 reservation.book_reservations:
     path: /book/reservations/{slug}
     defaults: { _controller: DropTableLibraryBundle:Reservation:reservations }
+
+# For dev.
+catalog.create_category_via_ajax:
+    path: /book/category/{name}
+    defaults: { _controller: DropTableLibraryBundle:Catalog:createCategoryViaAjax }

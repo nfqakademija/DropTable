@@ -23,10 +23,11 @@ class BookType extends AbstractType
             ->add('title')
             ->add(
                 'categories',
-                'collection',
+                'entity',
                 [
-                    'type' => new CategoryType(),
-                    'allow_add' => true,
+                    'class' => 'DropTableLibraryBundle:Category',
+                    'property' => 'name',
+                    'multiple' => true,
                 ]
             )
             ->add(

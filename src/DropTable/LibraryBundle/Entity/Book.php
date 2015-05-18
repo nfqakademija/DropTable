@@ -46,7 +46,7 @@ class Book
     /**
      * @var \DropTable\LibraryBundle\Entity\Author
      *
-     * @ORM\ManyToMany(targetEntity="Author", inversedBy="books")
+     * @ORM\ManyToMany(targetEntity="Author", inversedBy="books", cascade={"persist"}))
      * @ORM\JoinTable(name="book_has_author")
      **/
     private $authors;
@@ -99,7 +99,7 @@ class Book
     /**
      * @var \DropTable\LibraryBundle\Entity\Category
      *
-     * @ORM\ManyToMany(targetEntity="Category", inversedBy="books")
+     * @ORM\ManyToMany(targetEntity="Category", inversedBy="books", cascade={"persist"}))
      * @ORM\JoinTable(name="book_has_category")
      **/
     private $categories;
