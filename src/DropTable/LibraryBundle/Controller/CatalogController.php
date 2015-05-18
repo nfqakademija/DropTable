@@ -123,9 +123,6 @@ class CatalogController extends Controller
         $book = $em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
         $book_form = $this->createForm(new BookType($catalog), $book);
 
-        $a = $this->getRequest()->request;
-        dump($a);
-
         $book_form->handleRequest($request);
         if ($book_form->isValid()) {
             $em->persist($book);
