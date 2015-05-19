@@ -78,6 +78,7 @@ class ReservationService
                 $reservation = new UserHasReservation();
                 $reservation->setUser($user);
                 $reservation->setBook($book);
+                $reservation->setStatus(Status::WAITING);
 
                 $this->em->persist($reservation);
                 $this->em->flush();
