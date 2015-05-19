@@ -57,7 +57,6 @@ class CatalogService
     public function addBook(Book $book)
     {
         $this->em->persist($book);
-        $this->em->flush();
 
         $user = $this->tokenStorage->getToken()->getUser();
 
@@ -227,6 +226,26 @@ class CatalogService
     public function listBooksBySimilarity(Book $book)
     {
         //TODO: implement function
+    }
+
+    /**
+     * Search in fields ISBN and title of Book entity.
+     *
+     * @param string $key
+     * @return array
+     */
+    public function search($key)
+    {
+        $qb_book = $this->em->createQueryBuilder()
+            ->select('book')
+            ->from('DropTableLibraryBundle:Book', 'book')
+            ->where('book.isbn LIKE :key')
+            ->orWhere('book.title LIKE :key')
+            ->setParameter('key', '%' . $key . '%')
+            ->getQuery()
+            ->getResult();
+
+        return $qb_book;
     }
 
     /**

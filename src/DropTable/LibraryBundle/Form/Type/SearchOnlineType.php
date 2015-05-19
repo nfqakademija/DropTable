@@ -31,7 +31,7 @@ class SearchOnlineType extends AbstractType
                     ],
                 ]
             )
-            ->add('Save', 'submit');
+            ->add('Search', 'submit');
     }
 
     /**
