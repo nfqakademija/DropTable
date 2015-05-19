@@ -330,17 +330,19 @@ class CatalogController extends Controller
     /**
      * Search book by title or isbn.
      *
-     * @Template()
-     * @param string $key
      * @return array
+     * @Template("DropTableLibraryBundle:Catalog:search.html.twig")
      */
-    public function searchAction($key)
+    public function searchAction()
     {
+        // TODO: fix.
+        $q = substr($this->get('request')->getQueryString(), 2);
         $catalogService = $this->container->get('catalog');
-        $book = $catalogService->search($key);
+        $books = $catalogService->search($q, 50);
 
         return [
-            'book' => $book,
+            'books' => $books,
+            'key' => $q,
         ];
     }
 }

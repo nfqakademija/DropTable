@@ -1,16 +1,17 @@
 {% extends '@DropTableLibrary/Default/layout.html.twig' %}
 
 {% block content %}
-    {#{{ dump(book) }}#}
     <div class="col-md-3">
         <div class="image">
-                <img src="{{ book.thumbnail|default('http://placehold.it/200x200') }}" alt="{{ book.title }}"/>
+                <img src="{{ book.thumbnail|default(asset('bundles/droptablelibrary/img/uploads/placeholder-d.png')) }}" alt="{{ book.title }}"/>
         </div>
         <div class="category">
-            [Kategorijos]{#{{ book.categories }}#}
+            {% for category in book.categories %}
+                {{ category.name }}
+            {% endfor %}
         </div>
         <div class="publisher">
-            [Leidykla]{#{{ book.publisher }}#}
+            Išleido: {{ book.publisher.name }}
         </div>
         <div class="created-at">
             Added: {{ book.createdAt.date|date('Y m d') }}
@@ -21,7 +22,9 @@
             {{ book.title }}
         </h1>
         <div class="authors">
-            [Autoriai]
+            {% for author in book.authors %}
+                {{ author.name }}
+            {% endfor %}
         </div>
         <div class="pages">
             {{ book.pages }}
@@ -56,6 +59,7 @@
                 </div>
             </div>
         </div>
+        <br/>
         <div class="row">
             <div class="col-md-12">
                 Knygos laukia:

@@ -22,48 +22,10 @@ class DefaultController extends Controller
     {
         $catalog = $this->container->get('catalog');
 
-        $books = $catalog->getNewestBooks(10);
+        $books = $catalog->getNewestBooks(20);
 
         return [
             'books' => $books,
-        ];
-
-/**        $catalog = $this->container->get('catalog');
-        $reservation = $this->container->get('reservation');
-
-        //getBookOnlineByISBN('0395714060');
-
-        /** @var Book $book
-        $book = $catalog->getBookById(10);
-
-        $form = $this->createForm(new BookType(), $book);
-        $book = $catalog->getAvailableOwner($book);
-        return [
-            'name' => $book,
-            'form' => $form->createView()
-        ];
-*/
-    }
-
-    /**
-     * @Route("/search")
-     * @Template()
-     */
-    public function searchAction()
-    {
-        $catalog = $this->container->get('catalog');
-        $reservation = $this->container->get('reservation');
-
-        //getBookOnlineByISBN('0395714060');
-
-        /** @var Book $book */
-        $book = $catalog->getBookById(10);
-
-        $form = $this->createForm(new SearchOnlineType());
-
-        return [
-            'name' => $book,
-            'form' => $form->createView(),
         ];
     }
 }
