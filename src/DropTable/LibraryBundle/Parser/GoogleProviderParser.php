@@ -40,7 +40,7 @@ class GoogleProviderParser
             $this->getCategories($googleBook, $book);
             $book->setTitle($googleBook['volumeInfo']['title']);
             $book->setPages($googleBook['volumeInfo']['pageCount']);
-            $book->AddPublisher($publisher);
+            $book->setPublisher($publisher);
             $book->setDescription($googleBook['volumeInfo']['description']);
             $book->setThumbnailSmall($googleBook['volumeInfo']['imageLinks']['smallThumbnail']);
             $book->setThumbnail($googleBook['volumeInfo']['imageLinks']['thumbnail']);

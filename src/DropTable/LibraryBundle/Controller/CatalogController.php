@@ -2,6 +2,7 @@
 
 namespace DropTable\LibraryBundle\Controller;
 
+use DropTable\LibraryBundle\Form\Type\SearchOnlineType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -116,7 +117,6 @@ class CatalogController extends Controller
             $existAuthsNames[] = $author->getName();
         }
 
-
         // Iterate over submitted authors and check if they exist in db already.
         $newAuthsNames = [];
         $newIds = [];
@@ -124,7 +124,6 @@ class CatalogController extends Controller
             if (!in_array($author, $existAuthsNames)) {
                 $newIds[] = $catalog->createPublisher($author);
                 $newAuthsNames[] = $author;
-                file_put_contents('logg.php', $author, FILE_APPEND);
             }
         }
         $newAuths = array_combine($newIds, $newAuthsNames);
@@ -177,22 +176,46 @@ class CatalogController extends Controller
      */
     public function addAction(Request $request)
     {
-        $em = $this->get('doctrine.orm.entity_manager');
         $catalog = $this->container->get('catalog');
+        $reservation = $this->container->get('reservation');
+        $googleService = $this->container->get('provider.google');
+        $form = $this->createForm(new SearchOnlineType());
+        $book_form = $this->createForm(new BookType($catalog));
 
-        $book = new Book();
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $data = $form->getData();
+            $book = $googleService->getBook($data['isbn']);
 
-        $book_form = $this->createForm(new BookType($catalog), $book);
+            $em = $this->container->get('doctrine.orm.entity_manager');
+
+            foreach ($book as $b) {
+                if ($b->getPublisher()) {
+                    if (!($catalog->findPublisher($b->getPublisher()->getName()))) {
+                        $em->persist($b);
+                    }
+                }
+            }
+            $em->flush();
+
+            $book_form->setData($book[0]);
+
+            return [
+                'form' => $book_form->createView(),
+            ];
+        }
 
         $book_form->handleRequest($request);
         if ($book_form->isValid()) {
+            $book = $book_form->getData();
+
             $slug = $catalog->addBook($book);
 
             return $this->redirectToRoute('catalog.book', ['slug' => $slug]);
         }
 
         return [
-            'form' => $book_form->createView(),
+            'form' => $form->createView(),
         ];
     }
 

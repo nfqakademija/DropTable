@@ -249,6 +249,14 @@ class CatalogService
     }
 
     /**
+     * @param $name
+     */
+    public function findPublisher($name)
+    {
+        return $this->em->getRepository('DropTableLibraryBundle:Publisher')->findOneBy(['name' => $name]);
+    }
+
+    /**
      * @param string $slug
      * @return null|object
      */

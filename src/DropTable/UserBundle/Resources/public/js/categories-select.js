@@ -95,7 +95,7 @@ $addEditBookForm.submit(function(e) {
                     $publishers.push($(this).attr('title'))
                 });
             var $auths = JSON.stringify($publishers);
-console.log($auths);
+
             // Ajax call for Publishers.
             $.ajax({
                 url: Routing.generate('catalog.add_publisher'),

@@ -54,7 +54,7 @@ class Book
     /**
      * @var \DropTable\LibraryBundle\Entity\Publisher
      *
-     * @ORM\ManyToOne(targetEntity="Publisher")
+     * @ORM\ManyToOne(targetEntity="Publisher", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="publisher_id", referencedColumnName="id")
      * })
