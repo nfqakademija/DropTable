@@ -7,6 +7,7 @@ parameters:
     listener.reservation_listener_class: DropTable\LibraryBundle\EventListener\ReservationListener
     email.contact_email: info@localhost.library
     catalog.image_type_extension_class: DropTable\LibraryBundle\Form\Extension\ImageTypeExtension
+
 services:
     provider.google:
         class: %provider.google_class%

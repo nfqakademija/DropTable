@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use DropTable\LibraryBundle\Entity\Book;
 use DropTable\LibraryBundle\Form\Type\BookType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Catalog CatalogController
@@ -30,6 +31,104 @@ class CatalogController extends Controller
         return [
             'categories' => $categories,
         ];
+    }
+
+    /**
+     * @internal param string $name
+     * @return JsonResponse
+     */
+    public function addCategoryAction()
+    {
+        $catalog = $this->container->get('catalog');
+
+        $subCatNames = json_decode($this->get('request')->getContent(), true);
+
+        // Get all existing categories.
+        $existCat = $catalog->listCategories();
+
+        // Put existing categories' names into array.
+        $existCatNames = [];
+        foreach ($existCat as $category) {
+            $existCatNames[] = $category->getName();
+        }
+
+        // Iterate over submitted categories and check if they exist in db already.
+        $newCatsNames = [];
+        $newIds = [];
+        foreach ($subCatNames as $category) {
+            if (!in_array($category, $existCatNames)) {
+                $newIds[] = $catalog->createCategory($category);
+                $newCatsNames[] = $category;
+            }
+        }
+        $newCats = array_combine($newIds, $newCatsNames);
+
+        return new JsonResponse(json_encode($newCats));
+    }
+
+    /**
+     * @internal param string $name
+     * @return JsonResponse
+     */
+    public function addAuthorAction()
+    {
+        $catalog = $this->container->get('catalog');
+
+        $subAuthsNames = json_decode($this->get('request')->getContent(), true);
+
+        // Get all existing authors.
+        $existAuths = $catalog->listAuthors();
+
+        // Put existing authors' names into array.
+        $existAuthsNames = [];
+        foreach ($existAuths as $author) {
+            $existAuthsNames[] = $author->getName();
+        }
+
+        // Iterate over submitted authors and check if they exist in db already.
+        $newAuthsNames = [];
+        $newIds = [];
+        foreach ($subAuthsNames as $author) {
+            if (!in_array($author, $existAuthsNames)) {
+                $newIds[] = $catalog->createAuthor($author);
+                $newAuthsNames[] = $author;
+            }
+        }
+        $newAuths = array_combine($newIds, $newAuthsNames);
+
+        return new JsonResponse(json_encode($newAuths));
+    }
+
+    /**
+     * @internal param string $name
+     * @return JsonResponse
+     */
+    public function addPublisherAction()
+    {
+        $catalog = $this->container->get('catalog');
+
+        $subAuthsNames = json_decode($this->get('request')->getContent(), true);
+
+        // Get all existing authors.
+        $existAuths = $catalog->listPublishers();
+        // Put existing authors' names into array.
+        $existAuthsNames = [];
+        foreach ($existAuths as $author) {
+            $existAuthsNames[] = $author->getName();
+        }
+
+        // Iterate over submitted authors and check if they exist in db already.
+        $newAuthsNames = [];
+        $newIds = [];
+        foreach ($subAuthsNames as $author) {
+            if (!in_array($author, $existAuthsNames)) {
+                $newIds[] = $catalog->createPublisher($author);
+                $newAuthsNames[] = $author;
+            }
+        }
+        $newAuths = array_combine($newIds, $newAuthsNames);
+
+        return new JsonResponse(json_encode($newAuths));
     }
 
     /**
@@ -81,12 +180,24 @@ class CatalogController extends Controller
         $reservation = $this->container->get('reservation');
         $googleService = $this->container->get('provider.google');
         $form = $this->createForm(new SearchOnlineType());
-        $book_form = $this->createForm(new BookType());
+        $book_form = $this->createForm(new BookType($catalog));
 
         $form->handleRequest($request);
         if ($form->isValid()) {
             $data = $form->getData();
             $book = $googleService->getBook($data['isbn']);
+
+            $em = $this->container->get('doctrine.orm.entity_manager');
+
+            foreach ($book as $b) {
+                if ($b->getPublisher()) {
+                    if (!($catalog->findPublisher($b->getPublisher()->getName()))) {
+                        $em->persist($b);
+                    }
+                }
+            }
+            $em->flush();
+
             $book_form->setData($book[0]);
 
             return [
@@ -97,7 +208,10 @@ class CatalogController extends Controller
         $book_form->handleRequest($request);
         if ($book_form->isValid()) {
             $book = $book_form->getData();
-            $catalog->addBook($book);
+
+            $slug = $catalog->addBook($book);
+
+            return $this->redirectToRoute('catalog.book', ['slug' => $slug]);
         }
 
         return [
@@ -112,14 +226,15 @@ class CatalogController extends Controller
      * @param string  $slug
      * @return array
      *
-     * @Template()
+     * @Template("DropTableLibraryBundle:Catalog:edit.html.twig")
      */
     public function editAction(Request $request, $slug)
     {
         $em = $this->get('doctrine.orm.entity_manager');
+        $catalog = $this->container->get('catalog');
 
         $book = $em->getRepository('DropTableLibraryBundle:Book')->findOneBySlug($slug);
-        $book_form = $this->createForm(new BookType(), $book);
+        $book_form = $this->createForm(new BookType($catalog), $book);
 
         $book_form->handleRequest($request);
         if ($book_form->isValid()) {
@@ -222,7 +337,6 @@ class CatalogController extends Controller
     public function searchAction($key)
     {
         $catalogService = $this->container->get('catalog');
-
         $book = $catalogService->search($key);
 
         return [

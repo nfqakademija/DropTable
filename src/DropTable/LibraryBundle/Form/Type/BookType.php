@@ -2,8 +2,11 @@
 
 namespace DropTable\LibraryBundle\Form\Type;
 
+use DropTable\LibraryBundle\Service\CatalogService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -14,6 +17,19 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class BookType extends AbstractType
 {
     /**
+     * @var CatalogService
+     */
+    private $catalog;
+
+    /**
+     * @param CatalogService $catalog
+     */
+    public function __construct(CatalogService $catalog)
+    {
+        $this->catalog = $catalog;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -23,19 +39,26 @@ class BookType extends AbstractType
             ->add('title')
             ->add(
                 'categories',
-                'collection',
+                'entity',
                 [
-                    'type' => new CategoryType(),
-                    'allow_add' => true,
-                    'allow_delete' => true,
+                    'class' => 'DropTableLibraryBundle:Category',
+                    'property' => 'name',
+                    'multiple' => true,
+                    'attr' => [
+                        'class' => 'select-categories',
+                    ],
                 ]
             )
             ->add(
                 'authors',
-                'collection',
+                'entity',
                 [
-                    'type' => new AuthorType(),
-                    'allow_add' => true,
+                    'class' => 'DropTableLibraryBundle:Author',
+                    'property' => 'name',
+                    'multiple' => true,
+                    'attr' => [
+                        'class' => 'select-authors',
+                    ],
                 ]
             )
             ->add(
@@ -44,6 +67,9 @@ class BookType extends AbstractType
                 [
                     'class' => 'DropTableLibraryBundle:Publisher',
                     'property' => 'name',
+                    'attr' => [
+                        'class' => 'select-publisher',
+                    ],
                 ]
             )
             ->add('thumbnail_small', new ImageType(), ['image_path' => 'thumbnail_small'])
@@ -61,6 +87,7 @@ class BookType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => 'DropTable\LibraryBundle\Entity\Book',
+                'attr' => ['id' => 'add-edit-book'],
             ]
         );
     }

@@ -1,5 +1,4 @@
 <?php
-
 namespace DropTable\LibraryBundle\Service;
 
 use DropTable\LibraryBundle\Provider\BookProviderInterface;

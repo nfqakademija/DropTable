@@ -19,7 +19,6 @@ class GoogleProviderParser
      * @var EntityManager
      */
     protected $entityManager;
-
     /**
      * @param EntityManager $entityManager
      */
@@ -56,9 +55,8 @@ class GoogleProviderParser
             $book->setDescription($googleBook['volumeInfo']['description']);
             $book->setThumbnailSmall($googleBook['volumeInfo']['imageLinks']['smallThumbnail']);
             $book->setThumbnail($googleBook['volumeInfo']['imageLinks']['thumbnail']);
-            
-            $book->setIsbn($googleBook['volumeInfo']['industryIdentifiers'][0]['identifier']);
 
+            $book->setIsbn($googleBook['volumeInfo']['industryIdentifiers'][0]['identifier']);
             $books[] = $book;
         }
 
@@ -74,7 +72,6 @@ class GoogleProviderParser
     private function getAuthors($googleBook, Book $book)
     {
         $categoryRepository = $this->entityManager->getRepository('DropTableLibraryBundle:Author');
-
         foreach ($googleBook['volumeInfo']['authors'] as $authorName) {
             $author = $categoryRepository->findOneByName($authorName);
             if ($author instanceof Author) {
@@ -96,7 +93,6 @@ class GoogleProviderParser
     private function getCategories($googleBook, Book $book)
     {
         $categoryRepository = $this->entityManager->getRepository('DropTableLibraryBundle:Category');
-
         foreach ($googleBook['volumeInfo']['categories'] as $categoryName) {
             $category = $categoryRepository->findOneByName($categoryName);
             if ($category instanceof Category) {
@@ -120,7 +116,6 @@ class GoogleProviderParser
         $publisherName = $googleBook['volumeInfo']['publisher'];
         $publisherRepository = $this->entityManager->getRepository('DropTableLibraryBundle:Publisher');
         $publisher = $publisherRepository->findOneByName($publisherName);
-
         if ($publisher instanceof Publisher) {
             $book->setPublisher($publisher);
         } else {
