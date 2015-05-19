@@ -25,7 +25,8 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "stof/doctrine-extensions-bundle": "1.1.0",
         "pinano/select2-bundle": "dev-master",
-        "friendsofsymfony/jsrouting-bundle": "^1.5"
+        "friendsofsymfony/jsrouting-bundle": "^1.5",
+        "willdurand/faker-bundle": "@stable"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

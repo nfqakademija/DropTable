@@ -47,3 +47,16 @@ assetic:
 swiftmailer:
     disable_delivery: true
 #    delivery_address: me@example.com
+
+bazinga_faker:
+    orm: doctrine
+    entities:
+        DropTable\LibraryBundle\Entity\Book:
+            number: 3
+            custom_formatters:
+                title: { method: name }
+                description: { method: paragraph }
+                thumbnail_small: { method: null }
+                thumbnail: { method: null }
+                pages: { method: randomNumber, parameters: [ '3' ] }
+                isbn: { method: numberBetween, parameters: [ '1000000000', '9999999999' ] }
