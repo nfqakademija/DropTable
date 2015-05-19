@@ -326,4 +326,21 @@ class CatalogController extends Controller
             'reservations' => $reservations,
         ];
     }
+
+    /**
+     * Search book by title or isbn.
+     *
+     * @Template()
+     * @param string $key
+     * @return array
+     */
+    public function searchAction($key)
+    {
+        $catalogService = $this->container->get('catalog');
+        $book = $catalogService->search($key);
+
+        return [
+            'book' => $book,
+        ];
+    }
 }

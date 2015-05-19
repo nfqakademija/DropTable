@@ -16,16 +16,14 @@ services:
             - @parser.google
     parser.google:
         class: %parser.google_class%
+        arguments:
+            - @doctrine.orm.entity_manager
     catalog:
         class: %catalog_class%
         arguments:
             - @doctrine.orm.entity_manager
             - @event_dispatcher
             - @security.token_storage
-#    catalog.image_type_extension:
-#        class: %catalog.image_type_extension_class%
-#        tags:
-#            - { name: form.type_extension, alias: text }
     reservation:
         class: %reservation_class%
         arguments:

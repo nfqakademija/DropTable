@@ -315,6 +315,26 @@ class CatalogService
     }
 
     /**
+     * Search in fields ISBN and title of Book entity.
+     *
+     * @param string $key
+     * @return array
+     */
+    public function search($key)
+    {
+        $qb_book = $this->em->createQueryBuilder()
+            ->select('book')
+            ->from('DropTableLibraryBundle:Book', 'book')
+            ->where('book.isbn LIKE :key')
+            ->orWhere('book.title LIKE :key')
+            ->setParameter('key', '%' . $key . '%')
+            ->getQuery()
+            ->getResult();
+
+        return $qb_book;
+    }
+
+    /**
      * @param User $user
      * @param Book $book
      *

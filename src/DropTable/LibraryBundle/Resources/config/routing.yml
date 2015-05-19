@@ -81,11 +81,10 @@ reservation.give_book:
     path: /given/{slug}
     defaults: { _controller: DropTableLibraryBundle:Reservation:giveBook }
 
+search:
+    path: /search/{key}
+    defaults: { _controller: DropTableLibraryBundle:Catalog:search }
+
 #3rd party
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
-
-##dev
-#new_cat:
-#    path: /category/new/{categoriesJSON}
-#    defaults: { _controller: DropTableLibraryBundle:Catalog:addCategory }
