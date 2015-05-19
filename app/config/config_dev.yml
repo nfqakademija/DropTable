@@ -52,7 +52,7 @@ bazinga_faker:
     orm: doctrine
     entities:
         DropTable\LibraryBundle\Entity\Book:
-            number: 3
+            number: 10000
             custom_formatters:
                 title: { method: name }
                 description: { method: paragraph }
