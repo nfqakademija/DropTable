@@ -44,6 +44,7 @@ class BookType extends AbstractType
                     'class' => 'DropTableLibraryBundle:Category',
                     'property' => 'name',
                     'multiple' => true,
+                    'required' => false,
                 ]
             )
             ->add(
@@ -78,33 +79,30 @@ class BookType extends AbstractType
      */
     public function addMissingCategories(FormEvent $event)
     {
-        // Get book.
-        $book = $event->getData();
+        $form = $event->getForm();
 
-        // Get submitted categories.
-        $subCatNames = $book['categories'];
+        $form->remove('categories')
+            ->add(
+                'categories',
+                'choice',
+                [
+                    'choices' => ['asd', 'asd', 'mmm'],
+                    'required' => false,
+                    'multiple' => true,
+                ]
+            );
 
-        // Get all existing categories.
-        $existCat = $this->catalog->listCategories();
-
-        // Put existing categories' names into array.
-        $existCatNames = [];
-        foreach ($existCat as $category) {
-            $existCatNames[] = $category->getName();
-        }
-
-        // Put existing categories' ids into array.
-        $existCatIds = [];
-        foreach ($existCat as $category) {
-            $existCatIds[] = $category->getId();
-        }
-
-        // Iterate over submitted categories and check if they exist in db already.
-        foreach ($subCatNames as $category) {
-            if (!in_array($category, $existCatNames) && !in_array($category, $existCatIds)) {
-                $this->catalog->createCategory($category);
-            }
-        }
+//        $form = $event->getForm();
+//        $form->remove('categories')
+//            ->add(
+//                'categories',
+//                'entity',
+//                [
+//                    'class' => 'DropTableLibraryBundle:Category',
+//                    'property' => 'name',
+//                    'multiple' => true,
+//                ]
+//            );
     }
 
     /**
@@ -115,6 +113,7 @@ class BookType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => 'DropTable\LibraryBundle\Entity\Book',
+                'attr' => ['id' => 'add-edit-book'],
             ]
         );
     }

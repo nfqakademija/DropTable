@@ -32,12 +32,15 @@
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
         {% javascripts
             '@DropTableUserBundle/Resources/public/js/bootstrap.min.js'
-            '@DropTableUserBundle/Resources/public/js/custom.js'
             '@PinanoSelect2Bundle/Resources/public/js/select2.js'
+            'bundles/fosjsrouting/js/router.js'
+            '@DropTableUserBundle/Resources/public/js/custom.js'
             '@DropTableLibraryBundle/Resources/public/js/profileActions.js'
             '@DropTableUserBundle/Resources/public/js/categories-select.js'
         %}
             <script src="{{ asset_url }}"></script>
+        {# TODO: Include in assetic. #}
+            <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
         {% endjavascripts %}
     </body>
 </html>

@@ -33,6 +33,34 @@ class CatalogController extends Controller
     }
 
     /**
+     * @internal param string $name
+     */
+    public function addCategoryAction()
+    {
+        $catalog = $this->container->get('catalog');
+
+        $subCatNames = json_decode($this->get('request')->getContent(), true);
+
+        // Get all existing categories.
+        $existCat = $catalog->listCategories();
+
+        // Put existing categories' names into array.
+        $existCatNames = [];
+        foreach ($existCat as $category) {
+            $existCatNames[] = $category->getName();
+        }
+
+        // Iterate over submitted categories and check if they exist in db already.
+        foreach ($subCatNames as $category) {
+            if (!in_array($category, $existCatNames)) {
+                $catalog->createCategory($category);
+            }
+        }
+
+        return new JsonResponse(1);
+    }
+
+    /**
      * Action for listing all books.
      *
      * @Template()

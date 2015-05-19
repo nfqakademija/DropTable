@@ -7,6 +7,13 @@ browse:
     path: /browse
     defaults: { _controller: DropTableLibraryBundle:Catalog:listCategories }
 
+catalog.add_category:
+    path: /category/add
+    defaults: { _controller: DropTableLibraryBundle:Catalog:addCategory }
+    options:
+        expose:
+            true
+
 catalog.list:
     path: /books/list
     defaults: { _controller: DropTableLibraryBundle:Catalog:list }
@@ -59,3 +66,7 @@ reservation.book_reservations:
 reservation.give_book:
     path: /given/{slug}
     defaults: { _controller: DropTableLibraryBundle:Reservation:giveBook }
+
+#3rd party
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
