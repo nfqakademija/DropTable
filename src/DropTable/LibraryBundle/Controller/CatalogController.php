@@ -34,6 +34,7 @@ class CatalogController extends Controller
 
     /**
      * @internal param string $name
+     * @return JsonResponse
      */
     public function addCategoryAction()
     {
@@ -51,13 +52,50 @@ class CatalogController extends Controller
         }
 
         // Iterate over submitted categories and check if they exist in db already.
+        $newCatsNames = [];
+        $newIds = [];
         foreach ($subCatNames as $category) {
             if (!in_array($category, $existCatNames)) {
-                $catalog->createCategory($category);
+                $newIds[] = $catalog->createCategory($category);
+                $newCatsNames[] = $category;
             }
         }
+        $newCats = array_combine($newIds, $newCatsNames);
 
-        return new JsonResponse(1);
+        return new JsonResponse(json_encode($newCats));
+    }
+
+    /**
+     * @internal param string $name
+     * @return JsonResponse
+     */
+    public function addAuthorAction()
+    {
+        $catalog = $this->container->get('catalog');
+
+        $subAuthsNames = json_decode($this->get('request')->getContent(), true);
+
+        // Get all existing authors.
+        $existAuths = $catalog->listAuthors();
+
+        // Put existing authors' names into array.
+        $existAuthsNames = [];
+        foreach ($existAuths as $author) {
+            $existAuthsNames[] = $author->getName();
+        }
+
+        // Iterate over submitted authors and check if they exist in db already.
+        $newAuthsNames = [];
+        $newIds = [];
+        foreach ($subAuthsNames as $author) {
+            if (!in_array($author, $existAuthsNames)) {
+                $newIds[] = $catalog->createAuthor($author);
+                $newAuthsNames[] = $author;
+            }
+        }
+        $newAuths = array_combine($newIds, $newAuthsNames);
+
+        return new JsonResponse(json_encode($newAuths));
     }
 
     /**
@@ -110,7 +148,7 @@ class CatalogController extends Controller
 
         $book = new Book();
 
-        $book_form = $this->createForm(new BookType(), $book);
+        $book_form = $this->createForm(new BookType($catalog), $book);
 
         $book_form->handleRequest($request);
         if ($book_form->isValid()) {

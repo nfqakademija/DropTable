@@ -3,6 +3,7 @@
 namespace DropTable\LibraryBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use DropTable\LibraryBundle\Entity\Author;
 use DropTable\LibraryBundle\Entity\Book;
 use DropTable\LibraryBundle\Entity\BookHasOwner;
 use DropTable\LibraryBundle\Entity\BookRepository;
@@ -173,6 +174,19 @@ class CatalogService
     }
 
     /**
+     * List all authors.
+     *
+     * @return array
+     */
+    public function listAuthors()
+    {
+        $repository = $this->em->getRepository('DropTableLibraryBundle:Author');
+        $authors = $repository->findAll();
+
+        return $authors;
+    }
+
+    /**
      * Create new category and return id.
      *
      * @param string $name
@@ -184,6 +198,24 @@ class CatalogService
         $category->setName($name);
         $this->em->persist($category);
         $this->em->flush();
+
+        return $category->getId();
+    }
+
+    /**
+     * Create new author and return id.
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function createAuthor($name)
+    {
+        $author = new Author();
+        $author->setName($name);
+        $this->em->persist($author);
+        $this->em->flush();
+
+        return $author->getId();
     }
 
     /**

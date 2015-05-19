@@ -44,15 +44,21 @@ class BookType extends AbstractType
                     'class' => 'DropTableLibraryBundle:Category',
                     'property' => 'name',
                     'multiple' => true,
-                    'required' => false,
+                    'attr' => [
+                        'class' => 'select-categories',
+                    ],
                 ]
             )
             ->add(
                 'authors',
-                'collection',
+                'entity',
                 [
-                    'type' => new AuthorType(),
-                    'allow_add' => true,
+                    'class' => 'DropTableLibraryBundle:Author',
+                    'property' => 'name',
+                    'multiple' => true,
+                    'attr' => [
+                        'class' => 'select-authors',
+                    ],
                 ]
             )
             ->add(
@@ -67,42 +73,7 @@ class BookType extends AbstractType
             ->add('description', 'textarea')
             ->add('pages')
             ->add('created_at', 'date')
-            ->add('Save', 'submit')
-            ->addEventListener(
-                FormEvents::PRE_SUBMIT,
-                [$this, 'addMissingCategories']
-            );
-    }
-
-    /**
-     * @param FormEvent $event
-     */
-    public function addMissingCategories(FormEvent $event)
-    {
-        $form = $event->getForm();
-
-        $form->remove('categories')
-            ->add(
-                'categories',
-                'choice',
-                [
-                    'choices' => ['asd', 'asd', 'mmm'],
-                    'required' => false,
-                    'multiple' => true,
-                ]
-            );
-
-//        $form = $event->getForm();
-//        $form->remove('categories')
-//            ->add(
-//                'categories',
-//                'entity',
-//                [
-//                    'class' => 'DropTableLibraryBundle:Category',
-//                    'property' => 'name',
-//                    'multiple' => true,
-//                ]
-//            );
+            ->add('Save', 'submit');
     }
 
     /**

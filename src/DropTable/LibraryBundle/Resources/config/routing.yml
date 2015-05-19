@@ -14,6 +14,13 @@ catalog.add_category:
         expose:
             true
 
+catalog.add_author:
+    path: /author/add
+    defaults: { _controller: DropTableLibraryBundle:Catalog:addAuthor }
+    options:
+        expose:
+            true
+
 catalog.list:
     path: /books/list
     defaults: { _controller: DropTableLibraryBundle:Catalog:list }
@@ -70,3 +77,8 @@ reservation.give_book:
 #3rd party
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+##dev
+#new_cat:
+#    path: /category/new/{categoriesJSON}
+#    defaults: { _controller: DropTableLibraryBundle:Catalog:addCategory }
