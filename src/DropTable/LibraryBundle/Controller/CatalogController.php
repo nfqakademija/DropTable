@@ -338,7 +338,7 @@ class CatalogController extends Controller
         // TODO: fix.
         $q = substr($this->get('request')->getQueryString(), 2);
         $catalogService = $this->container->get('catalog');
-        $books = $catalogService->search($q);
+        $books = $catalogService->search($q, 50);
 
         return [
             'books' => $books,

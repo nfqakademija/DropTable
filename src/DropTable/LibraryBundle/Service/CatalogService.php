@@ -318,9 +318,10 @@ class CatalogService
      * Search in fields ISBN and title of Book entity.
      *
      * @param string $key
+     * @param int    $quantity
      * @return array
      */
-    public function search($key)
+    public function search($key, $quantity)
     {
         $qb_book = $this->em->createQueryBuilder()
             ->select('book')
@@ -328,6 +329,7 @@ class CatalogService
             ->where('book.isbn LIKE :key')
             ->orWhere('book.title LIKE :key')
             ->setParameter('key', '%' . $key . '%')
+            ->setMaxResults($quantity)
             ->getQuery()
             ->getResult();
 
