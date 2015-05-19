@@ -1,0 +1,43 @@
+{% extends '@DropTableLibrary/Default/layout.html.twig' %}
+{% block content %}
+    <div class="row">
+    <h2>
+        Books for: "{{ key }}"
+    </h2>
+    {% if books is empty %}
+        No books found.
+    {% endif %}
+    {% for book in books %}
+        <div class="col-md-3">
+            <a href="{{ path('catalog.book', { 'slug': book.slug }) }}">
+                <div class="book">
+                    <img src="{{ book.thumbnailSmall|default(asset('bundles/droptablelibrary/img/uploads/placeholder-d.png')) }}" alt=""/>
+                    <h4>
+                        {{ book.title }}
+                    </h4>
+
+                    <h6>
+                        {% for author in book.authors %}
+                            {{ author.name }}
+                        {% endfor %}
+                    </h6>
+
+                    <h6>
+                        {% for category in book.categories %}
+                            {{ category.name }}
+                        {% endfor %}
+                    </h6>
+
+                    <h6>
+                        Puslapių: {{ book.pages }}
+                    </h6>
+                </div>
+            </a>
+        </div>
+
+        {% if ((loop.index % 4)==0) %}
+            </div>
+            <div class="row">
+        {% endif %}
+    {% endfor %}
+{% endblock %}

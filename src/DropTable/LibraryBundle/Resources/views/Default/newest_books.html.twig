@@ -7,20 +7,25 @@
     <div class="col-md-3">
         <a href="{{ path('catalog.book', { 'slug': book.slug }) }}">
             <div class="book">
-                    <img src="{{ book.thumbnailSmall|default('http://placehold.it/100x100') }}" alt=""/>
+                    <img src="{{ book.thumbnailSmall|default(asset('bundles/droptablelibrary/img/uploads/placeholder-d.png')) }}" alt=""/>
                 <h4>
                     {{ book.title }}
                 </h4>
 
                 <h6>
-                    [Autoriai]{#{{ book.authors }}#}
-                </h6>
-                <h6>
-                    [Kategorijos]{#{{ book.categories }}#}<br/>
+                    {% for author in book.authors %}
+                        {{ author.name }}
+                    {% endfor %}
                 </h6>
 
                 <h6>
-                    {{ book.pages }}
+                    {% for category in book.categories %}
+                        {{ category.name }}
+                    {% endfor %}
+                </h6>
+
+                <h6>
+                    Puslapių: {{ book.pages }}
                 </h6>
             </div>
         </a>

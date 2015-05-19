@@ -18,9 +18,9 @@
                     <li><a href="{{ path("admin_list_users") }}">All users</a></li>
                 {% endif %}
             </ul>
-            <form class="navbar-form navbar-right fr" role="search" action="{# TODO: Add path. #}">
+            <form class="navbar-form navbar-right fr" role="search" method="get" action="{{ path('search') }}">
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Search by title, authors..."/>
+                    <input class="form-control" type="text" placeholder="Search..." name="q"/>
                 </div>
             </form>
             <div class="fr logged-in">
