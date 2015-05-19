@@ -2,6 +2,7 @@
 
 namespace DropTable\LibraryBundle\Controller;
 
+use DropTable\LibraryBundle\Form\Type\SearchOnlineType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -76,22 +77,31 @@ class CatalogController extends Controller
      */
     public function addAction(Request $request)
     {
-        $em = $this->get('doctrine.orm.entity_manager');
         $catalog = $this->container->get('catalog');
+        $reservation = $this->container->get('reservation');
+        $googleService = $this->container->get('provider.google');
+        $form = $this->createForm(new SearchOnlineType());
+        $book_form = $this->createForm(new BookType());
 
-        $book = new Book();
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $data = $form->getData();
+            $book = $googleService->getBook($data['isbn']);
+            $book_form->setData($book[0]);
 
-        $book_form = $this->createForm(new BookType(), $book);
+            return [
+                'form' => $book_form->createView(),
+            ];
+        }
 
         $book_form->handleRequest($request);
         if ($book_form->isValid()) {
-            $slug = $catalog->addBook($book);
-
-            return $this->redirectToRoute('catalog.book', ['slug' => $slug]);
+            $book = $book_form->getData();
+            $catalog->addBook($book);
         }
 
         return [
-            'form' => $book_form->createView(),
+            'form' => $form->createView(),
         ];
     }
 
@@ -199,6 +209,24 @@ class CatalogController extends Controller
         return [
             'owners' => $owners,
             'reservations' => $reservations,
+        ];
+    }
+
+    /**
+     * Search book by title or isbn.
+     *
+     * @Template()
+     * @param string $key
+     * @return array
+     */
+    public function searchAction($key)
+    {
+        $catalogService = $this->container->get('catalog');
+
+        $book = $catalogService->search($key);
+
+        return [
+            'book' => $book,
         ];
     }
 }

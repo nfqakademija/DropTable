@@ -59,3 +59,7 @@ reservation.book_reservations:
 reservation.give_book:
     path: /given/{slug}
     defaults: { _controller: DropTableLibraryBundle:Reservation:giveBook }
+
+search:
+    path: /search/{key}
+    defaults: { _controller: DropTableLibraryBundle:Catalog:search }
