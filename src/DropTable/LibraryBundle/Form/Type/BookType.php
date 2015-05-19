@@ -67,6 +67,9 @@ class BookType extends AbstractType
                 [
                     'class' => 'DropTableLibraryBundle:Publisher',
                     'property' => 'name',
+                    'attr' => [
+                        'class' => 'select-publisher',
+                    ],
                 ]
             )
             ->add('thumbnail_small', new ImageType(), ['image_path' => 'thumbnail_small'])

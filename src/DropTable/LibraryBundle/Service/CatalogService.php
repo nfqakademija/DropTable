@@ -8,6 +8,7 @@ use DropTable\LibraryBundle\Entity\Book;
 use DropTable\LibraryBundle\Entity\BookHasOwner;
 use DropTable\LibraryBundle\Entity\BookRepository;
 use DropTable\LibraryBundle\Entity\Category;
+use DropTable\LibraryBundle\Entity\Publisher;
 use DropTable\LibraryBundle\Event\AddBookEvent;
 use DropTable\LibraryBundle\Event\AddBookOwnerEvent;
 use DropTable\LibraryBundle\Event\RemoveBookOwnerEvent;
@@ -187,6 +188,19 @@ class CatalogService
     }
 
     /**
+     * List all publishers.
+     *
+     * @return array
+     */
+    public function listPublishers()
+    {
+        $repository = $this->em->getRepository('DropTableLibraryBundle:Publisher');
+        $publishers = $repository->findAll();
+
+        return $publishers;
+    }
+
+    /**
      * Create new category and return id.
      *
      * @param string $name
@@ -216,6 +230,22 @@ class CatalogService
         $this->em->flush();
 
         return $author->getId();
+    }
+
+    /**
+     * Create new publisher and return id.
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function createPublisher($name)
+    {
+        $publisher = new Publisher();
+        $publisher->setName($name);
+        $this->em->persist($publisher);
+        $this->em->flush();
+
+        return $publisher->getId();
     }
 
     /**

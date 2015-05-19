@@ -99,6 +99,40 @@ class CatalogController extends Controller
     }
 
     /**
+     * @internal param string $name
+     * @return JsonResponse
+     */
+    public function addPublisherAction()
+    {
+        $catalog = $this->container->get('catalog');
+
+        $subAuthsNames = json_decode($this->get('request')->getContent(), true);
+
+        // Get all existing authors.
+        $existAuths = $catalog->listPublishers();
+        // Put existing authors' names into array.
+        $existAuthsNames = [];
+        foreach ($existAuths as $author) {
+            $existAuthsNames[] = $author->getName();
+        }
+
+
+        // Iterate over submitted authors and check if they exist in db already.
+        $newAuthsNames = [];
+        $newIds = [];
+        foreach ($subAuthsNames as $author) {
+            if (!in_array($author, $existAuthsNames)) {
+                $newIds[] = $catalog->createPublisher($author);
+                $newAuthsNames[] = $author;
+                file_put_contents('logg.php', $author, FILE_APPEND);
+            }
+        }
+        $newAuths = array_combine($newIds, $newAuthsNames);
+
+        return new JsonResponse(json_encode($newAuths));
+    }
+
+    /**
      * Action for listing all books.
      *
      * @Template()

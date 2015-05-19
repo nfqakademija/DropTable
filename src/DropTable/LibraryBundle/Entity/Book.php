@@ -46,15 +46,7 @@ class Book
     /**
      * @var \DropTable\LibraryBundle\Entity\Author
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
      * @ORM\ManyToMany(targetEntity="Author", inversedBy="books", cascade={"persist"})
-=======
-     * @ORM\ManyToMany(targetEntity="Author", inversedBy="books", cascade={"persist"}))
->>>>>>> Add new field/category via ajax. -
-=======
-     * @ORM\ManyToMany(targetEntity="Author", inversedBy="books", cascade={"persist"}))
->>>>>>> 391d76088fe4f4754aca4b343ede876da9e9c9d0
      * @ORM\JoinTable(name="book_has_author")
      **/
     private $authors;

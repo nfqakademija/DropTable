@@ -21,6 +21,13 @@ catalog.add_author:
         expose:
             true
 
+catalog.add_publisher:
+    path: /publisher/add
+    defaults: { _controller: DropTableLibraryBundle:Catalog:addPublisher }
+    options:
+        expose:
+            true
+
 catalog.list:
     path: /books/list
     defaults: { _controller: DropTableLibraryBundle:Catalog:list }
